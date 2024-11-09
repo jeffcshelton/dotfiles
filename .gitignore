@@ -1,0 +1,18 @@
+# Ignore all files not explicitly listed below.
+*
+
+!.gitignore
+!.bashrc
+
+# The parent directories must be whitelisted before the child directories, and
+# files also have to be explicitly whitelisted.
+!.config/
+
+# Neovim configs.
+!.config/nvim/
+!.config/nvim/**
+.config/nvim/lazy-lock.json
+
+# tmux configs.
+!.config/tmux/
+!.config/tmux/**
