@@ -34,8 +34,6 @@ alias vim="nvim"
 export BUN_INSTALL="$HOME/.bun"
 export PATH=$BUN_INSTALL/bin:$PATH
 
-# Enable tmux
-if [ "$TMUX" = "" ]; then exec tmux; fi
-
-# Run neofetch
-neofetch
+if [ -z "$TMUX" ]; then
+  exec tmux
+fi

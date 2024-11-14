@@ -11,13 +11,21 @@ vim.opt.colorcolumn = "80"
 
 -- Configure theme.
 vim.opt.termguicolors = true
-vim.cmd[[colorscheme vscode]]
+vim.cmd[[ colorscheme vscode ]]
 
 -- Configure a red background for trailing whitespace.
-vim.cmd[[
-  highlight ExtraWhitespace ctermbg=red guibg=#631616
-  match ExtraWhitespace /\s\+$/
-]]
+-- This is wrapped in an autocmd callback because some plugin is overriding
+-- this configuration after being lazy-loaded.
+vim.api.nvim_set_hl(0, "TrailingWhitespace", {
+  ctermbg = "red",
+  bg = "#631616",
+})
+
+vim.api.nvim_create_autocmd("BufWinEnter", {
+  callback = function()
+    vim.fn.matchadd("TrailingWhitespace", [[\s\+$]])
+  end,
+})
 
 -- Set up a custom status line.
 require("lualine").setup {
