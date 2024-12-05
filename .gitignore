@@ -1,8 +1,10 @@
 # Ignore all files not explicitly listed below.
 *
 
-!.gitignore
+!.bash_profile
 !.bashrc
+!.gitignore
+!.profile
 
 # The parent directories must be whitelisted before the child directories, and
 # files also have to be explicitly whitelisted.

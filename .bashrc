@@ -1,8 +1,12 @@
-# .bashrc
+#!/usr/bin/env bash
+
+if [ -z "$TMUX" ]; then
+  exec tmux
+fi
 
 # Source global definitions
 if [ -f /etc/bashrc ]; then
-    . /etc/bashrc
+    source /etc/bashrc
 fi
 
 # User specific environment
@@ -33,7 +37,3 @@ alias vim="nvim"
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH=$BUN_INSTALL/bin:$PATH
-
-if [ -z "$TMUX" ]; then
-  exec tmux
-fi

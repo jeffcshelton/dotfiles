@@ -8,7 +8,9 @@ return {
   config = function()
     require("nvim-tree").setup {
       filters = {
+        custom = { ".DS_Store" },
         dotfiles = false,
+        git_ignored = false,
       },
       git = {
         ignore = false,
