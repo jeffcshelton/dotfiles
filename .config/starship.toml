@@ -1,0 +1,31 @@
+add_newline = false
+
+[bun]
+disabled = true
+
+[cmd_duration]
+disabled = true
+
+[dotnet]
+disabled = true
+
+[java]
+disabled = true
+
+[line_break]
+disabled = true
+
+[nodejs]
+disabled = true
+
+[package]
+disabled = true
+
+[python]
+disabled = true
+
+[ruby]
+disabled = true
+
+[rust]
+disabled = true
