@@ -29,27 +29,6 @@ return {
       end,
     })
 
-    require("mason-lspconfig").setup({
-      ensure_installed = {
-        "clangd",
-        "cssls",
-        "gopls",
-        "html",
-        "jsonls",
-        "lua_ls",
-        "pyright",
-        "rust_analyzer",
-        "tailwindcss",
-        "taplo",
-        "ts_ls",
-        "yamlls",
-      },
-      handlers = {
-        function(server_name)
-          require("lspconfig")[server_name].setup({})
-        end,
-      }
-    })
   end,
   lazy = false,
 }

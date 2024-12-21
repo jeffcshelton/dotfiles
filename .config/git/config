@@ -1,0 +1,21 @@
+[alias]
+  amend = "commit --amend"
+
+[color]
+  ui = true
+
+[core]
+  editor = "nvim"
+
+[init]
+  defaultBranch = "main"
+
+[pull]
+  rebase = true
+
+[push]
+  default = "simple"
+
+[user]
+  email = "jeff@shelton.one"
+  name = "Jeff Shelton"
