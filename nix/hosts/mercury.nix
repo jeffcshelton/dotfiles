@@ -6,6 +6,7 @@
     ../modules/macos/finder.nix
     ../modules/macos/nix.nix
     ../modules/macos/system.nix
+    ../modules/minecraft.nix
     ../modules/tools.nix
   ];
 

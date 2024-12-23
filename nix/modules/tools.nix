@@ -9,7 +9,6 @@
     nodejs_23
     python3
     ripgrep
-    rustup
     starship
     stow
     tmux
