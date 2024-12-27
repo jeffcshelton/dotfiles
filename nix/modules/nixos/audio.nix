@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 {
   # Disable PulseAudio in favor of PipeWire.
   hardware.pulseaudio.enable = false;

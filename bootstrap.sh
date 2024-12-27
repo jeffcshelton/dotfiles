@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Determine the operating system.
-os="$(uname)"
+os=$(uname)
 
 # Check if the operating system is NixOS to differentiate from other distros.
 if [ "$os" = "Linux" ] && [ -f /etc/NIXOS ]; then

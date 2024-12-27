@@ -1,14 +1,8 @@
 { pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
-    clang
-    curl
-    direnv
-    git
-    nodejs_23
-    python3
-    stow
-    wget
+    starship
+    tmux
   ];
 
   programs.zsh.enable = true;

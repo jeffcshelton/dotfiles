@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 {
   # Bootloader options.
   boot.loader = {
