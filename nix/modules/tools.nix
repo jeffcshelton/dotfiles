@@ -4,6 +4,7 @@
     clang
     curl
     direnv
+    file
     git
     nodejs_23
     python3

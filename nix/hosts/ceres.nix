@@ -7,8 +7,9 @@
     ../modules/nixos/boot.nix
     ../modules/nixos/gnome.nix
     ../modules/nixos/locale.nix
-    ../modules/nixos/nix.nix
     ../modules/nixos/printing.nix
+    ../modules/nixos/terminal.nix
+    ../modules/nix.nix
     ../modules/tools.nix
   ];
 
