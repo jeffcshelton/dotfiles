@@ -5,13 +5,18 @@
     ../modules/nixos/apps.nix
     ../modules/nixos/audio.nix
     ../modules/nixos/boot.nix
+    ../modules/nixos/cad.nix
+    ../modules/nixos/firefox.nix
     ../modules/nixos/gnome.nix
     ../modules/nixos/hyprland.nix
     ../modules/nixos/locale.nix
     ../modules/nixos/minecraft.nix
+    ../modules/nixos/photo.nix
     ../modules/nixos/postgres.nix
     ../modules/nixos/printing.nix
+    ../modules/nixos/rgb.nix
     ../modules/nixos/terminal.nix
+    ../modules/nixos/vpn.nix
     ../modules/neovim.nix
     ../modules/nix.nix
     ../modules/tools.nix
@@ -43,7 +48,16 @@
       };
     };
 
-    kernelModules = [ "kvm-amd" ];
+    kernelModules = [
+      # AMD-specific module enabling virtualization.
+      "kvm-amd"
+
+      # Support for the motherboard chip that provides temperature sensing.
+      "nct6775"
+    ];
+
+    # Substitute the LTS kernel with the newest release.
+    kernelPackages = pkgs.linuxPackages_latest;
   };
 
   fileSystems = {
@@ -63,6 +77,9 @@
     # Enable microcode updates to the AMD CPU.
     cpu.amd.updateMicrocode = true;
     enableRedistributableFirmware = true;
+
+    # Enables I2C control for controlling external display brightness.
+    i2c.enable = true;
   };
 
   # Networking configuration.
@@ -89,6 +106,7 @@
 
     extraGroups = [
       "audio"
+      "i2c"
       "input"
       "networkmanager"
       "seat"

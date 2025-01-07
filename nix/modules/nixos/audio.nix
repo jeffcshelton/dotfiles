@@ -1,8 +1,5 @@
 { ... }:
 {
-  # Disable PulseAudio in favor of PipeWire.
-  hardware.pulseaudio.enable = false;
-
   # Real-time kit is used by PipeWire for audio processing.
   security.rtkit.enable = true;
 
@@ -18,5 +15,8 @@
       pulse.enable = true;
       wireplumber.enable = true;
     };
+
+    # Disable PulseAudio in favor of PipeWire.
+    pulseaudio.enable = false;
   };
 }

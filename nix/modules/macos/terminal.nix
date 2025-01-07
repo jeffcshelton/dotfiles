@@ -5,6 +5,6 @@
     tmux
   ];
 
-  homebrew.casks = [ "iterm2" ];
+  homebrew.casks = [ "ghostty" ];
   programs.zsh.enable = true;
 }

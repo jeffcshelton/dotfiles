@@ -1,11 +1,11 @@
 { pkgs, ... }:
 {
   environment = {
-    # Substitute GNOME Console for GNOME Terminal.
+    # Substitute GNOME Console for Ghostty.
     gnome.excludePackages = [ pkgs.gnome-console ];
 
     systemPackages = with pkgs; [
-      gnome-terminal
+      ghostty
       starship
       tmux
     ];

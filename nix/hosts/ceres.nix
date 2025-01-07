@@ -2,7 +2,6 @@
 {
   imports = [
     ../modules/fonts.nix
-    ../modules/nixos/apps.nix
     ../modules/nixos/audio.nix
     ../modules/nixos/boot.nix
     ../modules/nixos/gnome.nix

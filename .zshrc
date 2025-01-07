@@ -22,6 +22,9 @@ esac
 # Unset the OS variable so that it is not exposed in the session.
 unset os
 
+# ls alias.
+# alias ls="ls -la"
+
 # Initialize direnv.
 eval "$(direnv hook zsh)"
 

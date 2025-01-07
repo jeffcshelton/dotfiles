@@ -11,14 +11,21 @@
     };
 
     systemPackages = with pkgs; [
-      # Terminal.
-      alacritty
-
       # Enables screen brightness control (including dimming).
       brightnessctl
 
+      # Clipboard manager for Wayland.
+      clipse
+
+      # Controls moniters as I2C devices.
+      ddcutil
+
       # Notification daemon.
       dunst
+
+      # Takes a screenshot of the specified area of the screen.
+      # Chained with "grim" to take screenshots of selected regions.
+      grim
 
       # Manages the cursor.
       hyprcursor
@@ -38,6 +45,15 @@
       # Rose Pine themed cursor.
       inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
 
+      # Enables sending notifications through notify-send.
+      libnotify
+
+      # Allows for reading hardware temperatures.
+      lm_sensors
+
+      # Bluetooth manager in the absence of GNOME utilities.
+      overskride
+
       # Enables Hyprland keybinds to control music playback.
       playerctl
 
@@ -48,8 +64,15 @@
       # Application launcher.
       rofi-wayland
 
+      # Allows selecting a portion of the screen.
+      # Chained with "grim" to take screenshots of selected regions.
+      slurp
+
       # Top status bar.
       waybar
+
+      # Wayland system clipboard.
+      wl-clipboard
     ];
   };
 

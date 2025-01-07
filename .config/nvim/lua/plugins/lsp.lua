@@ -1,22 +1,18 @@
+-- TODO: Consider moving to the new, native LSP API.
 return {
   "neovim/nvim-lspconfig",
   cmd = { "LspInfo", "LspInstall", "LspStart" },
   dependencies = {
     { "hrsh7th/cmp-nvim-lsp" },
-    {
-      "williamboman/mason.nvim",
-      lazy = false,
-      opts = {},
-    },
-    { "williamboman/mason-lspconfig.nvim" },
   },
   event = { "BufReadPre", "BufNewFile" },
   config = function()
-    local lsp_defaults = require("lspconfig").util.default_config
+    local lspconfig = require("lspconfig")
+    local defaults = lspconfig.util.default_config
 
-    lsp_defaults.capabilities = vim.tbl_deep_extend(
+    defaults.capabilities = vim.tbl_deep_extend(
       "force",
-      lsp_defaults.capabilities,
+      defaults.capabilities,
       require("cmp_nvim_lsp").default_capabilities()
     )
 
@@ -29,6 +25,10 @@ return {
       end,
     })
 
+    lspconfig.clangd.setup({})
+    lspconfig.pyright.setup({})
+    lspconfig.rust_analyzer.setup({})
+    lspconfig.ts_ls.setup({})
   end,
   lazy = false,
 }
