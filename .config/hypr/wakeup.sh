@@ -1,7 +1,7 @@
 #!/bin/env sh
 
 # Turn external display back on.
-hyprctl dpms dispatch on
+hyprctl dispatch dpms on
 
 # Turn back on the RGB lighting.
 if command -v openrgb; then
