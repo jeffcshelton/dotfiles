@@ -11,8 +11,6 @@
     settings.experimental-features = [ "nix-command" "flakes" ];
   };
 
-  nixpkgs.config = {
-    allowBroken = true;
-    allowUnfree = true;
-  };
+  # Allow unfree packages.
+  nixpkgs.config.allowUnfree = true;
 }
