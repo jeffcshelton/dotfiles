@@ -16,7 +16,7 @@
       "/Applications/Microsoft Teams.app"
       "/Applications/Pixelmator Pro.app"
       "/System/Applications/System Settings.app"
-      "/Applications/iTerm.app"
+      "/Applications/Ghostty.app"
     ];
 
     show-recents = false;

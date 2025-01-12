@@ -7,6 +7,7 @@
       "discord"
       "firefox"
       "notion"
+      "slack"
       "spotify"
       "wireshark"
     ];

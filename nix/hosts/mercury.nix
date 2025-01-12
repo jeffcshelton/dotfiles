@@ -3,6 +3,7 @@
   imports = [
     ../modules/fonts.nix
     ../modules/macos/apps.nix
+    ../modules/macos/containers.nix
     ../modules/macos/controlcenter.nix
     ../modules/macos/dock.nix
     ../modules/macos/finder.nix

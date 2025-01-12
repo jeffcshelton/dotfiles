@@ -2,4 +2,3 @@ confirm-close-surface = false
 font-family = "CaskaydiaMono Nerd Font"
 shell-integration = zsh
 theme = "rose-pine-moon"
-window-decoration = false
