@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
-    gtkwave
-    verilator
+    # KDenLive video editor.
+    kdePackages.kdenlive
   ];
 }

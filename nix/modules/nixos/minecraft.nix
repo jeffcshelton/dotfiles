@@ -8,4 +8,9 @@
     # Prism is an unofficial launcher that works fine.
     prismlauncher
   ];
+
+  networking.firewall = {
+    allowedTCPPorts = [ 25565 ];
+    allowedUDPPorts = [ 25565 ];
+  };
 }

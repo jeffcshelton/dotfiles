@@ -8,8 +8,8 @@
     ../modules/nixos/locale.nix
     ../modules/nixos/printing.nix
     ../modules/nixos/terminal.nix
+    ../modules/dev.nix
     ../modules/nix.nix
-    ../modules/tools.nix
   ];
 
   # Boot configuration.

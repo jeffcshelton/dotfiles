@@ -17,10 +17,11 @@
     ../modules/nixos/printing.nix
     ../modules/nixos/rgb.nix
     ../modules/nixos/terminal.nix
+    ../modules/nixos/video.nix
     ../modules/nixos/vpn.nix
+    ../modules/dev.nix
     ../modules/neovim.nix
     ../modules/nix.nix
-    ../modules/tools.nix
   ];
 
   boot = {

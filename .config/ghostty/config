@@ -1,4 +1,6 @@
 confirm-close-surface = false
+cursor-color = white
+cursor-style = bar
 font-family = "CaskaydiaMono Nerd Font"
 shell-integration = zsh
 theme = "rose-pine-moon"

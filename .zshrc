@@ -23,7 +23,7 @@ esac
 unset os
 
 # ls alias.
-# alias ls="ls -la"
+alias ls="ls -la"
 
 # Initialize direnv.
 eval "$(direnv hook zsh)"

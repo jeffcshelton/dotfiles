@@ -1,11 +1,15 @@
 { pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
+    autoconf
+    bison
+    ccache
     clang
     cmake
     curl
     direnv
     file
+    flex
     gcc
     git
     gnumake
@@ -13,6 +17,7 @@
     python3
     stow
     wget
+    zip
   ];
 
   programs.zsh.enable = true;

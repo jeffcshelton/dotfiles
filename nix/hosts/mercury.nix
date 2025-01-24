@@ -13,9 +13,9 @@
     ../modules/macos/postgres.nix
     ../modules/macos/printing.nix
     ../modules/macos/terminal.nix
+    ../modules/dev.nix
     ../modules/neovim.nix
     ../modules/nix.nix
-    ../modules/tools.nix
   ];
 
   # Enable Homebrew support.
