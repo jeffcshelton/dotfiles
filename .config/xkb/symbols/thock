@@ -1,0 +1,8 @@
+// vim:syntax=xkb
+
+partial default
+xkb_symbols "thock" {
+  include "us"
+  key <CAPS> { [ Escape ] };
+  key <ESC> { [ grave, asciitilde ] };
+};
