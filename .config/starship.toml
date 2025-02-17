@@ -15,6 +15,10 @@ disabled = true
 [line_break]
 disabled = true
 
+[nix_shell]
+format = "[$symbol]($style)"
+symbol = "❄️"
+
 [nodejs]
 disabled = true
 

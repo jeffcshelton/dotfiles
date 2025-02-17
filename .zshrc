@@ -22,6 +22,10 @@ esac
 # Unset the OS variable so that it is not exposed in the session.
 unset os
 
+function expand {
+  awk 'BEGIN {RS=""; ORS="\n\n"} {gsub(/\n/, " "); gsub(/ +/, " "); print}' $1
+}
+
 # ls alias.
 alias ls="ls -la"
 

@@ -7,6 +7,7 @@
       "discord"
       "firefox"
       "notion"
+      "obsidian"
       "slack"
       "spotify"
       "wireshark"
@@ -16,6 +17,7 @@
     masApps = {
       "Pixelmator Pro" = 1289583905;
       "iMovie" = 408981434;
+      "Perplexity" = 6714467650;
     };
   };
 }
