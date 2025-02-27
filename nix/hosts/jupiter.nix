@@ -10,10 +10,10 @@
     ../modules/nixos/fpga.nix
     ../modules/nixos/gnome.nix
     ../modules/nixos/hyprland.nix
+    ../modules/nixos/llm.nix
     ../modules/nixos/locale.nix
     ../modules/nixos/minecraft.nix
     ../modules/nixos/photo.nix
-    ../modules/nixos/postgres.nix
     ../modules/nixos/printing.nix
     ../modules/nixos/rgb.nix
     ../modules/nixos/terminal.nix
@@ -37,7 +37,10 @@
         "xhci_pci"
       ];
 
-      kernelModules = [ ];
+      kernelModules = [
+        # Support for the AMD graphics card.
+        "amdgpu"
+      ];
 
       luks.devices = {
         "luks-508ef57e-97a2-444d-9a3d-058e17af064b" = {
@@ -80,6 +83,20 @@
     cpu.amd.updateMicrocode = true;
     enableRedistributableFirmware = true;
 
+    graphics = {
+      enable = true;
+      enable32Bit = true;
+
+      extraPackages = with pkgs; [
+        amdvlk
+        rocmPackages.clr.icd
+      ];
+
+      extraPackages32 = with pkgs; [
+        driversi686Linux.amdvlk
+      ];
+    };
+
     # Enables I2C control for controlling external display brightness.
     i2c.enable = true;
   };
@@ -95,6 +112,16 @@
 
   nixpkgs.hostPlatform = "x86_64-linux";
 
+  # Instructs services to use AMD GPU drivers for rendering.
+  services = {
+    ollama = {
+      acceleration = "rocm";
+      rocmOverrideGfx = "11.0.0";
+    };
+
+    xserver.videoDrivers = [ "amdgpu" ];
+  };
+
   swapDevices = [
     { device = "/dev/disk/by-uuid/203490f0-236f-496c-a686-1991051a8556"; }
   ];
@@ -102,6 +129,12 @@
   # The original Nix version installed on Jupiter.
   # Do not change this value unless the machine is wiped.
   system.stateVersion = "24.11";
+
+  # Most software has the HIP libraries hard-coded.
+  # This line ensures that programs can find the libraries.
+  systemd.tmpfiles.rules = [
+    "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
+  ];
 
   users.users.jeff = {
     description = "Jeff Shelton";
