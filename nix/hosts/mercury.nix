@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 {
   imports = [
     ../modules/fonts.nix
@@ -10,13 +10,13 @@
     ../modules/macos/homebrew.nix
     ../modules/macos/minecraft.nix
     ../modules/macos/office.nix
-    ../modules/macos/postgres.nix
     ../modules/macos/printing.nix
     ../modules/macos/terminal.nix
     ../modules/macos/yabai.nix
     ../modules/dev.nix
     ../modules/neovim.nix
     ../modules/nix.nix
+    ../modules/rust.nix
   ];
 
   # Enable Homebrew support.

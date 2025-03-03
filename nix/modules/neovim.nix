@@ -10,6 +10,11 @@
     fzf
 
     neovim
+
+    # Nix language server.
+    nixd
+
+    # An image manipulation tool that enables Neovim image display.
     imagemagick
 
     # Python language server.

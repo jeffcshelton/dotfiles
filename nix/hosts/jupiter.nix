@@ -22,6 +22,7 @@
     ../modules/dev.nix
     ../modules/neovim.nix
     ../modules/nix.nix
+    ../modules/rust.nix
   ];
 
   boot = {
