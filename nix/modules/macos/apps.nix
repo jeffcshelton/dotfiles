@@ -8,6 +8,7 @@
       "firefox"
       "notion"
       "obsidian"
+      "postman"
       "slack"
       "spotify"
       "wireshark"

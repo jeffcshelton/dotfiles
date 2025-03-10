@@ -26,6 +26,7 @@ return {
     })
 
     lspconfig.clangd.setup({})
+    lspconfig.jdtls.setup({})
     lspconfig.nixd.setup({})
     lspconfig.pyright.setup({})
     lspconfig.rust_analyzer.setup({})

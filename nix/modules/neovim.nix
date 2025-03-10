@@ -17,6 +17,9 @@
     # An image manipulation tool that enables Neovim image display.
     imagemagick
 
+    # Java language server.
+    jdt-language-server
+
     # Python language server.
     pyright
 
