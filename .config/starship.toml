@@ -6,7 +6,13 @@ disabled = true
 [cmd_duration]
 disabled = true
 
+[deno]
+disabled = true
+
 [dotnet]
+disabled = true
+
+[git_status]
 disabled = true
 
 [java]
