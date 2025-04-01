@@ -6,6 +6,7 @@
       "1password"
       "discord"
       "firefox"
+      "microsoft-teams"
       "notion"
       "obsidian"
       "postman"

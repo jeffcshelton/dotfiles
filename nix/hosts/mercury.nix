@@ -12,7 +12,6 @@
     ../modules/macos/office.nix
     ../modules/macos/printing.nix
     ../modules/macos/terminal.nix
-    ../modules/macos/yabai.nix
     ../modules/dev.nix
     ../modules/neovim.nix
     ../modules/nix.nix
