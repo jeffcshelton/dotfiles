@@ -4,6 +4,7 @@
     sessionVariables = {
       # Hint to Electron apps to use Wayland.
       NIXOS_OZONE_WL = "1";
+      WLR_NO_HARDWARE_CURSORS = "1";
 
       # Tell QT-based applications to use Wayland.
       QT_QPA_PLATFORM = "wayland";
@@ -22,6 +23,8 @@
 
       # Notification daemon.
       dunst
+
+      greetd.tuigreet
 
       # Takes a screenshot of the specified area of the screen.
       # Chained with "grim" to take screenshots of selected regions.
@@ -80,6 +83,20 @@
     enable = true;
 
     # Enables X11 apps to still run on a compatibility layer.
-    xwayland.enable = true;
+    # xwayland.enable = true;
+  };
+
+  services = {
+    dbus.enable = true;
+  };
+
+  services.greetd = {
+    enable = true;
+    settings = {
+      default_session = {
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland";
+        user = "greeter";
+      };
+    };
   };
 }

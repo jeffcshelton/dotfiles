@@ -2,6 +2,8 @@
   description = "Jeff's Personal Flake";
 
   inputs = {
+    asahi.url = "github:marcin-serwin/nixos-apple-silicon/f51de44b1d720ac23e838db8e0cf13fadb7942b8";
+
     darwin = {
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:LnL7/nix-darwin";
@@ -11,7 +13,7 @@
     rose-pine-hyprcursor.url = "github:ndom91/rose-pine-hyprcursor";
   };
 
-  outputs = { darwin, nixpkgs, ... } @ inputs: {
+  outputs = { asahi, darwin, nixpkgs, ... } @ inputs: {
     darwinConfigurations = {
       mercury = darwin.lib.darwinSystem {
         specialArgs = { inherit inputs; };

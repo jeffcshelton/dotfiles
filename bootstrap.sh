@@ -9,7 +9,7 @@ if [ "$os" = "Linux" ] && [ -f /etc/NIXOS ]; then
 fi
 
 # Check that the operating system is supported.
-if [ "$os" != "Linux" ] && [ "$os" != "Darwin" ]; then
+if [ "$os" != "NixOS" ] && [ "$os" != "Darwin" ]; then
   echo "\x1b[31;1merror:\x1b[0m Only macOS and NixOS are supported."
   exit 1
 fi
@@ -28,13 +28,15 @@ if [ "$os" = "Darwin" ] && command -v brew > /dev/null 2>&1; then
   exit 1
 fi
 
-# Clone the dotfiles repository in full.
-clone="git clone https://github.com/jeffcshelton/dotfiles.git $HOME"
-nix-shell -p git --run "$clone"
+# Clone the dotfiles repository if it does not already exist.
+if [ ! -d "$HOME/dotfiles" ]; then
+  clone="git clone https://github.com/jeffcshelton/dotfiles.git $HOME/dotfiles"
+  nix-shell -p git --run "$clone"
 
-if [ $? -ne 0 ]; then
-  echo "\x1b[31;1merror:\x1b[0m Failed to clone the repository."
-  exit 1
+  if [ $? -ne 0 ]; then
+    echo "\x1b[31;1merror:\x1b[0m Failed to clone the repository."
+    exit 1
+  fi
 fi
 
 # Collect all the host names from the configuration files.
@@ -53,7 +55,7 @@ done
 case "$os" in
   "NixOS")
     sudo nix-rebuild switch \
-      --flake "$HOME/dotfiles/nix$hostname" \
+      --flake "$HOME/dotfiles/nix#$hostname" \
       --experimental-features "flakes"
     ;;
   "Darwin")
