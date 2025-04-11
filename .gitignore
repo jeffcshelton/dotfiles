@@ -3,3 +3,6 @@
 # Ignore Tmux plugins except for TPM.
 .config/tmux/plugins/
 !.config/tmux/plugins/tpm/
+
+# Ignore the dynamically constructed Waybar config.
+.config/waybar/config.jsonc

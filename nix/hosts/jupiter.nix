@@ -1,11 +1,16 @@
 { lib, pkgs, ... }:
 {
   imports = [
+    ../modules/dev.nix
     ../modules/fonts.nix
-    ../modules/nixos/apps.nix
+    ../modules/neovim.nix
+    ../modules/nix.nix
+    ../modules/rust.nix
     ../modules/nixos/audio.nix
-    ../modules/nixos/boot.nix
+    ../modules/nixos/auth.nix
     ../modules/nixos/cad.nix
+    ../modules/nixos/conference.nix
+    ../modules/nixos/email.nix
     ../modules/nixos/firefox.nix
     ../modules/nixos/fpga.nix
     ../modules/nixos/gnome.nix
@@ -13,16 +18,15 @@
     ../modules/nixos/llm.nix
     ../modules/nixos/locale.nix
     ../modules/nixos/minecraft.nix
+    ../modules/nixos/obsidian.nix
+    ../modules/nixos/office.nix
     ../modules/nixos/photo.nix
     ../modules/nixos/printing.nix
     ../modules/nixos/rgb.nix
     ../modules/nixos/terminal.nix
     ../modules/nixos/video.nix
     ../modules/nixos/vpn.nix
-    ../modules/dev.nix
-    ../modules/neovim.nix
-    ../modules/nix.nix
-    ../modules/rust.nix
+    ../modules/nixos/web.nix
   ];
 
   boot = {
@@ -64,6 +68,11 @@
 
     # Substitute the LTS kernel with the newest release.
     kernelPackages = pkgs.linuxPackages_latest;
+
+    loader = {
+      efi.canTouchEfiVariables = true;
+      systemd-boot.enable = true;
+    };
   };
 
   fileSystems = {

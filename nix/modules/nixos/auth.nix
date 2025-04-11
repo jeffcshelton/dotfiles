@@ -1,13 +1,5 @@
-{ pkgs, ... }:
+{ ... }:
 {
-  environment.systemPackages = with pkgs; [
-    libreoffice
-    obsidian
-    postman
-    thunderbird
-    zoom-us
-  ];
-
   programs = {
     # Despite the strange names, these are the official 1Password packages.
     _1password.enable = true;

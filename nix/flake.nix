@@ -13,7 +13,7 @@
     rose-pine-hyprcursor.url = "github:ndom91/rose-pine-hyprcursor";
   };
 
-  outputs = { asahi, darwin, nixpkgs, ... } @ inputs: {
+  outputs = { darwin, nixpkgs, ... } @ inputs: {
     darwinConfigurations = {
       mercury = darwin.lib.darwinSystem {
         specialArgs = { inherit inputs; };

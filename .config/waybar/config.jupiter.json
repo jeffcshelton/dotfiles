@@ -1,0 +1,28 @@
+{
+  "modules-left": [
+    "clock",
+    "hyprland/workspaces"
+  ],
+  "modules-center": [
+    "hyprland/window"
+  ],
+  "modules-right": [
+    "memory",
+    "cpu",
+    "temperature",
+    "network",
+    "wireplumber",
+    "custom/brightness",
+    "bluetooth",
+    "battery"
+  ],
+
+  "temperature": {
+    "critical-threshold": 80,
+    "format": " {temperatureC} °C",
+    "format-critical": " {temperatureC} °C",
+    "hwmon-path-abs": "/sys/devices/platform/nct6775.656/hwmon",
+    "input-filename": "temp2_input",
+    "interval": 1
+  }
+}

@@ -7,12 +7,16 @@
     ../modules/neovim.nix
     ../modules/nix.nix
     ../modules/rust.nix
-    # ../modules/nixos/apps.nix
     ../modules/nixos/audio.nix
+    ../modules/nixos/auth.nix
+    ../modules/nixos/bluetooth.nix
+    ../modules/nixos/conference.nix
+    ../modules/nixos/email.nix
     ../modules/nixos/firefox.nix
     ../modules/nixos/hyprland.nix
-    # ../modules/nixos/gnome.nix
     ../modules/nixos/locale.nix
+    ../modules/nixos/obsidian.nix
+    ../modules/nixos/office.nix
     ../modules/nixos/printing.nix
     ../modules/nixos/terminal.nix
     inputs.asahi.nixosModules.apple-silicon-support

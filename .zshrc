@@ -29,6 +29,9 @@ function expand {
 # ls alias.
 alias ls="ls -la"
 
+# Neovim alias to v.
+alias v="nvim"
+
 # Initialize direnv.
 eval "$(direnv hook zsh)"
 

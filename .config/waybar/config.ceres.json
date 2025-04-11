@@ -1,0 +1,16 @@
+{
+  "modules-left": [
+    "clock",
+    "hyprland/workspaces"
+  ],
+  "modules-center": [],
+  "modules-right": [
+    "memory",
+    "cpu",
+    "network",
+    "wireplumber",
+    "custom/brightness",
+    "bluetooth",
+    "battery"
+  ]
+}
