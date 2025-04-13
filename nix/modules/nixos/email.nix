@@ -1,6 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 {
-  environment.systemPackages = with pkgs; [
-    thunderbird
-  ];
+  programs.thunderbird.enable = true;
 }

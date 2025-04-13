@@ -10,9 +10,9 @@
     ../modules/nixos/audio.nix
     ../modules/nixos/auth.nix
     ../modules/nixos/bluetooth.nix
-    ../modules/nixos/conference.nix
     ../modules/nixos/email.nix
     ../modules/nixos/firefox.nix
+    ../modules/nixos/gnome.nix
     ../modules/nixos/hyprland.nix
     ../modules/nixos/locale.nix
     ../modules/nixos/obsidian.nix
