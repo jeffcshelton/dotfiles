@@ -1,3 +1,5 @@
+# Printing configuration not specific to hardware.
+
 { ... }:
 {
   services = {

@@ -1,3 +1,5 @@
+# Configuration of the Nix package manager.
+
 { ... }:
 {
   nix = {
@@ -8,7 +10,11 @@
     };
 
     optimise.automatic = true;
-    settings.experimental-features = [ "nix-command" "flakes" ];
+
+    settings = {
+      experimental-features = [ "nix-command" "flakes" ];
+      trusted-users = [ "root" "jeff" ];
+    };
   };
 
   # Allow unfree packages.

@@ -1,3 +1,5 @@
+# Minecraft (including required Java) configuration.
+
 { pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [

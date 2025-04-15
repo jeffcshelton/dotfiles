@@ -1,3 +1,5 @@
+# Audio configuration that is not specific to hardware.
+
 { ... }:
 {
   # Real-time kit is used by PipeWire for audio processing.

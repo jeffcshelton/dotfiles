@@ -11,6 +11,7 @@
     ../modules/nixos/cad.nix
     ../modules/nixos/conference.nix
     ../modules/nixos/email.nix
+    ../modules/nixos/debug.nix
     ../modules/nixos/firefox.nix
     ../modules/nixos/fpga.nix
     ../modules/nixos/gnome.nix
@@ -25,6 +26,7 @@
     ../modules/nixos/rgb.nix
     ../modules/nixos/terminal.nix
     ../modules/nixos/video.nix
+    ../modules/nixos/virtualization.nix
     ../modules/nixos/vpn.nix
     ../modules/nixos/web.nix
   ];

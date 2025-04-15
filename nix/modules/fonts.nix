@@ -1,3 +1,5 @@
+# Font packages.
+
 { pkgs, ... }:
 {
   fonts.packages = with pkgs; [

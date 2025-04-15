@@ -1,3 +1,5 @@
+# General developer tools.
+
 { pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
@@ -7,12 +9,14 @@
     clang
     cmake
     curl
+    devenv
     direnv
     file
     flex
     gcc
     git
     gnumake
+    gnupg
     nodejs_23
     python3
     stow

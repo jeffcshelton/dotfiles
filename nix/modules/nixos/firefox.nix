@@ -1,3 +1,5 @@
+# Browser configuration.
+
 { ... }:
 {
   programs.firefox = {

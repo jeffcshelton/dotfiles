@@ -1,3 +1,5 @@
+# Hyprland desktop environment configuration.
+
 { inputs, pkgs, ... }:
 {
   environment = {

@@ -1,3 +1,5 @@
+# English US locale configuration.
+
 { ... }:
 {
   i18n = {

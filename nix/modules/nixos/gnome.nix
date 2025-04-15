@@ -1,3 +1,5 @@
+# GNOME desktop environment configuration.
+
 { pkgs, ... }:
 {
   environment.gnome.excludePackages = with pkgs; [
