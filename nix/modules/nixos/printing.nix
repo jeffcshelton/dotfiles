@@ -2,6 +2,9 @@
 
 { ... }:
 {
+  # Enable document scanning support.
+  hardware.sane.enable = true;
+
   services = {
     avahi = {
       enable = true;
@@ -9,6 +12,7 @@
       openFirewall = true;
     };
 
+    # Enable printer drivers.
     printing.enable = true;
   };
 }

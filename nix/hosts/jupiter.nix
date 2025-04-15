@@ -6,16 +6,23 @@
     ../modules/neovim.nix
     ../modules/nix.nix
     ../modules/rust.nix
+    ../modules/neovim.nix
+    ../modules/nix.nix
+    ../modules/rust.nix
+    ../modules/fonts.nix
+
     ../modules/nixos/audio.nix
     ../modules/nixos/auth.nix
     ../modules/nixos/cad.nix
     ../modules/nixos/conference.nix
     ../modules/nixos/email.nix
     ../modules/nixos/debug.nix
+    ../modules/nixos/emulation.nix
     ../modules/nixos/firefox.nix
     ../modules/nixos/fpga.nix
     ../modules/nixos/gnome.nix
     ../modules/nixos/hyprland.nix
+    ../modules/nixos/iso.nix
     ../modules/nixos/llm.nix
     ../modules/nixos/locale.nix
     ../modules/nixos/minecraft.nix
@@ -153,9 +160,12 @@
 
     extraGroups = [
       "audio"
+      "docker"
       "i2c"
       "input"
+      "lp"
       "networkmanager"
+      "scanner"
       "seat"
       "video"
       "wheel"
