@@ -26,6 +26,7 @@
     ../modules/nixos/llm.nix
     ../modules/nixos/locale.nix
     ../modules/nixos/minecraft.nix
+    ../modules/nixos/music.nix
     ../modules/nixos/obsidian.nix
     ../modules/nixos/office.nix
     ../modules/nixos/photo.nix
