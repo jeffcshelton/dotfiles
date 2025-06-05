@@ -9,6 +9,7 @@
       "microsoft-teams"
       "notion"
       "obsidian"
+      "openscad"
       "postman"
       "slack"
       "spotify"

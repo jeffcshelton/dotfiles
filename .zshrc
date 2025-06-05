@@ -12,7 +12,7 @@ case "$os" in
     alias rebuild="sudo nixos-rebuild switch --flake $HOME/dotfiles/nix"
     ;;
   "Darwin")
-    alias rebuild="darwin-rebuild switch --flake $HOME/dotfiles/nix"
+    alias rebuild="sudo darwin-rebuild switch --flake $HOME/dotfiles/nix"
     ;;
   *)
     alias rebuild='echo "\x1b[31;1merror:\x1b[0m Must be NixOS or macOS."'

@@ -22,7 +22,10 @@
   # Other modules rely on this to be enabled.
   homebrew.enable = true;
 
-  system.stateVersion = 5;
+  system = {
+    primaryUser = "jeff";
+    stateVersion = 5;
+  };
 
   users.users.jeff = {
     name = "jeff";
