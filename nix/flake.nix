@@ -2,7 +2,7 @@
   description = "Jeff's Personal Flake";
 
   inputs = {
-    asahi.url = "github:marcin-serwin/nixos-apple-silicon/f51de44b1d720ac23e838db8e0cf13fadb7942b8";
+    asahi.url = "github:nix-community/nixos-apple-silicon";
 
     darwin = {
       inputs.nixpkgs.follows = "nixpkgs";
