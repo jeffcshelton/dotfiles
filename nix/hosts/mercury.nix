@@ -1,7 +1,13 @@
 { ... }:
 {
   imports = [
+    ../modules/ai.nix
     ../modules/fonts.nix
+    ../modules/dev.nix
+    ../modules/neovim.nix
+    ../modules/nix.nix
+    ../modules/rust.nix
+
     ../modules/macos/apps.nix
     ../modules/macos/containers.nix
     ../modules/macos/controlcenter.nix
@@ -12,10 +18,6 @@
     ../modules/macos/office.nix
     ../modules/macos/printing.nix
     ../modules/macos/terminal.nix
-    ../modules/dev.nix
-    ../modules/neovim.nix
-    ../modules/nix.nix
-    ../modules/rust.nix
   ];
 
   # Enable Homebrew support.

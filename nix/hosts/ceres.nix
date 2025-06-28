@@ -10,15 +10,18 @@
     ../modules/nixos/audio.nix
     ../modules/nixos/auth.nix
     ../modules/nixos/bluetooth.nix
+    ../modules/nixos/calendar.nix
     ../modules/nixos/email.nix
     ../modules/nixos/firefox.nix
     ../modules/nixos/gnome.nix
     ../modules/nixos/hyprland.nix
+    ../modules/nixos/kernel.nix
     ../modules/nixos/locale.nix
     ../modules/nixos/obsidian.nix
     ../modules/nixos/office.nix
     ../modules/nixos/printing.nix
     ../modules/nixos/terminal.nix
+    ../modules/nixos/web.nix
     inputs.asahi.nixosModules.apple-silicon-support
   ];
 
@@ -35,7 +38,11 @@
     kernelModules = [];
 
     # Macbook notch.
-    kernelParams = [ "apple_dcp.show_notch=1" ];
+    kernelParams = [
+      "apple_dcp.show_notch=1"
+      "cpuidle.off=1"
+      "macsmc_power.log_power=1"
+    ];
 
     loader = {
       efi.canTouchEfiVariables = false;

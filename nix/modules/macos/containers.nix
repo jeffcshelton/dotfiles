@@ -1,4 +1,4 @@
 { ... }:
 {
-  homebrew.casks = [ "docker" ];
+  homebrew.casks = [ "docker-desktop" ];
 }

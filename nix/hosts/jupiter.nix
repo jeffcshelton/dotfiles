@@ -1,15 +1,12 @@
 { lib, pkgs, ... }:
 {
   imports = [
+    ../modules/ai.nix
     ../modules/dev.nix
     ../modules/fonts.nix
     ../modules/neovim.nix
     ../modules/nix.nix
     ../modules/rust.nix
-    ../modules/neovim.nix
-    ../modules/nix.nix
-    ../modules/rust.nix
-    ../modules/fonts.nix
 
     ../modules/nixos/audio.nix
     ../modules/nixos/auth.nix

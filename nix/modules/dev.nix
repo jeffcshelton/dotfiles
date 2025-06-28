@@ -17,7 +17,7 @@
     git
     gnumake
     gnupg
-    nodejs_24
+    nodejs
     python3
     stow
     wget
