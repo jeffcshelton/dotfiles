@@ -1,25 +1,9 @@
 # Browser configuration.
 
-{ pkgs, ... }:
+{ ... }:
 {
-  environment = {
-    sessionVariables = {
-      MOZ_GMP_PATH = "${pkgs.widevine-cdm}/share/google/chrome/WidevineCdm/_platform_specific/linux_arm64";
-    };
-
-    systemPackages = with pkgs; [
-      widevine-cdm
-    ];
-  };
-
   programs.firefox = {
     enable = true;
-
-    # Enable external Widevine CDM support.
-    # extraPrefs = {
-    #   "media.gmp-widevinecdm.enable" = true;
-    #   "media.gmp-manager.updateEnabled" = false;
-    # };
 
     policies = {
       DisableTelemetry = true;
@@ -30,6 +14,37 @@
         Fingerprinting = true;
         Locked = true;
         Value = true;
+      };
+    };
+  };
+
+  home-manager.users.jeff.programs.firefox = {
+    enable = true;
+
+    profiles.default = {
+      search = {
+        default = "ddg";
+        privateDefault = "ddg";
+
+        engines = {
+          "ddg" = {};
+          "MyDocs" = {
+            urls = [
+              {
+                template = "https://example.com/search?q={searchTerms}";
+                params = [];
+              }
+            ];
+          };
+        };
+
+        force = true;
+      };
+
+      settings = {
+        "browser.startup.homepage" = "https://duckduckgo.com";
+        "browser.search.defaultenginename" = "DuckDuckGo";
+        "privacy.trackingprotection.enabled" = true;
       };
     };
   };

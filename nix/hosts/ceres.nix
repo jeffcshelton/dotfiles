@@ -2,17 +2,21 @@
 {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
+
+    ../modules/ai.nix
     ../modules/dev.nix
     ../modules/fonts.nix
     ../modules/neovim.nix
     ../modules/nix.nix
     ../modules/rust.nix
+
+    ../modules/nixos/aarch64/firefox.nix
+
     ../modules/nixos/audio.nix
     ../modules/nixos/auth.nix
     ../modules/nixos/bluetooth.nix
     ../modules/nixos/calendar.nix
     ../modules/nixos/email.nix
-    ../modules/nixos/firefox.nix
     ../modules/nixos/gnome.nix
     ../modules/nixos/hyprland.nix
     ../modules/nixos/kernel.nix
@@ -22,6 +26,7 @@
     ../modules/nixos/printing.nix
     ../modules/nixos/terminal.nix
     ../modules/nixos/web.nix
+
     inputs.asahi.nixosModules.apple-silicon-support
   ];
 
@@ -76,6 +81,9 @@
 
     graphics.enable = true;
   };
+
+  # Home manager versioning.
+  home-manager.users.jeff.home.stateVersion = "25.05";
 
   # Enable DHCP on all Ethernet and wireless interfaces.
   networking = {
