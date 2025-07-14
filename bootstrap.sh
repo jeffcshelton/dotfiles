@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# TODO: This script completely does not work right now. Fix it.
+
 # Determine the operating system.
 os=$(uname)
 

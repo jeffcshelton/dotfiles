@@ -118,6 +118,9 @@
     i2c.enable = true;
   };
 
+  # Home manager versioning.
+  home-manager.users.jeff.home.stateVersion = "25.05";
+
   # Networking configuration.
   networking = {
     hostName = "jupiter";

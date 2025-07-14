@@ -21,7 +21,9 @@ My configuration is heavily based on Nix. I use macOS on my laptop with the
 [Nix package manager](http://nixos.org), with NixOS on the desktop. Despite
 this, I also do lots of deployments to Debian and Fedora machine, so I have
 decided not to configure my programs with [home-manager](), instead opting to
-use dotfiles directly.
+use dotfiles directly. There are limited exceptions for programs that
+effectively require home-manager for programmatic configuration, because they
+don't accept dotfiles.
 
 ## Structure
 
