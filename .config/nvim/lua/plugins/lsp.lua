@@ -25,12 +25,23 @@ return {
       end,
     })
 
-    lspconfig.clangd.setup({})
-    lspconfig.jdtls.setup({})
-    lspconfig.nixd.setup({})
-    lspconfig.pyright.setup({})
-    lspconfig.rust_analyzer.setup({})
-    lspconfig.ts_ls.setup({})
+    -- Language servers to activate automatically.
+    local servers = {
+      "clangd",
+      "jdtls",
+      "lua_ls",
+      "nixd",
+      "openscad_lsp",
+      "pyright",
+      "rust_analyzer",
+      "ts_ls",
+      "marksman",
+      "mdx_analyzer",
+    }
+
+    for _, server in ipairs(servers) do
+      lspconfig[server].setup({})
+    end
   end,
   lazy = false,
 }

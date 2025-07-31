@@ -21,6 +21,12 @@
     # Java language server.
     jdt-language-server
 
+    # Markdown language server.
+    marksman
+
+    # MDX (Markdown + JSX) language server.
+    mdx-language-server
+
     # The Neovim editor itself.
     neovim
 
@@ -29,6 +35,9 @@
 
     # Enables running LLM models locally.
     ollama
+
+    # OpenSCAD language server.
+    openscad-lsp
 
     # Python language server.
     pyright
