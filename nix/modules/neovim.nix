@@ -27,9 +27,6 @@
     # Markdown language server.
     marksman
 
-    # MDX (Markdown + JSX) language server.
-    mdx-language-server
-
     # The Neovim editor itself.
     neovim
 

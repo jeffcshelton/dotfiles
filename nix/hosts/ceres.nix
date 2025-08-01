@@ -89,7 +89,6 @@
   networking = {
     hostName = "ceres";
     networkmanager.enable = true;
-    useDHCP = lib.mkDefault true;
   };
 
   nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";

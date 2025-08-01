@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ pkgs, ... }:
 {
   imports = [
     ../modules/ai.nix
@@ -125,12 +125,7 @@
   networking = {
     hostName = "jupiter";
     networkmanager.enable = true;
-
-    # Enables DHCP on all interfaces.
-    useDHCP = lib.mkDefault true;
   };
-
-  nixpkgs.hostPlatform = "x86_64-linux";
 
   # Instructs services to use AMD GPU drivers for rendering.
   services = {
