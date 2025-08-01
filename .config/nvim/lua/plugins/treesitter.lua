@@ -12,7 +12,7 @@ return {
         "rust",
         "typescript",
       },
-      highlight = { enable = false },
+      highlight = { enable = true },
     })
   end,
 }

@@ -21,6 +21,9 @@
     # Java language server.
     jdt-language-server
 
+    # Lua language server.
+    lua-language-server
+
     # Markdown language server.
     marksman
 
@@ -47,6 +50,9 @@
 
     # Enables quick searching of text throughout a project.
     ripgrep
+
+    # Tree sitter incremental parser.
+    tree-sitter
 
     # TypeScript language server.
     typescript-language-server
