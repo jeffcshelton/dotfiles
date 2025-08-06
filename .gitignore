@@ -11,3 +11,5 @@
 .codex/sessions/
 .codex/history.json
 .codex/update-check.json
+
+nix/secrets/

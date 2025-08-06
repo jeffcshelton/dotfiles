@@ -12,6 +12,9 @@
     ../modules/nixos/kernel.nix
     ../modules/nixos/locale.nix
     ../modules/nixos/terminal.nix
+
+    ../modules/nixos/server/git.nix
+    ../modules/nixos/server/tunnel.nix
   ];
 
   boot = {
@@ -25,6 +28,27 @@
     loader = {
       generic-extlinux-compatible.enable = true;
       grub.enable = false;
+    };
+  };
+
+  services.cloudflared.tunnel = {
+    uuid = "0d022530-69c4-4af0-9b80-a82c25918361";
+    ingress = {
+      "shelton.one" = "http://localhost:80";
+      "mars.shelton.one" = "ssh://localhost:22";
+    };
+  };
+
+  fileSystems = {
+    "/" = {
+      device = "/dev/disk/by-uuid/44444444-4444-4444-8888-888888888888";
+      fsType = "ext4";
+    };
+
+    "/boot" = {
+      device = "/dev/disk/by-uuid/2178-694E";
+      fsType = "vfat";
+      options = [ "fmask=0022" "dmask=0022" ];
     };
   };
 
@@ -49,6 +73,12 @@
         super.makeModulesClosure (modules // { allowMissing = true; });
     })
   ];
+
+  # It's necessary to disable sudo's password requirement for wheel users since
+  # the primary user does not have a password.
+  #
+  # Without this, sudo will still prompt for a password but none will work.
+  security.sudo.wheelNeedsPassword = false;
 
   users.users.jeff = {
     description = "Jeff Shelton";

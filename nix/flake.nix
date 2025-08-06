@@ -48,11 +48,14 @@
       mars = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs; };
         system = "aarch64-linux";
-        modules = modules ++ [ ./hosts/mars.nix ];
+        modules = modules ++ [
+          nixos-hardware.nixosModules.raspberry-pi-4
+          ./hosts/mars.nix
+        ];
       };
     };
 
-    packages."aarch64-linux".mars-iso = nixos-generators.nixosGenerate {
+    img.mars = nixos-generators.nixosGenerate {
       format = "sd-aarch64";
       system = "aarch64-linux";
       modules = [

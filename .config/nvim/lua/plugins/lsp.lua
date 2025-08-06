@@ -36,7 +36,6 @@ return {
       "rust_analyzer",
       "ts_ls",
       "marksman",
-      "mdx_analyzer",
     }
 
     for _, server in ipairs(servers) do
