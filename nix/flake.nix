@@ -2,6 +2,7 @@
   description = "Jeff's Personal Flake";
 
   inputs = {
+    agenix.url = "github:ryantm/agenix";
     asahi.url = "github:nix-community/nixos-apple-silicon";
 
     darwin = {
@@ -20,9 +21,20 @@
     rose-pine-hyprcursor.url = "github:ndom91/rose-pine-hyprcursor";
   };
 
-  outputs = { darwin, home-manager, nixos-generators, nixos-hardware, nixpkgs, ... } @ inputs:
+  outputs = {
+    agenix,
+    darwin,
+    home-manager,
+    nixos-generators,
+    nixos-hardware,
+    nixpkgs,
+    ...
+  } @ inputs:
     # Modules that should be included for all machines.
-    let modules = [ home-manager.nixosModules.home-manager ];
+    let modules = [
+      agenix.nixosModules.default
+      home-manager.nixosModules.home-manager
+    ];
   in {
     darwinConfigurations = {
       mercury = darwin.lib.darwinSystem {
@@ -58,11 +70,10 @@
     img.mars = nixos-generators.nixosGenerate {
       format = "sd-aarch64";
       system = "aarch64-linux";
-      modules = [
+      modules = modules ++ [
         nixos-hardware.nixosModules.raspberry-pi-4
         ./hosts/mars.nix
       ];
     };
-
   };
 }

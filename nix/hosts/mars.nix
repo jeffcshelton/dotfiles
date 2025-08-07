@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 {
   imports = [
     ../modules/dev.nix
@@ -14,10 +14,13 @@
     ../modules/nixos/terminal.nix
 
     ../modules/nixos/server/git.nix
+    ../modules/nixos/server/ssh.nix
     ../modules/nixos/server/tunnel.nix
   ];
 
   boot = {
+    growPartition = true;
+
     kernelModules = [
       "gpio-dev"
       "i2c-dev"
@@ -31,22 +34,15 @@
     };
   };
 
-  services.cloudflared.tunnel = {
-    uuid = "0d022530-69c4-4af0-9b80-a82c25918361";
-    ingress = {
-      "shelton.one" = "http://localhost:80";
-      "mars.shelton.one" = "ssh://localhost:22";
-    };
-  };
-
-  fileSystems = {
+  fileSystems = lib.mkDefault {
     "/" = {
-      device = "/dev/disk/by-uuid/44444444-4444-4444-8888-888888888888";
+      device = "/dev/disk/by-label/NIXOS_SD";
       fsType = "ext4";
+      autoResize = true;
     };
 
     "/boot" = {
-      device = "/dev/disk/by-uuid/2178-694E";
+      device = "/dev/disk/by-label/FIRMWARE";
       fsType = "vfat";
       options = [ "fmask=0022" "dmask=0022" ];
     };
@@ -95,7 +91,16 @@
     ];
   };
 
+  # Cloudflare tunnel definition and rules.
+  server.tunnels."0d022530-69c4-4af0-9b80-a82c25918361".ingress = {
+    "shelton.one" = "http://localhost:80";
+    "mars.shelton.one" = "ssh://localhost:22";
+  };
+
   # The original Nix version installed on Mars.
   # Do not change this value unless the machine is wiped.
   system.stateVersion = "25.05";
+
+  # Enable compressed RAM swap, as Mars is a low-memory device.
+  zramSwap.enable = true;
 }
