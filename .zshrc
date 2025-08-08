@@ -39,4 +39,4 @@ eval "$(direnv hook zsh)"
 eval "$(starship init zsh)"
 
 # Start tmux.
-if [ "$TMUX" = "" ]; then exec tmux; fi
+if [[ -z "$TMUX" && -z "$SSH_CONNECTION" ]]; then exec tmux; fi

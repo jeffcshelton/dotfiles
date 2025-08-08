@@ -7,6 +7,7 @@
     ../modules/neovim.nix
     ../modules/nix.nix
     ../modules/rust.nix
+    ../modules/ssh.nix
 
     ../modules/macos/apps.nix
     ../modules/macos/containers.nix

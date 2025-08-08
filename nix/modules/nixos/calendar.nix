@@ -9,9 +9,6 @@
 
   programs.dconf.enable = true;
 
-  # Enable the keyring to be unlocked at login, avoiding pop-ups.
-  security.pam.enableGnomeKeyring = true;
-
   # Use GNOME calendar as the calendar app, even outside of the GNOME DE.
   services.gnome = {
     evolution-data-server.enable = true;

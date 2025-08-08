@@ -19,6 +19,7 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware";
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     rose-pine-hyprcursor.url = "github:ndom91/rose-pine-hyprcursor";
+    website.url = "github:jeffcshelton/shelton.one";
   };
 
   outputs = {
@@ -28,19 +29,27 @@
     nixos-generators,
     nixos-hardware,
     nixpkgs,
+    website,
     ...
   } @ inputs:
+  let
     # Modules that should be included for all machines.
-    let modules = [
+    darwinModules = [
+      agenix.darwinModules.default
+      home-manager.darwinModules.home-manager
+    ];
+
+    nixosModules = [
       agenix.nixosModules.default
       home-manager.nixosModules.home-manager
+      website.nixosModules.default
     ];
   in {
     darwinConfigurations = {
       mercury = darwin.lib.darwinSystem {
         specialArgs = { inherit inputs; };
         system = "aarch64-darwin";
-        modules = modules ++ [ ./hosts/mercury.nix ];
+        modules = darwinModules ++ [ ./hosts/mercury.nix ];
       };
     };
 
@@ -48,19 +57,19 @@
       ceres = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs; };
         system = "aarch64-linux";
-	      modules = modules ++ [ ./hosts/ceres.nix ];
+	      modules = nixosModules ++ [ ./hosts/ceres.nix ];
       };
 
       jupiter = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs; };
         system = "x86_64-linux";
-        modules = modules ++ [ ./hosts/jupiter.nix ];
+        modules = nixosModules ++ [ ./hosts/jupiter.nix ];
       };
 
       mars = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs; };
         system = "aarch64-linux";
-        modules = modules ++ [
+        modules = nixosModules ++ [
           nixos-hardware.nixosModules.raspberry-pi-4
           ./hosts/mars.nix
         ];
@@ -70,7 +79,7 @@
     img.mars = nixos-generators.nixosGenerate {
       format = "sd-aarch64";
       system = "aarch64-linux";
-      modules = modules ++ [
+      modules = nixosModules ++ [
         nixos-hardware.nixosModules.raspberry-pi-4
         ./hosts/mars.nix
       ];
