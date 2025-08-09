@@ -147,11 +147,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1754613544,
-        "narHash": "sha256-ueR1mGX4I4DWfDRRxxMphbKDNisDeMPMusN72VV1+cc=",
+        "lastModified": 1754756528,
+        "narHash": "sha256-W1jYKMetZSOHP5m2Z5Wokdj/ct17swPHs+MiY2WT1HQ=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "cc2fa2331aebf9661d22bb507d362b39852ac73f",
+        "rev": "3ec1cd9a0703fbd55d865b7fd2b07d08374f0355",
         "type": "github"
       },
       "original": {
@@ -281,11 +281,11 @@
     },
     "nixpkgs_4": {
       "locked": {
-        "lastModified": 1754640348,
-        "narHash": "sha256-dSSzu/afJLQIr10WRJuKucZ387YvRXmz1iABwD6SB7E=",
+        "lastModified": 1754711617,
+        "narHash": "sha256-WrZ280bT6NzNbBo+CKeJA/NW1rhvN/RUPZczqCpu2mI=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "a3f3e3f2c983e957af6b07a1db98bafd1f87b7a1",
+        "rev": "00b574b1ba8a352f0601c4dde4faff4b534ebb1e",
         "type": "github"
       },
       "original": {
@@ -466,11 +466,11 @@
         "systems": "systems_4"
       },
       "locked": {
-        "lastModified": 1754689411,
-        "narHash": "sha256-d4i3si5887y0E+zWJ+eTFrbfXPohtX6GxbEnBWjVl3c=",
+        "lastModified": 1754780634,
+        "narHash": "sha256-cx96fGDL7JRbor2Owu/NamvmirIVUPLjUMacETbaX/E=",
         "owner": "jeffcshelton",
         "repo": "shelton.one",
-        "rev": "93ddc6011e4bd719e9e345cf586883595941d4bd",
+        "rev": "690b06406e18778aee0b2b5aa8fa1eab91f209b5",
         "type": "github"
       },
       "original": {
