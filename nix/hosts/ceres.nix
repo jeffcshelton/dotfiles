@@ -73,13 +73,15 @@
 
   hardware = {
     asahi = {
-      experimentalGPUInstallMode = "replace";
       peripheralFirmwareDirectory = ../firmware/asahi;
       setupAsahiSound = true;
       useExperimentalGPUDriver = true;
     };
 
-    graphics.enable = true;
+    graphics = {
+      enable = true;
+      package = lib.mkForce pkgs.mesa;
+    };
   };
 
   # Home manager versioning.

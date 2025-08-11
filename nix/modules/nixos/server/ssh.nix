@@ -1,6 +1,6 @@
-{ lib, ... }:
+{ ... }:
 let
-  keys = import ../../../keys { inherit lib; };
+  keys = import ../../../keys;
 in
 {
   services.openssh = {

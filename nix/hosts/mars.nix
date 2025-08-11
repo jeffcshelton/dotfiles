@@ -29,9 +29,9 @@
       "spidev"
     ];
 
-    loader = {
-      generic-extlinux-compatible.enable = true;
-      grub.enable = false;
+    loader.generic-extlinux-compatible = {
+      enable = true;
+      configurationLimit = 1;
     };
   };
 
