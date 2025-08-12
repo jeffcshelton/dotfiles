@@ -33,9 +33,6 @@
     # Nix language server.
     nixd
 
-    # Enables running LLM models locally.
-    ollama
-
     # OpenSCAD language server.
     openscad-lsp
 

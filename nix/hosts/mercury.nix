@@ -1,7 +1,6 @@
 { ... }:
 {
   imports = [
-    ../modules/ai.nix
     ../modules/fonts.nix
     ../modules/dev.nix
     ../modules/neovim.nix

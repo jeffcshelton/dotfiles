@@ -2,7 +2,7 @@ let
   keys = import ../keys;
 in
 {
-  "cloudflare-0d022530-69c4-4af0-9b80-a82c25918361.json.age".publicKeys = [
+  "cloudflare-2ef66204-58a9-4489-ba95-e1422803e192.json.age".publicKeys = [
     keys.mars.system
   ];
 }

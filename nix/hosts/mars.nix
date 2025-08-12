@@ -35,6 +35,22 @@
     };
   };
 
+  # Disable consoles because there is no display.
+  console.enable = false;
+
+  # Include packages specific to the Pi 4B.
+  environment.systemPackages = with pkgs; [
+    libraspberrypi
+    raspberrypi-eeprom
+  ];
+
+  hardware = {
+    raspberry-pi."4" = {
+      apply-overlays-dtmerge.enable = true;
+      fkms-3d.enable = true;
+    };
+  };
+
   fileSystems = lib.mkDefault {
     "/" = {
       device = "/dev/disk/by-label/NIXOS_SD";
@@ -77,6 +93,16 @@
   # Without this, sudo will still prompt for a password but none will work.
   security.sudo.wheelNeedsPassword = false;
 
+  # Cloudflare tunnel definition and rules.
+  server.tunnels."2ef66204-58a9-4489-ba95-e1422803e192".ingress = {
+    "shelton.one" = "http://localhost:80";
+    "mars.shelton.one" = "ssh://localhost:22";
+  };
+
+  # The original Nix version installed on Mars.
+  # Do not change this value unless the machine is wiped.
+  system.stateVersion = "25.05";
+
   users.users.jeff = {
     description = "Jeff Shelton";
     home = "/home/jeff";
@@ -91,16 +117,6 @@
       "wheel"
     ];
   };
-
-  # Cloudflare tunnel definition and rules.
-  server.tunnels."0d022530-69c4-4af0-9b80-a82c25918361".ingress = {
-    "shelton.one" = "http://localhost:80";
-    "mars.shelton.one" = "ssh://localhost:22";
-  };
-
-  # The original Nix version installed on Mars.
-  # Do not change this value unless the machine is wiped.
-  system.stateVersion = "25.05";
 
   # Enable compressed RAM swap, as Mars is a low-memory device.
   zramSwap.enable = true;
