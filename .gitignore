@@ -11,3 +11,6 @@
 .codex/sessions/
 .codex/history.json
 .codex/update-check.json
+
+# Ignore locally symlinked files built with `nix build`.
+result
