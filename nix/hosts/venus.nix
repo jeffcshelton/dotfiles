@@ -8,15 +8,10 @@
     ../modules/shell.nix
     ../modules/ssh.nix
 
-    ../modules/nixos/bluetooth.nix
     ../modules/nixos/debug.nix
     ../modules/nixos/kernel.nix
-    ../modules/nixos/locale.nix
 
-    ../modules/nixos/server/git.nix
     ../modules/nixos/server/ssh.nix
-    ../modules/nixos/server/tunnel.nix
-    ../modules/nixos/server/website.nix
   ];
 
   boot = {
@@ -30,12 +25,12 @@
     ];
 
     loader.generic-extlinux-compatible = {
-      enable = true;
       configurationLimit = 1;
+      enable = true;
     };
   };
 
-  # Disable consoles because there is no display.
+  # Disable console because there is no display.
   console.enable = false;
 
   # Include packages specific to the Pi 4B.
@@ -44,11 +39,9 @@
     raspberrypi-eeprom
   ];
 
-  hardware = {
-    raspberry-pi."4" = {
-      apply-overlays-dtmerge.enable = true;
-      fkms-3d.enable = true;
-    };
+  hardware.raspberry-pi."4" = {
+    apply-overlays-dtmerge.enable = true;
+    fkms-3d.enable = true;
   };
 
   fileSystems = lib.mkDefault {
@@ -65,9 +58,8 @@
     };
   };
 
-  # Networking configuration.
   networking = {
-    hostName = "mars";
+    hostName = "venus";
     networkmanager.enable = true;
   };
 
@@ -93,13 +85,7 @@
   # Without this, sudo will still prompt for a password but none will work.
   security.sudo.wheelNeedsPassword = false;
 
-  # Cloudflare tunnel definition and rules.
-  server.tunnels."2ef66204-58a9-4489-ba95-e1422803e192".ingress = {
-    "shelton.one" = "http://localhost:80";
-    "mars.shelton.one" = "ssh://localhost:22";
-  };
-
-  # The original Nix version installed on Mars.
+  # The original Nix version installed on Venus.
   # Do not change this value unless the machine is wiped.
   system.stateVersion = "25.05";
 

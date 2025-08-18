@@ -7,6 +7,7 @@
     ../modules/neovim.nix
     ../modules/nix.nix
     ../modules/rust.nix
+    ../modules/shell.nix
     ../modules/ssh.nix
 
     ../modules/nixos/audio.nix

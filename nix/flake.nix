@@ -47,42 +47,66 @@
   in {
     darwinConfigurations = {
       mercury = darwin.lib.darwinSystem {
+        modules = darwinModules ++ [ ./hosts/mercury.nix ];
         specialArgs = { inherit inputs; };
         system = "aarch64-darwin";
-        modules = darwinModules ++ [ ./hosts/mercury.nix ];
       };
     };
 
     nixosConfigurations = {
       ceres = nixpkgs.lib.nixosSystem {
+	      modules = nixosModules ++ [ ./hosts/ceres.nix ];
         specialArgs = { inherit inputs; };
         system = "aarch64-linux";
-	      modules = nixosModules ++ [ ./hosts/ceres.nix ];
       };
 
       jupiter = nixpkgs.lib.nixosSystem {
+        modules = nixosModules ++ [ ./hosts/jupiter.nix ];
         specialArgs = { inherit inputs; };
         system = "x86_64-linux";
-        modules = nixosModules ++ [ ./hosts/jupiter.nix ];
       };
 
       mars = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; };
-        system = "aarch64-linux";
         modules = nixosModules ++ [
           nixos-hardware.nixosModules.raspberry-pi-4
           ./hosts/mars.nix
         ];
+
+        specialArgs = { inherit inputs; };
+        system = "aarch64-linux";
+      };
+
+      venus = nixpkgs.lib.nixosSystem {
+        modules = nixosModules ++ [
+          nixos-hardware.nixosModules.raspberry-pi-4
+          ./hosts/venus.nix
+        ];
+
+        specialArgs = { inherit inputs; };
+        system = "aarch64-linux";
       };
     };
 
-    img.mars = nixos-generators.nixosGenerate {
-      format = "sd-aarch64";
-      system = "aarch64-linux";
-      modules = nixosModules ++ [
-        nixos-hardware.nixosModules.raspberry-pi-4
-        ./hosts/mars.nix
-      ];
+    img = {
+      mars = nixos-generators.nixosGenerate {
+        format = "sd-aarch64";
+        modules = nixosModules ++ [
+          nixos-hardware.nixosModules.raspberry-pi-4
+          ./hosts/mars.nix
+        ];
+
+        system = "aarch64-linux";
+      };
+
+      venus = nixos-generators.nixosGenerate {
+        format = "sd-aarch64";
+        modules = nixosModules ++ [
+          nixos-hardware.nixosModules.raspberry-pi-4
+          ./hosts/venus.nix
+        ];
+
+        system = "aarch64-linux";
+      };
     };
   };
 }
