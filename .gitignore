@@ -13,4 +13,5 @@
 .codex/update-check.json
 
 # Ignore locally symlinked files built with `nix build`.
+images/
 result

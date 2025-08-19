@@ -10,8 +10,10 @@
 
     ../modules/nixos/debug.nix
     ../modules/nixos/kernel.nix
+    ../modules/nixos/locale.nix
 
     ../modules/nixos/server/ssh.nix
+    ../modules/nixos/server/tunnel.nix
   ];
 
   boot = {
@@ -84,6 +86,11 @@
   #
   # Without this, sudo will still prompt for a password but none will work.
   security.sudo.wheelNeedsPassword = false;
+
+  # Cloudflare tunnel definition and rules.
+  server.tunnels."8d3020bb-f23e-4689-80c2-0e8344bfbd09".ingress = {
+    "venus.shelton.one" = "ssh://localhost:22";
+  };
 
   # The original Nix version installed on Venus.
   # Do not change this value unless the machine is wiped.
