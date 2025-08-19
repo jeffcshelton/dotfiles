@@ -30,12 +30,13 @@ return {
       "clangd",
       "jdtls",
       "lua_ls",
+      "marksman",
       "nixd",
       "openscad_lsp",
       "pyright",
       "rust_analyzer",
+      "tinymist",
       "ts_ls",
-      "marksman",
     }
 
     for _, server in ipairs(servers) do

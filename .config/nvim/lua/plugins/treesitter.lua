@@ -11,6 +11,7 @@ return {
         "python",
         "rust",
         "typescript",
+        "typst",
       },
       highlight = { enable = true },
     })

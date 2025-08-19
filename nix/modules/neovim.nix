@@ -45,6 +45,9 @@
     # Enables quick searching of text throughout a project.
     ripgrep
 
+    # Typst language server.
+    tinymist
+
     # Tree sitter incremental parser.
     tree-sitter
 

@@ -8,6 +8,7 @@
     ../modules/rust.nix
     ../modules/shell.nix
     ../modules/ssh.nix
+    ../modules/typesetting.nix
 
     ../modules/macos/apps.nix
     ../modules/macos/containers.nix

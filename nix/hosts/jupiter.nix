@@ -9,6 +9,7 @@
     ../modules/rust.nix
     ../modules/shell.nix
     ../modules/ssh.nix
+    ../modules/typesetting.nix
 
     ../modules/nixos/audio.nix
     ../modules/nixos/auth.nix
