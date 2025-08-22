@@ -11,8 +11,7 @@
     gnome.excludePackages = [ pkgs.gnome-console ];
 
     systemPackages = with pkgs; [
-      starship
-      tmux
+      ghostty
     ];
   };
 }

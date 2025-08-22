@@ -22,7 +22,6 @@
     ../modules/nixos/fpga.nix
     ../modules/nixos/gnome.nix
     ../modules/nixos/hyprland.nix
-    ../modules/nixos/iso.nix
     ../modules/nixos/llm.nix
     ../modules/nixos/locale.nix
     ../modules/nixos/minecraft.nix
@@ -84,6 +83,12 @@
       systemd-boot.enable = true;
     };
   };
+
+  environment.systemPackages = with pkgs; [
+    # Diagnostic tools for AMD GPUs.
+    rocmPackages.rocm-smi
+    rocmPackages.rocminfo
+  ];
 
   fileSystems = {
     "/" = {
@@ -164,6 +169,7 @@
       "input"
       "lp"
       "networkmanager"
+      "render"
       "scanner"
       "seat"
       "video"

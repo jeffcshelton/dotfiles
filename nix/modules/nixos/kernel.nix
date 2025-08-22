@@ -3,6 +3,7 @@
   environment.systemPackages = with pkgs; [
     bc
     bison
+    dtc
     flex
     gcc
     gnumake

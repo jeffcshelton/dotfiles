@@ -87,7 +87,7 @@
       };
     };
 
-    img = {
+    image = {
       mars = nixos-generators.nixosGenerate {
         format = "sd-aarch64";
         modules = nixosModules ++ [
