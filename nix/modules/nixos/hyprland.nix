@@ -86,7 +86,7 @@
     enable = true;
 
     # Enables X11 apps to still run on a compatibility layer.
-    # xwayland.enable = true;
+    xwayland.enable = true;
   };
 
   services = {

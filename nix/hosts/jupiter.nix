@@ -14,6 +14,7 @@
     ../modules/nixos/audio.nix
     ../modules/nixos/auth.nix
     ../modules/nixos/cad.nix
+    ../modules/nixos/chrome.nix
     ../modules/nixos/conference.nix
     ../modules/nixos/email.nix
     ../modules/nixos/debug.nix
