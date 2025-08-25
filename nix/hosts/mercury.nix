@@ -3,6 +3,7 @@
   imports = [
     ../modules/fonts.nix
     ../modules/dev.nix
+    ../modules/ml.nix
     ../modules/neovim.nix
     ../modules/nix.nix
     ../modules/rust.nix
