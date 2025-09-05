@@ -13,7 +13,7 @@
 
     settings = {
       # Use all cores by default _within_ the build steps of flakes.
-      cores = 0;
+      cores = 8;
 
       # Enable flakes.
       experimental-features = [ "nix-command" "flakes" ];

@@ -105,6 +105,8 @@
   };
 
   hardware = {
+    amdgpu.opencl.enable = true;
+
     # Enable microcode updates to the AMD CPU.
     cpu.amd.updateMicrocode = true;
     enableRedistributableFirmware = true;
