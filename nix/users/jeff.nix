@@ -1,8 +1,30 @@
+let
+  dotConfig = builtins.listToAttrs
+  (
+    map (name: {
+      name = ".config/${name}";
+      value = {
+        source = ../../.config/${name};
+        recursive = true;
+      };
+    })
+    (builtins.attrNames (builtins.readDir ../../.config))
+  );
+in
 {
   home = {
     username = "jeff";
     homeDirectory = "/home/jeff";
     stateVersion = "25.05";
+
+    file = dotConfig // {
+      ".codex" = {
+        source = ../../.codex;
+        recursive = true;
+      };
+
+      ".zshrc".source = ../../.zshrc;
+    };
   };
 
   programs = {
