@@ -85,8 +85,12 @@
     };
   };
 
-  # Home manager versioning.
-  home-manager.users.jeff.home.stateVersion = "25.05";
+  # Home manager configuration.
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    users.jeff = ../users/jeff.nix;
+  };
 
   # Enable DHCP on all Ethernet and wireless interfaces.
   networking = {

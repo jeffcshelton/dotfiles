@@ -27,6 +27,12 @@
   # Other modules rely on this to be enabled.
   homebrew.enable = true;
 
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    users.jeff = ../users/jeff.nix;
+  };
+
   system = {
     primaryUser = "jeff";
     stateVersion = 5;

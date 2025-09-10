@@ -32,11 +32,14 @@ alias ls="ls -la"
 # Neovim alias to v.
 alias v="nvim"
 
-# Initialize direnv.
+# Initialize direnv for dev environments.
 eval "$(direnv hook zsh)"
 
 # Initialize Starship for formatting.
 eval "$(starship init zsh)"
+
+# Initialize zoxide for smart cd.
+eval "$(zoxide init zsh)"
 
 # Start tmux.
 if [[ -z "$TMUX" && -z "$SSH_CONNECTION" ]]; then exec tmux; fi

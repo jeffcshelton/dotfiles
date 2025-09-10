@@ -4,6 +4,7 @@
     ../modules/ai.nix
     ../modules/dev.nix
     ../modules/fonts.nix
+    ../modules/ml.nix
     ../modules/neovim.nix
     ../modules/nix.nix
     ../modules/rust.nix
@@ -130,7 +131,11 @@
   };
 
   # Home manager versioning.
-  home-manager.users.jeff.home.stateVersion = "25.05";
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    users.jeff = ../users/jeff.nix;
+  };
 
   # Networking configuration.
   networking = {
