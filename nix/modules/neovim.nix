@@ -39,9 +39,6 @@
     # Python language server.
     pyright
 
-    # Enables support for embedded Jupyter notebooks.
-    python313Packages.ipykernel
-
     # Enables quick searching of text throughout a project.
     ripgrep
 
