@@ -1,3 +1,4 @@
+{ pkgs, ... }:
 let
   dotConfig = builtins.listToAttrs
   (
@@ -10,51 +11,85 @@ let
     })
     (builtins.attrNames (builtins.readDir ../../.config))
   );
+
+  home = if pkgs.stdenv.isDarwin then "/Users/jeff" else "/home/jeff";
+  keys = import ../keys;
 in
 {
-  home = {
-    username = "jeff";
-    homeDirectory = "/home/jeff";
-    stateVersion = "25.05";
+  home-manager.users.jeff = {
+    home = {
+      username = "jeff";
+      homeDirectory = home;
+      stateVersion = "25.05";
 
-    file = dotConfig // {
-      ".codex" = {
-        source = ../../.codex;
-        recursive = true;
+      file = dotConfig // {
+        ".codex" = {
+          source = ../../.codex;
+          recursive = true;
+        };
+
+        ".zshrc".source = ../../.zshrc;
+      };
+    };
+
+    programs = {
+      firefox = {
+        enable = true;
+
+        profiles.default = {
+          search = {
+            default = "ddg";
+            force = true;
+            privateDefault = "ddg";
+          };
+
+          settings = {
+            "browser.startup.homepage" = "https://www.perplexity.ai";
+            "browser.search.defaultenginename" = "DuckDuckGo";
+            "privacy.trackingprotection.enabled" = true;
+          };
+        };
       };
 
-      ".zshrc".source = ../../.zshrc;
+      ssh = {
+        enable = true;
+        enableDefaultConfig = false;
+
+        matchBlocks."ice" = {
+          host = "ice";
+          hostname = "login-ice.pace.gatech.edu";
+          user = "jshelton44";
+        };
+      };
     };
   };
 
-  programs = {
-    firefox = {
-      enable = true;
+  users.users.jeff = {
+    inherit home;
 
-      profiles.default = {
-        search = {
-          default = "ddg";
-          force = true;
-          privateDefault = "ddg";
-        };
+    description = "Jeff Shelton";
 
-        settings = {
-          "browser.startup.homepage" = "https://www.perplexity.ai";
-          "browser.search.defaultenginename" = "DuckDuckGo";
-          "privacy.trackingprotection.enabled" = true;
-        };
-      };
-    };
+    extraGroups = [
+      "audio"
+      "docker"
+      "i2c"
+      "input"
+      "lp"
+      "networkmanager"
+      "render"
+      "scanner"
+      "seat"
+      "video"
+      "wheel"
+    ];
 
-    ssh = {
-      enable = true;
-      enableDefaultConfig = false;
+    isNormalUser = true;
+    shell = pkgs.zsh;
 
-      matchBlocks."ice" = {
-        host = "ice";
-        hostname = "login-ice.pace.gatech.edu";
-        user = "jshelton44";
-      };
-    };
+    openssh.authorizedKeys.keys = with keys; [
+      ceres.jeff
+      jupiter.jeff
+      mercury.jeff
+    ];
   };
 }

@@ -1,6 +1,7 @@
 { pkgs, ... }:
 {
   imports = [
+    # General modules
     ../modules/ai.nix
     ../modules/dev.nix
     ../modules/fonts.nix
@@ -12,6 +13,7 @@
     ../modules/ssh.nix
     ../modules/typesetting.nix
 
+    # NixOS modules
     ../modules/nixos/audio.nix
     ../modules/nixos/auth.nix
     ../modules/nixos/cad.nix
@@ -38,6 +40,12 @@
     ../modules/nixos/virtualization.nix
     ../modules/nixos/vpn.nix
     ../modules/nixos/web.nix
+
+    # Server modules
+    ../modules/nixos/server/ssh.nix
+
+    # Users
+    ../users/jeff.nix
   ];
 
   boot = {
@@ -130,11 +138,10 @@
     i2c.enable = true;
   };
 
-  # Home manager versioning.
+  # Home manager
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    users.jeff = ../users/jeff.nix;
   };
 
   # Networking configuration.
@@ -166,26 +173,4 @@
   systemd.tmpfiles.rules = [
     "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
   ];
-
-  users.users.jeff = {
-    description = "Jeff Shelton";
-
-    extraGroups = [
-      "audio"
-      "docker"
-      "i2c"
-      "input"
-      "lp"
-      "networkmanager"
-      "render"
-      "scanner"
-      "seat"
-      "video"
-      "wheel"
-    ];
-
-    home = "/home/jeff";
-    isNormalUser = true;
-    shell = pkgs.zsh;
-  };
 }

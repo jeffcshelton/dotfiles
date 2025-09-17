@@ -1,6 +1,7 @@
 { ... }:
 {
   imports = [
+    # General modules
     ../modules/fonts.nix
     ../modules/dev.nix
     ../modules/ml.nix
@@ -11,6 +12,7 @@
     ../modules/ssh.nix
     ../modules/typesetting.nix
 
+    # macOS modules
     ../modules/macos/apps.nix
     ../modules/macos/containers.nix
     ../modules/macos/controlcenter.nix
@@ -21,6 +23,9 @@
     ../modules/macos/office.nix
     ../modules/macos/printing.nix
     ../modules/macos/terminal.nix
+
+    # Users
+    ../users/jeff.nix
   ];
 
   # Enable Homebrew support.
@@ -30,16 +35,10 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    users.jeff = ../users/jeff.nix;
   };
 
   system = {
     primaryUser = "jeff";
     stateVersion = 5;
-  };
-
-  users.users.jeff = {
-    name = "jeff";
-    home = "/Users/jeff";
   };
 }

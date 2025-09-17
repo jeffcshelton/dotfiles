@@ -1,6 +1,7 @@
 { lib, pkgs, ... }:
 {
   imports = [
+    # General modules
     ../modules/dev.nix
     ../modules/neovim.nix
     ../modules/nix.nix
@@ -8,15 +9,20 @@
     ../modules/shell.nix
     ../modules/ssh.nix
 
+    # NixOS modules
     ../modules/nixos/bluetooth.nix
     ../modules/nixos/debug.nix
     ../modules/nixos/kernel.nix
     ../modules/nixos/locale.nix
 
+    # Server modules
     ../modules/nixos/server/git.nix
     ../modules/nixos/server/ssh.nix
     ../modules/nixos/server/tunnel.nix
     ../modules/nixos/server/website.nix
+
+    # Users
+    ../users/admin.nix
   ];
 
   boot = {
@@ -102,21 +108,6 @@
   # The original Nix version installed on Mars.
   # Do not change this value unless the machine is wiped.
   system.stateVersion = "25.05";
-
-  users.users.jeff = {
-    description = "Jeff Shelton";
-    home = "/home/jeff";
-    isNormalUser = true;
-    shell = pkgs.zsh;
-
-    extraGroups = [
-      "dialout"
-      "gpio"
-      "i2c"
-      "spi"
-      "wheel"
-    ];
-  };
 
   # Enable compressed RAM swap, as Mars is a low-memory device.
   zramSwap.enable = true;

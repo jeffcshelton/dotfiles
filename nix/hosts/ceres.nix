@@ -1,8 +1,7 @@
 { inputs, lib, modulesPath, pkgs, ... }:
 {
   imports = [
-    (modulesPath + "/installer/scan/not-detected.nix")
-
+    # General modules
     ../modules/ai.nix
     ../modules/dev.nix
     ../modules/fonts.nix
@@ -12,8 +11,7 @@
     ../modules/shell.nix
     ../modules/ssh.nix
 
-    ../modules/nixos/aarch64/firefox.nix
-
+    # NixOS modules
     ../modules/nixos/audio.nix
     ../modules/nixos/auth.nix
     ../modules/nixos/bluetooth.nix
@@ -29,6 +27,17 @@
     ../modules/nixos/terminal.nix
     ../modules/nixos/web.nix
 
+    # aarch64 modules
+    ../modules/nixos/aarch64/firefox.nix
+
+    # Server modules
+    ../modules/nixos/server/ssh.nix
+
+    # Users
+    ../users/jeff.nix
+
+    # External modules
+    (modulesPath + "/installer/scan/not-detected.nix")
     inputs.asahi.nixosModules.apple-silicon-support
   ];
 
@@ -104,21 +113,4 @@
   swapDevices = [];
 
   system.stateVersion = "25.05";
-
-  users.users.jeff = {
-    description = "Jeff Shelton";
-
-    extraGroups = [
-      "audio"
-      "input"
-      "networkmanager"
-      "seat"
-      "video"
-      "wheel"
-    ];
-
-    home = "/home/jeff";
-    isNormalUser = true;
-    shell = pkgs.zsh;
-  };
 }
