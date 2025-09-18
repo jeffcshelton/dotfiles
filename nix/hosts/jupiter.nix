@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 {
   imports = [
     # General modules
@@ -136,6 +136,13 @@
 
     # Enables I2C control for controlling external display brightness.
     i2c.enable = true;
+
+    nvidia = {
+      modesetting.enable = true;
+      nvidiaSettings = true;
+      open = true;
+      package = config.boot.kernelPackages.nvidiaPackages.production;
+    };
   };
 
   # Home manager
@@ -157,7 +164,7 @@
       rocmOverrideGfx = "11.0.0";
     };
 
-    xserver.videoDrivers = [ "amdgpu" ];
+    xserver.videoDrivers = [ "amdgpu" "nvidia" ];
   };
 
   swapDevices = [
