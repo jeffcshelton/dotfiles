@@ -65,7 +65,7 @@
       qt6.qtwayland
 
       # Application launcher.
-      rofi-wayland
+      rofi
 
       # Allows selecting a portion of the screen.
       # Chained with "grim" to take screenshots of selected regions.
