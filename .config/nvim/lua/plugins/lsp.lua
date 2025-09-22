@@ -35,6 +35,7 @@ return {
       "openscad_lsp",
       "pyright",
       "rust_analyzer",
+      "sourcekit",
       "tinymist",
       "ts_ls",
     }

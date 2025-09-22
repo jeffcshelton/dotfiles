@@ -13,7 +13,6 @@
       "postman"
       "slack"
       "spotify"
-      "wireshark"
     ];
 
     # Apps from the App Store.

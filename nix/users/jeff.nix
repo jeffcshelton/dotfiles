@@ -62,6 +62,8 @@ in
         };
       };
     };
+
+    stateVersion = "25.05";
   };
 
   users.users.jeff = {

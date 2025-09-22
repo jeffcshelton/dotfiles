@@ -37,6 +37,11 @@
     useUserPackages = true;
   };
 
+  nix.linux-builder = {
+    enable = true;
+    maxJobs = 4;
+  };
+
   system = {
     primaryUser = "jeff";
     stateVersion = 5;
