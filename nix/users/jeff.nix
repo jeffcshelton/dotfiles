@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 let
   dotConfig = builtins.listToAttrs
   (
@@ -62,15 +62,20 @@ in
         };
       };
     };
-
-    stateVersion = "25.05";
   };
 
   users.users.jeff = {
     inherit home;
-
     description = "Jeff Shelton";
+    shell = pkgs.zsh;
 
+    openssh.authorizedKeys.keys = with keys; [
+      ceres.jeff
+      jupiter.jeff
+      mercury.jeff
+    ];
+  } // (lib.optionalAttrs pkgs.stdenv.isLinux {
+    isNormalUser = true;
     extraGroups = [
       "audio"
       "docker"
@@ -85,14 +90,5 @@ in
       "video"
       "wheel"
     ];
-
-    isNormalUser = true;
-    shell = pkgs.zsh;
-
-    openssh.authorizedKeys.keys = with keys; [
-      ceres.jeff
-      jupiter.jeff
-      mercury.jeff
-    ];
-  };
+  });
 }
