@@ -74,6 +74,7 @@ in
       "docker"
       "i2c"
       "input"
+      "kvm"
       "lp"
       "networkmanager"
       "render"

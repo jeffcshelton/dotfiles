@@ -61,11 +61,6 @@
         "xhci_pci"
       ];
 
-      kernelModules = [
-        # Support for the AMD graphics card.
-        "amdgpu"
-      ];
-
       luks.devices = {
         "luks-508ef57e-97a2-444d-9a3d-058e17af064b" = {
           device = "/dev/disk/by-uuid/508ef57e-97a2-444d-9a3d-058e17af064b";
@@ -95,9 +90,7 @@
   };
 
   environment.systemPackages = with pkgs; [
-    # Diagnostic tools for AMD GPUs.
-    rocmPackages.rocm-smi
-    rocmPackages.rocminfo
+    nvidia-vaapi-driver
   ];
 
   fileSystems = {
@@ -114,8 +107,6 @@
   };
 
   hardware = {
-    amdgpu.opencl.enable = true;
-
     # Enable microcode updates to the AMD CPU.
     cpu.amd.updateMicrocode = true;
     enableRedistributableFirmware = true;
@@ -123,15 +114,6 @@
     graphics = {
       enable = true;
       enable32Bit = true;
-
-      extraPackages = with pkgs; [
-        amdvlk
-        rocmPackages.clr.icd
-      ];
-
-      extraPackages32 = with pkgs; [
-        driversi686Linux.amdvlk
-      ];
     };
 
     # Enables I2C control for controlling external display brightness.
@@ -158,14 +140,7 @@
   };
 
   # Instructs services to use AMD GPU drivers for rendering.
-  services = {
-    ollama = {
-      acceleration = "rocm";
-      rocmOverrideGfx = "11.0.0";
-    };
-
-    xserver.videoDrivers = [ "amdgpu" "nvidia" ];
-  };
+  services.xserver.videoDrivers = [ "nvidia" ];
 
   swapDevices = [
     { device = "/dev/disk/by-uuid/203490f0-236f-496c-a686-1991051a8556"; }
@@ -174,10 +149,4 @@
   # The original Nix version installed on Jupiter.
   # Do not change this value unless the machine is wiped.
   system.stateVersion = "24.11";
-
-  # Most software has the HIP libraries hard-coded.
-  # This line ensures that programs can find the libraries.
-  systemd.tmpfiles.rules = [
-    "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
-  ];
 }

@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ inputs, pkgs, ... }:
 {
   imports = [
     # General modules
@@ -23,6 +23,10 @@
 
     # Users
     ../users/admin.nix
+
+    # Hardware modules
+    inputs.disko.nixosModules.disko
+    inputs.nixos-hardware.nixosModules.raspberry-pi-4
   ];
 
   boot = {
@@ -35,41 +39,60 @@
       "spidev"
     ];
 
-    loader.generic-extlinux-compatible = {
-      enable = true;
-      configurationLimit = 1;
+    kernelPackages = pkgs.linuxPackages_6_6;
+
+    loader = {
+      timeout = 0;
+      generic-extlinux-compatible.enable = true;
     };
   };
 
   # Disable consoles because there is no display.
   console.enable = false;
 
+  disko.devices = {
+    disk.main = {
+      device = "/dev/sda";
+      imageSize = "16G";
+      type = "disk";
+
+      content = {
+        type = "gpt";
+        partitions = {
+          boot = {
+            size = "1M";
+            type = "EF02";
+          };
+
+          ESP = {
+            type = "EF00";
+            size = "512M";
+            content = {
+              format = "vfat";
+              mountOptions = [ "umask=0077" ];
+              mountpoint = "/boot";
+              type = "filesystem";
+            };
+          };
+
+          root = {
+            size = "100%";
+            content = {
+              format = "ext4";
+              mountpoint = "/";
+              type = "filesystem";
+            };
+          };
+        };
+      };
+    };
+  };
+
   # Include packages specific to the Pi 4B.
   environment.systemPackages = with pkgs; [
     libraspberrypi
     raspberrypi-eeprom
   ];
-
-  hardware = {
-    raspberry-pi."4" = {
-      apply-overlays-dtmerge.enable = true;
-      fkms-3d.enable = true;
-    };
-  };
-
-  fileSystems = lib.mkDefault {
-    "/" = {
-      device = "/dev/disk/by-label/NIXOS_SD";
-      fsType = "ext4";
-      autoResize = true;
-    };
-
-    "/boot" = {
-      device = "/dev/disk/by-label/FIRMWARE";
-      fsType = "vfat";
-      options = [ "fmask=0022" "dmask=0022" ];
-    };
-  };
 
   # Networking configuration.
   networking = {
@@ -86,12 +109,12 @@
   # a temporary workaround until that issue can be fixed.
   #
   # See: https://github.com/NixOS/nixpkgs/issues/154163
-  nixpkgs.overlays = [
-    (final: super: {
-      makeModulesClosure = modules:
-        super.makeModulesClosure (modules // { allowMissing = true; });
-    })
-  ];
+  # nixpkgs.overlays = [
+  #   (final: super: {
+  #     makeModulesClosure = modules:
+  #       super.makeModulesClosure (modules // { allowMissing = true; });
+  #   })
+  # ];
 
   # It's necessary to disable sudo's password requirement for wheel users since
   # the primary user does not have a password.

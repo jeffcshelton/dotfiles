@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, inputs, lib, ... }:
 let
   secrets = lib.mapAttrs' (key: value:
     {
@@ -18,6 +18,10 @@ let
   ) config.server.tunnels;
 in
 {
+  imports = [
+    inputs.agenix.nixosModules.default
+  ];
+
   config = {
     age.secrets = secrets;
 

@@ -36,7 +36,7 @@
     # Users
     ../users/jeff.nix
 
-    # External modules
+    # Hardware modules
     (modulesPath + "/installer/scan/not-detected.nix")
     inputs.asahi.nixosModules.apple-silicon-support
   ];

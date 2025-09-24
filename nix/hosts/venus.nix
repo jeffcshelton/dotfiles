@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ inputs, lib, pkgs, ... }:
 {
   imports = [
     # General modules
@@ -20,6 +20,9 @@
 
     # Users
     ../users/admin.nix
+
+    # Hardware modules
+    inputs.nixos-hardware.nixosModules.raspberry-pi-4
   ];
 
   boot = {

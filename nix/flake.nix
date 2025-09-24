@@ -6,48 +6,31 @@
     asahi.url = "github:nix-community/nixos-apple-silicon";
 
     darwin = {
-      inputs.nixpkgs.follows = "nixpkgs";
       url = "github:LnL7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     home-manager = {
-      inputs.nixpkgs.follows = "nixpkgs";
       url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixos-generators.url = "github:nix-community/nixos-generators";
     nixos-hardware.url = "github:NixOS/nixos-hardware";
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     rose-pine-hyprcursor.url = "github:ndom91/rose-pine-hyprcursor";
     website.url = "github:jeffcshelton/shelton.one";
   };
 
-  outputs = {
-    agenix,
-    darwin,
-    home-manager,
-    nixos-generators,
-    nixos-hardware,
-    nixpkgs,
-    website,
-    ...
-  } @ inputs:
-  let
-    # Modules that should be included for all machines.
-    darwinModules = [
-      agenix.darwinModules.default
-      home-manager.darwinModules.home-manager
-    ];
-
-    nixosModules = [
-      agenix.nixosModules.default
-      home-manager.nixosModules.home-manager
-      website.nixosModules.default
-    ];
-  in {
+  outputs = { darwin, home-manager, nixpkgs, ... } @ inputs:
+  rec {
     darwinConfigurations = {
       mercury = darwin.lib.darwinSystem {
-        modules = darwinModules ++ [ ./hosts/mercury.nix ];
+        modules = [ ./hosts/mercury.nix ];
         specialArgs = { inherit inputs; };
         system = "aarch64-darwin";
       };
@@ -55,58 +38,55 @@
 
     nixosConfigurations = {
       ceres = nixpkgs.lib.nixosSystem {
-	      modules = nixosModules ++ [ ./hosts/ceres.nix ];
+	      modules = [ ./hosts/ceres.nix ];
         specialArgs = { inherit inputs; };
         system = "aarch64-linux";
       };
 
       jupiter = nixpkgs.lib.nixosSystem {
-        modules = nixosModules ++ [ ./hosts/jupiter.nix ];
+        modules = [ home-manager.nixosModules.home-manager ./hosts/jupiter.nix ];
         specialArgs = { inherit inputs; };
         system = "x86_64-linux";
       };
 
       mars = nixpkgs.lib.nixosSystem {
-        modules = nixosModules ++ [
-          nixos-hardware.nixosModules.raspberry-pi-4
-          ./hosts/mars.nix
-        ];
-
+        modules = [ ./hosts/mars.nix ];
         specialArgs = { inherit inputs; };
         system = "aarch64-linux";
       };
 
       venus = nixpkgs.lib.nixosSystem {
-        modules = nixosModules ++ [
-          nixos-hardware.nixosModules.raspberry-pi-4
-          ./hosts/venus.nix
-        ];
-
+        modules = [ ./hosts/venus.nix ];
         specialArgs = { inherit inputs; };
         system = "aarch64-linux";
       };
     };
 
-    image = {
-      mars = nixos-generators.nixosGenerate {
-        format = "sd-aarch64";
-        modules = nixosModules ++ [
-          nixos-hardware.nixosModules.raspberry-pi-4
-          ./hosts/mars.nix
-        ];
+    image.mars =
+      let
+        nixosConfig = nixosConfigurations.mars;
+        pkgs = nixosConfig.pkgs;
+        script = nixosConfig.config.system.build.diskoImagesScript;
+      in
+      pkgs.stdenv.mkDerivation {
+        pname = "mars-img";
+        version = "1.0.0";
 
-        system = "aarch64-linux";
+        dontUnpack = true;
+        src = null;
+        nativeBuildInputs = [ pkgs.bash ];
+
+        buildPhase = ''
+          ${script} --build-memory 2048
+        '';
+
+        installPhase = ''
+          mv main.raw $out
+        '';
+
+        # Skip the fixup phase because it attempts to scan the disk image for
+        # Nix store paths, which is unnecessary and takes a while.
+        fixupPhase = ":";
       };
-
-      venus = nixos-generators.nixosGenerate {
-        format = "sd-aarch64";
-        modules = nixosModules ++ [
-          nixos-hardware.nixosModules.raspberry-pi-4
-          ./hosts/venus.nix
-        ];
-
-        system = "aarch64-linux";
-      };
-    };
   };
 }
