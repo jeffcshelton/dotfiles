@@ -2,7 +2,6 @@
 {
   imports = [
     # General modules
-    ../modules/ai.nix
     ../modules/dev.nix
     ../modules/fonts.nix
     ../modules/neovim.nix

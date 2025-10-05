@@ -23,11 +23,6 @@ in
       stateVersion = "25.05";
 
       file = dotConfig // {
-        ".codex" = {
-          source = ../../.codex;
-          recursive = true;
-        };
-
         ".zshrc".source = ../../.zshrc;
       };
     };

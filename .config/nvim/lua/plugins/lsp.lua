@@ -1,27 +1,25 @@
 -- TODO: Consider moving to the new, native LSP API.
 return {
   "neovim/nvim-lspconfig",
-  cmd = { "LspInfo", "LspInstall", "LspStart" },
+  cmd = { "LspInfo", "LspStart" },
   dependencies = {
     { "hrsh7th/cmp-nvim-lsp" },
   },
   event = { "BufReadPre", "BufNewFile" },
   config = function()
-    local lspconfig = require("lspconfig")
-    local defaults = lspconfig.util.default_config
-
-    defaults.capabilities = vim.tbl_deep_extend(
-      "force",
-      defaults.capabilities,
-      require("cmp_nvim_lsp").default_capabilities()
-    )
+    local capabilities = vim.lsp.protocol.make_client_capabilities()
+    capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+    vim.lsp.config.capabilities = capabilities
 
     vim.api.nvim_create_autocmd("LspAttach", {
       desc = "LSP Actions",
       callback = function(event)
         local opts = { buffer = event.buf }
 
-        vim.keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<cr>", opts)
+        vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+        vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+        vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
       end,
     })
 
@@ -41,7 +39,7 @@ return {
     }
 
     for _, server in ipairs(servers) do
-      lspconfig[server].setup({})
+      vim.lsp.enable(server)
     end
   end,
   lazy = false,

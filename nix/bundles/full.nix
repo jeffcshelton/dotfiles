@@ -1,7 +1,6 @@
 { ... }:
 {
   imports = [
-    ../modules/ai.nix
     ../modules/audio.nix
     ../modules/auth.nix
     ../modules/cad.nix
