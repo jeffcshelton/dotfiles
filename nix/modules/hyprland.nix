@@ -1,7 +1,7 @@
 # Hyprland desktop environment configuration.
 
-{ inputs, pkgs, ... }:
-{
+{ inputs, isLinux, lib, pkgs, ... }:
+lib.optionalAttrs isLinux {
   environment = {
     sessionVariables = {
       # Hint to Electron apps to use Wayland.

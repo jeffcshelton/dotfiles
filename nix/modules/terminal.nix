@@ -14,7 +14,7 @@ lib.mkMerge [
 
   (lib.optionalAttrs isLinux {
     environment = {
-      environment.systemPackages = with pkgs; [
+      systemPackages = with pkgs; [
         ghostty
       ];
 

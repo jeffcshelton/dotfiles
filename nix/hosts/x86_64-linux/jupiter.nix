@@ -1,51 +1,15 @@
-{ config, pkgs, ... }:
+{ config, inputs, pkgs, ... }:
 {
   imports = [
-    # General modules
-    ../modules/ai.nix
-    ../modules/dev.nix
-    ../modules/fonts.nix
-    ../modules/ml.nix
-    ../modules/neovim.nix
-    ../modules/nix.nix
-    ../modules/rust.nix
-    ../modules/shell.nix
-    ../modules/ssh.nix
-    ../modules/typesetting.nix
-
-    # NixOS modules
-    ../modules/nixos/audio.nix
-    ../modules/nixos/auth.nix
-    ../modules/nixos/cad.nix
-    ../modules/nixos/chrome.nix
-    ../modules/nixos/conference.nix
-    ../modules/nixos/email.nix
-    ../modules/nixos/debug.nix
-    ../modules/nixos/emulation.nix
-    ../modules/nixos/firefox.nix
-    ../modules/nixos/fpga.nix
-    ../modules/nixos/gnome.nix
-    ../modules/nixos/hyprland.nix
-    ../modules/nixos/llm.nix
-    ../modules/nixos/locale.nix
-    ../modules/nixos/minecraft.nix
-    ../modules/nixos/music.nix
-    ../modules/nixos/obsidian.nix
-    ../modules/nixos/office.nix
-    ../modules/nixos/photo.nix
-    ../modules/nixos/printing.nix
-    ../modules/nixos/rgb.nix
-    ../modules/nixos/terminal.nix
-    ../modules/nixos/video.nix
-    ../modules/nixos/virtualization.nix
-    ../modules/nixos/vpn.nix
-    ../modules/nixos/web.nix
-
-    # Server modules
-    ../modules/nixos/server/ssh.nix
+    # Bundle
+    ../../bundles/full.nix
 
     # Users
-    ../users/jeff.nix
+    ../../users/jeff.nix
+
+    # External
+    inputs.agenix.nixosModules.default
+    inputs.home-manager.nixosModules.default
   ];
 
   boot = {
