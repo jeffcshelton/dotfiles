@@ -1,5 +1,9 @@
-{ ... }:
+{ pkgs, ... }:
 {
+  environment.systemPackages = with pkgs; [
+    _1password-gui
+  ];
+
   programs = {
     # Despite the strange names, these are the official 1Password packages.
     _1password.enable = true;

@@ -1,7 +1,7 @@
 # Printing configuration not specific to hardware.
 
-{ ... }:
-{
+{ isLinux, lib, ... }:
+lib.optionalAttrs isLinux {
   # Enable document scanning support.
   hardware.sane.enable = true;
 

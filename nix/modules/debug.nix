@@ -1,7 +1,7 @@
 # Packages and configuration related to enabling system debugging.
 
-{ pkgs, ... }:
-{
+{ isLinux, lib, pkgs, ... }:
+lib.optionalAttrs isLinux {
   environment.systemPackages = with pkgs; [
     usbutils
   ];

@@ -1,7 +1,7 @@
 # Audio configuration that is not specific to hardware.
 
-{ ... }:
-{
+{ isLinux, lib, ... }:
+lib.optionalAttrs isLinux {
   # Real-time kit is used by PipeWire for audio processing.
   security.rtkit.enable = true;
 

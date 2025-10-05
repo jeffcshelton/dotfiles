@@ -22,71 +22,41 @@
 
     nixos-hardware.url = "github:NixOS/nixos-hardware";
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
     rose-pine-hyprcursor.url = "github:ndom91/rose-pine-hyprcursor";
     website.url = "github:jeffcshelton/shelton.one";
   };
 
-  outputs = { darwin, home-manager, nixpkgs, ... } @ inputs:
-  rec {
-    darwinConfigurations = {
-      mercury = darwin.lib.darwinSystem {
-        modules = [ ./hosts/mercury.nix ];
-        specialArgs = { inherit inputs; };
-        system = "aarch64-darwin";
-      };
+  outputs = inputs:
+    let
+      hosts = import ./hosts inputs;
+    in
+    hosts // {
+      image.mars =
+        let
+          nixosConfig = hosts.nixosConfigurations.mars;
+          pkgs = nixosConfig.pkgs;
+          script = nixosConfig.config.system.build.diskoImagesScript;
+        in
+        pkgs.stdenv.mkDerivation {
+          pname = "mars-img";
+          version = "1.0.0";
+
+          dontUnpack = true;
+          src = null;
+          nativeBuildInputs = [ pkgs.bash ];
+
+          buildPhase = ''
+            ${script} --build-memory 2048
+          '';
+
+          installPhase = ''
+            mv main.raw $out
+          '';
+
+          # Skip the fixup phase because it attempts to scan the disk image for
+          # Nix store paths, which is unnecessary and takes a while.
+          fixupPhase = ":";
+        };
     };
-
-    nixosConfigurations = {
-      ceres = nixpkgs.lib.nixosSystem {
-	      modules = [ ./hosts/ceres.nix ];
-        specialArgs = { inherit inputs; };
-        system = "aarch64-linux";
-      };
-
-      jupiter = nixpkgs.lib.nixosSystem {
-        modules = [ home-manager.nixosModules.home-manager ./hosts/jupiter.nix ];
-        specialArgs = { inherit inputs; };
-        system = "x86_64-linux";
-      };
-
-      mars = nixpkgs.lib.nixosSystem {
-        modules = [ ./hosts/mars.nix ];
-        specialArgs = { inherit inputs; };
-        system = "aarch64-linux";
-      };
-
-      venus = nixpkgs.lib.nixosSystem {
-        modules = [ ./hosts/venus.nix ];
-        specialArgs = { inherit inputs; };
-        system = "aarch64-linux";
-      };
-    };
-
-    image.mars =
-      let
-        nixosConfig = nixosConfigurations.mars;
-        pkgs = nixosConfig.pkgs;
-        script = nixosConfig.config.system.build.diskoImagesScript;
-      in
-      pkgs.stdenv.mkDerivation {
-        pname = "mars-img";
-        version = "1.0.0";
-
-        dontUnpack = true;
-        src = null;
-        nativeBuildInputs = [ pkgs.bash ];
-
-        buildPhase = ''
-          ${script} --build-memory 2048
-        '';
-
-        installPhase = ''
-          mv main.raw $out
-        '';
-
-        # Skip the fixup phase because it attempts to scan the disk image for
-        # Nix store paths, which is unnecessary and takes a while.
-        fixupPhase = ":";
-      };
-  };
 }

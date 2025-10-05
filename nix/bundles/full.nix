@@ -1,0 +1,39 @@
+{ ... }:
+{
+  imports = [
+    ../modules/ai.nix
+    ../modules/audio.nix
+    ../modules/auth.nix
+    ../modules/cad.nix
+    ../modules/debug.nix
+    ../modules/dev.nix
+    ../modules/dock.nix
+    ../modules/emulation.nix
+    ../modules/firefox.nix
+    ../modules/fonts.nix
+    ../modules/fpga.nix
+    ../modules/homebrew.nix
+    ../modules/locale.nix
+    ../modules/minecraft.nix
+    ../modules/neovim.nix
+    ../modules/nix.nix
+    ../modules/notes.nix
+    ../modules/office.nix
+    ../modules/photo.nix
+    ../modules/printing.nix
+    ../modules/rgb.nix
+    ../modules/rust.nix
+    ../modules/shell.nix
+    ../modules/spotify.nix
+    ../modules/ssh.nix
+    ../modules/teams.nix
+    ../modules/terminal.nix
+    ../modules/typesetting.nix
+    ../modules/video.nix
+    ../modules/virtualization.nix
+    ../modules/vpn.nix
+    ../modules/web.nix
+
+    ../modules/server/ssh.nix
+  ];
+}

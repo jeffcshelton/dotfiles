@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ isDarwin, isLinux, lib, pkgs, ... }:
 let
   dotConfig = builtins.listToAttrs
   (
@@ -12,7 +12,7 @@ let
     (builtins.attrNames (builtins.readDir ../../.config))
   );
 
-  home = if pkgs.stdenv.isDarwin then "/Users/jeff" else "/home/jeff";
+  home = if isDarwin then "/Users/jeff" else "/home/jeff";
   keys = import ../keys;
 in
 {
@@ -64,31 +64,34 @@ in
     };
   };
 
-  users.users.jeff = {
-    inherit home;
-    description = "Jeff Shelton";
-    shell = pkgs.zsh;
+  users.users.jeff = lib.mkMerge [
+    {
+      inherit home;
+      description = "Jeff Shelton";
+      shell = pkgs.zsh;
 
-    openssh.authorizedKeys.keys = with keys; [
-      ceres.jeff
-      jupiter.jeff
-      mercury.jeff
-    ];
-  } // (lib.optionalAttrs pkgs.stdenv.isLinux {
-    isNormalUser = true;
-    extraGroups = [
-      "audio"
-      "docker"
-      "i2c"
-      "input"
-      "kvm"
-      "lp"
-      "networkmanager"
-      "render"
-      "scanner"
-      "seat"
-      "video"
-      "wheel"
-    ];
-  });
+      openssh.authorizedKeys.keys = with keys; [
+        ceres.jeff
+        jupiter.jeff
+        mercury.jeff
+      ];
+    }
+
+    (lib.optionalAttrs isLinux {
+      isNormalUser = true;
+      extraGroups = [
+        "audio"
+        "docker"
+        "i2c"
+        "input"
+        "lp"
+        "networkmanager"
+        "render"
+        "scanner"
+        "seat"
+        "video"
+        "wheel"
+      ];
+    })
+  ];
 }

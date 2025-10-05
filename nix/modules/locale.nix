@@ -1,7 +1,7 @@
 # English US locale configuration.
 
-{ ... }:
-{
+{ isLinux, lib, ... }:
+lib.optionalAttrs isLinux {
   i18n = {
     defaultLocale = "en_US.UTF-8";
     extraLocaleSettings = {

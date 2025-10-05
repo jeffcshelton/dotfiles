@@ -1,5 +1,5 @@
-{ ... }:
-{
+{ isDarwin, lib, ... }:
+lib.optionalAttrs isDarwin {
   # Universal Homebrew configuration for macOS machines.
   # This does not include any brews/casks/apps because those are per-module.
   homebrew = {
