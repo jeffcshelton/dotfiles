@@ -7,11 +7,6 @@
 # Ignore the dynamically constructed Waybar config.
 .config/waybar/config.jsonc
 
-# Ignore auto-generated Codex files.
-.codex/sessions/
-.codex/history.json
-.codex/update-check.json
-
 # Ignore locally symlinked files built with `nix build`.
 images/
 result

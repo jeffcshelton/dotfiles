@@ -5,5 +5,19 @@ return {
   },
   config = function()
     require("claude-code").setup()
-  end
+  end,
+  keys = {
+    {
+      "<leader>ca",
+      ":ClaudeCode<CR>",
+    },
+    {
+      "<leader>cc",
+      ":ClaudeCodeContinue<CR>",
+    },
+    {
+      "<leader>cr",
+      ":ClaudeCodeResume<CR>",
+    },
+  },
 }
