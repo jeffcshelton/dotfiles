@@ -1,7 +1,7 @@
 # GNOME desktop environment configuration.
 
-{ pkgs, ... }:
-{
+{ isLinux, lib, pkgs, ... }:
+lib.optionalAttrs isLinux {
   environment.gnome.excludePackages = with pkgs; [
     epiphany
     gnome-maps

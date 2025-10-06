@@ -4,10 +4,12 @@
     ../modules/audio.nix
     ../modules/auth.nix
     ../modules/cad.nix
+    ../modules/controlcenter.nix
     ../modules/debug.nix
     ../modules/dev.nix
     ../modules/dock.nix
     ../modules/emulation.nix
+    ../modules/files.nix
     ../modules/firefox.nix
     ../modules/fonts.nix
     ../modules/fpga.nix

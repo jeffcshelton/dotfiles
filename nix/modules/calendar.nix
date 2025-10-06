@@ -1,5 +1,5 @@
-{ pkgs, ... }:
-{
+{ isLinux, lib, pkgs, ... }:
+lib.optionalAttrs isLinux {
   # Wrap the GNOME control center so that it thinks it's running under GNOME.
   environment.systemPackages = [
     (pkgs.writeShellScriptBin "gnome-control-center" ''
