@@ -19,7 +19,7 @@
     ../modules/nixos/server/git.nix
     ../modules/nixos/server/ssh.nix
     ../modules/nixos/server/tunnel.nix
-    ../modules/nixos/server/website.nix
+    ../modules/nixos/server/shelton-one.nix
 
     # Users
     ../users/admin.nix

@@ -45,9 +45,6 @@
     # Enables quick searching of text throughout a project.
     ripgrep
 
-    # Swift and Objective-C language server.
-    sourcekit-lsp
-
     # Typst language server.
     tinymist
 
