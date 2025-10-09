@@ -4,7 +4,7 @@ let
     {
       name = "cloudflare-${key}";
       value = {
-        file = ../../../secrets/cloudflare-${key}.json.age;
+        file = ../../secrets/cloudflare-${key}.json.age;
       };
     }
   ) config.server.tunnels;

@@ -2,27 +2,26 @@
 {
   imports = [
     # General modules
-    ../modules/dev.nix
-    ../modules/neovim.nix
-    ../modules/nix.nix
-    ../modules/rust.nix
-    ../modules/shell.nix
-    ../modules/ssh.nix
-
-    # NixOS modules
-    ../modules/nixos/bluetooth.nix
-    ../modules/nixos/debug.nix
-    ../modules/nixos/kernel.nix
-    ../modules/nixos/locale.nix
+    ../../modules/bluetooth.nix
+    ../../modules/debug.nix
+    ../../modules/dev.nix
+    ../../modules/kernel.nix
+    ../../modules/locale.nix
+    ../../modules/neovim.nix
+    ../../modules/nix.nix
+    ../../modules/rust.nix
+    ../../modules/shell.nix
+    ../../modules/ssh.nix
 
     # Server modules
-    ../modules/nixos/server/git.nix
-    ../modules/nixos/server/ssh.nix
-    ../modules/nixos/server/tunnel.nix
-    ../modules/nixos/server/shelton-one.nix
+    ../../modules/server/git.nix
+    ../../modules/server/ssh.nix
+    ../../modules/server/tunnel.nix
+    ../../modules/server/portal-labs-cc.nix
+    ../../modules/server/shelton-one.nix
 
     # Users
-    ../users/admin.nix
+    ../../users/admin.nix
 
     # Hardware modules
     inputs.disko.nixosModules.disko
@@ -124,8 +123,9 @@
 
   # Cloudflare tunnel definition and rules.
   server.tunnels."2ef66204-58a9-4489-ba95-e1422803e192".ingress = {
-    "shelton.one" = "http://localhost:80";
     "mars.shelton.one" = "ssh://localhost:22";
+    "portal-labs.cc" = "http://localhost:7201";
+    "shelton.one" = "http://localhost:4390";
   };
 
   # The original Nix version installed on Mars.
