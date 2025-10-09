@@ -2,42 +2,41 @@
 {
   imports = [
     # General modules
-    ../modules/dev.nix
-    ../modules/fonts.nix
-    ../modules/neovim.nix
-    ../modules/nix.nix
-    ../modules/rust.nix
-    ../modules/shell.nix
-    ../modules/ssh.nix
+    ../../modules/dev.nix
+    ../../modules/fonts.nix
+    ../../modules/neovim.nix
+    ../../modules/nix.nix
+    ../../modules/rust.nix
+    ../../modules/shell.nix
+    ../../modules/ssh.nix
 
     # NixOS modules
-    ../modules/nixos/audio.nix
-    ../modules/nixos/auth.nix
-    ../modules/nixos/bluetooth.nix
-    ../modules/nixos/calendar.nix
-    ../modules/nixos/email.nix
-    ../modules/nixos/gnome.nix
-    ../modules/nixos/hyprland.nix
-    ../modules/nixos/kernel.nix
-    ../modules/nixos/locale.nix
-    ../modules/nixos/obsidian.nix
-    ../modules/nixos/office.nix
-    ../modules/nixos/printing.nix
-    ../modules/nixos/terminal.nix
-    ../modules/nixos/web.nix
-
-    # aarch64 modules
-    ../modules/nixos/aarch64/firefox.nix
+    ../../modules/audio.nix
+    ../../modules/auth.nix
+    ../../modules/bluetooth.nix
+    ../../modules/calendar.nix
+    ../../modules/firefox.nix
+    ../../modules/gnome.nix
+    ../../modules/hyprland.nix
+    ../../modules/kernel.nix
+    ../../modules/locale.nix
+    ../../modules/obsidian.nix
+    ../../modules/office.nix
+    ../../modules/printing.nix
+    ../../modules/terminal.nix
+    ../../modules/web.nix
 
     # Server modules
-    ../modules/nixos/server/ssh.nix
+    ../../modules/server/ssh.nix
 
     # Users
-    ../users/jeff.nix
+    ../../users/jeff.nix
 
     # Hardware modules
     (modulesPath + "/installer/scan/not-detected.nix")
+    inputs.agenix.nixosModules.default
     inputs.asahi.nixosModules.apple-silicon-support
+    inputs.home-manager.nixosModules.default
   ];
 
   # Boot configuration.
@@ -82,7 +81,7 @@
 
   hardware = {
     asahi = {
-      peripheralFirmwareDirectory = ../firmware/asahi;
+      peripheralFirmwareDirectory = ../../firmware/asahi;
       setupAsahiSound = true;
     };
 
@@ -90,13 +89,6 @@
       enable = true;
       package = lib.mkForce pkgs.mesa;
     };
-  };
-
-  # Home manager configuration.
-  home-manager = {
-    useGlobalPkgs = true;
-    useUserPackages = true;
-    users.jeff = ../users/jeff.nix;
   };
 
   # Enable DHCP on all Ethernet and wireless interfaces.

@@ -32,7 +32,7 @@ lib.mkMerge [
   # is required for playing DRM content such as Spotify music.
   (lib.optionalAttrs (system == "aarch64-linux") (
     let
-      ffwv = pkgs.callPackage ../../derivations/ffwv.nix {};
+      ffwv = pkgs.callPackage ../derivations/ffwv.nix {};
     in
     {
       environment = {
