@@ -21,6 +21,7 @@
     };
 
     nixos-hardware.url = "github:NixOS/nixos-hardware";
+    nixos-generators.url = "github:nix-community/nixos-generators";
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
     portal-labs-cc.url = "github:jeffcshelton/portal-labs.cc";
@@ -28,36 +29,21 @@
     shelton-one.url = "github:jeffcshelton/shelton.one";
   };
 
-  outputs = inputs:
+  outputs = { nixos-generators, ... } @ inputs:
     let
       hosts = import ./hosts inputs;
     in
     hosts // {
-      image.mars =
-        let
-          nixosConfig = hosts.nixosConfigurations.mars;
-          pkgs = nixosConfig.pkgs;
-          script = nixosConfig.config.system.build.diskoImagesScript;
-        in
-        pkgs.stdenv.mkDerivation {
-          pname = "mars-img";
-          version = "1.0.0";
-
-          dontUnpack = true;
-          src = null;
-          nativeBuildInputs = [ pkgs.bash ];
-
-          buildPhase = ''
-            ${script} --build-memory 2048
-          '';
-
-          installPhase = ''
-            mv main.raw $out
-          '';
-
-          # Skip the fixup phase because it attempts to scan the disk image for
-          # Nix store paths, which is unnecessary and takes a while.
-          fixupPhase = ":";
+      images.mars = nixos-generators.nixosGenerate {
+        format = "sd-aarch64";
+        modules = [ ./hosts/aarch64-linux/mars.nix ];
+        system = "aarch64-linux";
+        specialArgs = {
+          inherit inputs;
+          system = "aarch64-linux";
+          isDarwin = false;
+          isLinux = true;
         };
+      };
     };
 }

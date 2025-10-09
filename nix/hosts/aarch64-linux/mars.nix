@@ -54,44 +54,6 @@ in
   # Disable consoles because there is no display.
   console.enable = false;
 
-  disko.devices = {
-    disk.main = {
-      device = "/dev/sda";
-      imageSize = "16G";
-      type = "disk";
-
-      content = {
-        type = "gpt";
-        partitions = {
-          boot = {
-            size = "1M";
-            type = "EF02";
-          };
-
-          ESP = {
-            type = "EF00";
-            size = "512M";
-            content = {
-              format = "vfat";
-              mountOptions = [ "umask=0077" ];
-              mountpoint = "/boot";
-              type = "filesystem";
-            };
-          };
-
-          root = {
-            size = "100%";
-            content = {
-              format = "ext4";
-              mountpoint = "/";
-              type = "filesystem";
-            };
-          };
-        };
-      };
-    };
-  };
-
   # Networking configuration.
   networking = {
     hostName = "mars";
