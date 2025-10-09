@@ -10,3 +10,4 @@
 # Ignore locally symlinked files built with `nix build`.
 images/
 result
+/nix/secrets/.decrypted

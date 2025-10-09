@@ -1,4 +1,8 @@
-{ config, inputs, pkgs, ... }:
+{ inputs, pkgs, ... }:
+let
+  systemKey = builtins.getEnv "SYSTEM_KEY";
+  systemKeyFile = pkgs.writeText "ssh_host_ed25519_key" systemKey;
+in
 {
   imports = [
     # General modules
@@ -107,22 +111,16 @@
     "shelton.one" = "http://localhost:4390";
   };
 
-  age.secrets.system-key = {
-    file = ../../secrets/keys/mars/system.pem.age;
-    mode = "0600";
-    owner = "root";
-    group = "root";
+  environment.etc = {
+    "ssh/ssh_host_ed25519_key" = {
+      mode = "0600";
+      source = systemKeyFile;
+    };
   };
 
   services = {
     "portal-labs.cc".port = 7201;
     "shelton.one".port = 4390;
-    openssh.hostKeys = [
-      {
-        type = "ed25519";
-        path = config.age.secrets.system-key.path;
-      }
-    ];
   };
 
   # The original Nix version installed on Mars.
