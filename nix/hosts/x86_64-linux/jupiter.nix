@@ -10,8 +10,6 @@
     # External
     inputs.agenix.nixosModules.default
     inputs.home-manager.nixosModules.default
-
-    ../../modules/server/portal-labs-cc.nix
   ];
 
   boot = {

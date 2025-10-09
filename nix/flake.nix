@@ -23,7 +23,7 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware";
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.05";
-    portal-labs-cc.url = "path:/home/jeff/Dev/portal-labs.cc";
+    portal-labs-cc.url = "github:jeffcshelton/portal-labs.cc";
     rose-pine-hyprcursor.url = "github:ndom91/rose-pine-hyprcursor";
     shelton-one.url = "github:jeffcshelton/shelton.one";
   };

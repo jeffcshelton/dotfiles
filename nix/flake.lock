@@ -137,10 +137,7 @@
     },
     "flake-utils_2": {
       "inputs": {
-        "systems": [
-          "shelton-one",
-          "systems"
-        ]
+        "systems": "systems_5"
       },
       "locked": {
         "lastModified": 1731533236,
@@ -284,11 +281,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1759826507,
-        "narHash": "sha256-vwXL9H5zDHEQA0oFpww2one0/hkwnPAjc47LRph6d0I=",
+        "lastModified": 1759917807,
+        "narHash": "sha256-WoSazth5EXIJmveWf0zbTMycrgpbLYOth6KhmltMuv0=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "bce5fe2bb998488d8e7e7856315f90496723793c",
+        "rev": "fb5cf53218b987f2703a5bbc292a030c0fe33443",
         "type": "github"
       },
       "original": {
@@ -352,14 +349,17 @@
         "nixpkgs": "nixpkgs_4"
       },
       "locked": {
-        "lastModified": 1759944000,
-        "narHash": "sha256-Lp59qKpdE5YstNlkLqMLjI6JhUGP75LmIjRyG982R8A=",
-        "path": "/home/jeff/Dev/portal-labs.cc",
-        "type": "path"
+        "lastModified": 1759961476,
+        "narHash": "sha256-6co8PrmTO5AwCU8Elyq5IoX/qbb3XqSaSFmzZ2G1ZqU=",
+        "owner": "jeffcshelton",
+        "repo": "portal-labs.cc",
+        "rev": "e076a13496ae676807421b69cd17c8de19300922",
+        "type": "github"
       },
       "original": {
-        "path": "/home/jeff/Dev/portal-labs.cc",
-        "type": "path"
+        "owner": "jeffcshelton",
+        "repo": "portal-labs.cc",
+        "type": "github"
       }
     },
     "root": {
@@ -400,15 +400,14 @@
     "shelton-one": {
       "inputs": {
         "flake-utils": "flake-utils_2",
-        "nixpkgs": "nixpkgs_6",
-        "systems": "systems_5"
+        "nixpkgs": "nixpkgs_6"
       },
       "locked": {
-        "lastModified": 1758123533,
-        "narHash": "sha256-UyKWrTNxoeKRUzXN/oDMlXv2CFNdYdhfaret83sowic=",
+        "lastModified": 1759945850,
+        "narHash": "sha256-XVRbocdbXbdE2jRR2lZnNjZ9biVkc8YCejgrc/WQl9Y=",
         "owner": "jeffcshelton",
         "repo": "shelton.one",
-        "rev": "347b878a7d03dcb95106cf988e2711ea1cb7ae48",
+        "rev": "a68ecfbc393a93f8e5a5662750cc2d6068fb38ff",
         "type": "github"
       },
       "original": {
