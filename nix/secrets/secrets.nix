@@ -4,6 +4,7 @@ in
 {
   "keys/mars/admin.pem.age".publicKeys = with keys; [
     ceres.jeff
+    ceres.system
     jupiter.jeff
     jupiter.system
     mars.admin
@@ -14,6 +15,7 @@ in
 
   "keys/mars/system.pem.age".publicKeys = with keys; [
     ceres.jeff
+    ceres.system
     jupiter.jeff
     jupiter.system
     mars.admin
@@ -24,6 +26,7 @@ in
 
   "keys/venus/admin.pem.age".publicKeys = with keys; [
     ceres.jeff
+    ceres.system
     jupiter.jeff
     jupiter.system
     venus.admin
@@ -34,6 +37,7 @@ in
 
   "keys/venus/system.pem.age".publicKeys = with keys; [
     ceres.jeff
+    ceres.system
     jupiter.jeff
     jupiter.system
     mercury.jeff
