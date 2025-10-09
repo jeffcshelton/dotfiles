@@ -84,7 +84,6 @@
     asahi = {
       peripheralFirmwareDirectory = ../firmware/asahi;
       setupAsahiSound = true;
-      useExperimentalGPUDriver = true;
     };
 
     graphics = {
