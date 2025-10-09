@@ -9,7 +9,6 @@
 
     # External
     inputs.agenix.nixosModules.default
-    inputs.home-manager.nixosModules.default
   ];
 
   boot = {

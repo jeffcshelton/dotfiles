@@ -1,4 +1,4 @@
-{ isDarwin, isLinux, lib, pkgs, ... }:
+{ inputs, isDarwin, isLinux, lib, pkgs, ... }:
 let
   dotConfig = builtins.listToAttrs
   (
@@ -13,9 +13,13 @@ let
   );
 
   home = if isDarwin then "/Users/jeff" else "/home/jeff";
-  keys = import ../keys;
+  keys = import ../secrets/keys;
 in
 {
+  imports = [
+    inputs.home-manager.nixosModules.default
+  ];
+
   home-manager.users.jeff = {
     home = {
       username = "jeff";

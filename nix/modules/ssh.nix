@@ -1,6 +1,6 @@
 { lib, pkgs, ... }:
 let
-  keys = import ../keys;
+  keys = import ../secrets/keys;
 
   # Add all hosts with system keys to known hosts.
   systemHosts = lib.mapAttrs

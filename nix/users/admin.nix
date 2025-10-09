@@ -1,8 +1,12 @@
-{ pkgs, ... }:
+{ inputs, pkgs, ... }:
 let
-  keys = import ../keys;
+  keys = import ../secrets/keys;
 in
 {
+  imports = [
+    inputs.home-manager.nixosModules.default
+  ];
+
   users.users.admin = {
     description = "Server Administrator";
     home = "/home/admin";

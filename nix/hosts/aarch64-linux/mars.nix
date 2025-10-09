@@ -1,4 +1,4 @@
-{ inputs, pkgs, ... }:
+{ config, inputs, pkgs, ... }:
 {
   imports = [
     # General modules
@@ -24,6 +24,7 @@
     ../../users/admin.nix
 
     # Hardware modules
+    inputs.agenix.nixosModules.default
     inputs.disko.nixosModules.disko
     inputs.nixos-hardware.nixosModules.raspberry-pi-4
   ];
@@ -93,22 +94,6 @@
     networkmanager.enable = true;
   };
 
-  # An overlay that allows default kernel modules to be excluded if they were
-  # not compiled with this kernel version.
-  #
-  # This is necessary for image generation, as nixpkgs included a standard set
-  # of kernel modules when bundling into an image, but some are not included or
-  # necessary for the Raspberry Pi 4B (specifically sun4i-drm). This overlay is
-  # a temporary workaround until that issue can be fixed.
-  #
-  # See: https://github.com/NixOS/nixpkgs/issues/154163
-  # nixpkgs.overlays = [
-  #   (final: super: {
-  #     makeModulesClosure = modules:
-  #       super.makeModulesClosure (modules // { allowMissing = true; });
-  #   })
-  # ];
-
   # It's necessary to disable sudo's password requirement for wheel users since
   # the primary user does not have a password.
   #
@@ -116,15 +101,28 @@
   security.sudo.wheelNeedsPassword = false;
 
   # Cloudflare tunnel definition and rules.
-  server.tunnels."2ef66204-58a9-4489-ba95-e1422803e192".ingress = {
+  server.tunnels."23637481-8e77-4e1d-825b-824831e929b1".ingress = {
     "mars.shelton.one" = "ssh://localhost:22";
     "portal-labs.cc" = "http://localhost:7201";
     "shelton.one" = "http://localhost:4390";
   };
 
+  age.secrets.system-key = {
+    file = ../../secrets/keys/mars/system.pem.age;
+    mode = "0600";
+    owner = "root";
+    group = "root";
+  };
+
   services = {
     "portal-labs.cc".port = 7201;
     "shelton.one".port = 4390;
+    openssh.hostKeys = [
+      {
+        type = "ed25519";
+        path = config.age.secrets.system-key.path;
+      }
+    ];
   };
 
   # The original Nix version installed on Mars.

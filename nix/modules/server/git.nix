@@ -1,6 +1,6 @@
 { lib, pkgs, ... }:
 let
-  keys = import ../../keys;
+  keys = import ../../secrets/keys;
 in
 {
   services.openssh = lib.mkDefault {

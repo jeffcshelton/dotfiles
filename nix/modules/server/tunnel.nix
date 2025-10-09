@@ -2,9 +2,9 @@
 let
   secrets = lib.mapAttrs' (key: value:
     {
-      name = "cloudflare-${key}";
+      name = "tunnel-${key}";
       value = {
-        file = ../../secrets/cloudflare-${key}.json.age;
+        file = ../../secrets/tunnels/${key}.json.age;
       };
     }
   ) config.server.tunnels;
@@ -12,7 +12,7 @@ let
   # Apply options from the host file.
   tunnels = lib.mapAttrs (key: value:
     {
-      credentialsFile = config.age.secrets."cloudflare-${key}".path;
+      credentialsFile = config.age.secrets."tunnel-${key}".path;
       default = "http_status:404";
     } // value
   ) config.server.tunnels;
@@ -23,11 +23,10 @@ in
   ];
 
   config = {
-    age.secrets = secrets;
-
+    age = { inherit secrets; };
     services.cloudflared = {
+      inherit tunnels;
       enable = true;
-      tunnels = tunnels;
     };
   };
 
