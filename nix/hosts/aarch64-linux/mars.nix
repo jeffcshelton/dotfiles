@@ -87,12 +87,6 @@
     };
   };
 
-  # Include packages specific to the Pi 4B.
-  environment.systemPackages = with pkgs; [
-    libraspberrypi
-    raspberrypi-eeprom
-  ];
-
   # Networking configuration.
   networking = {
     hostName = "mars";
@@ -126,6 +120,11 @@
     "mars.shelton.one" = "ssh://localhost:22";
     "portal-labs.cc" = "http://localhost:7201";
     "shelton.one" = "http://localhost:4390";
+  };
+
+  services = {
+    "portal-labs.cc".port = 7201;
+    "shelton.one".port = 4390;
   };
 
   # The original Nix version installed on Mars.
