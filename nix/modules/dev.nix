@@ -18,6 +18,7 @@
     gnumake
     gnupg
     nodejs
+    python3
     stow
     wget
     zip
