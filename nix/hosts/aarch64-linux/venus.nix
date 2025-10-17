@@ -2,24 +2,22 @@
 {
   imports = [
     # General modules
-    ../modules/dev.nix
-    ../modules/neovim.nix
-    ../modules/nix.nix
-    ../modules/rust.nix
-    ../modules/shell.nix
-    ../modules/ssh.nix
-
-    # NixOS modules
-    ../modules/nixos/debug.nix
-    ../modules/nixos/kernel.nix
-    ../modules/nixos/locale.nix
+    ../../modules/debug.nix
+    ../../modules/dev.nix
+    ../../modules/kernel.nix
+    ../../modules/locale.nix
+    ../../modules/neovim.nix
+    ../../modules/nix.nix
+    ../../modules/rust.nix
+    ../../modules/shell.nix
+    ../../modules/ssh.nix
 
     # Server modules
-    ../modules/nixos/server/ssh.nix
-    ../modules/nixos/server/tunnel.nix
+    ../../modules/server/ssh.nix
+    ../../modules/server/tunnel.nix
 
     # Users
-    ../users/admin.nix
+    ../../users/admin.nix
 
     # Hardware modules
     inputs.nixos-hardware.nixosModules.raspberry-pi-4
@@ -97,7 +95,7 @@
   security.sudo.wheelNeedsPassword = false;
 
   # Cloudflare tunnel definition and rules.
-  server.tunnels."8d3020bb-f23e-4689-80c2-0e8344bfbd09".ingress = {
+  server.tunnels."eef93350-83b3-47a9-8dfb-797166548789".ingress = {
     "venus.shelton.one" = "ssh://localhost:22";
   };
 

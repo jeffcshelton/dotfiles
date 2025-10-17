@@ -1,4 +1,4 @@
-{ inputs, pkgs, ... }:
+{ inputs, lib, pkgs, ... }:
 let
   systemKey = builtins.getEnv "SYSTEM_KEY";
   systemKeyFile = pkgs.writeText "ssh_host_ed25519_key" systemKey;
@@ -53,6 +53,20 @@ in
 
   # Disable consoles because there is no display.
   console.enable = false;
+
+  fileSystems = { # lib.mkDefault {
+    "/" = {
+      device = "/dev/disk/by-label/NIXOS_SD";
+      fsType = "ext4";
+      autoResize = true;
+    };
+
+    "/boot" = {
+      device = "/dev/disk/by-label/FIRMWARE";
+      fsType = "vfat";
+      options = [ "fmask=0022" "dmask=0022" ];
+    };
+  };
 
   # Networking configuration.
   networking = {
