@@ -1,7 +1,7 @@
-{ inputs, ... }:
+{ inputs, modulesName, ... }:
 {
   imports = [
-    inputs.shelton-one.nixosModules.default
+    inputs.shelton-one.${modulesName}.default
   ];
 
   services."shelton.one" = {

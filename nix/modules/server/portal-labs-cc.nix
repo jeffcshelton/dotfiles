@@ -1,7 +1,7 @@
-{ inputs, ... }:
+{ inputs, modulesName, ... }:
 {
   imports = [
-    inputs.portal-labs-cc.nixosModules.default
+    inputs.portal-labs-cc.${modulesName}.default
   ];
 
   services."portal-labs.cc" = {

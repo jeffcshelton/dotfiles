@@ -20,7 +20,6 @@
     ../modules/neovim.nix
     ../modules/nix.nix
     ../modules/notes.nix
-    ../modules/office.nix
     ../modules/photo.nix
     ../modules/printing.nix
     ../modules/rgb.nix

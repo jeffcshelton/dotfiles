@@ -1,10 +1,10 @@
-{ inputs, pkgs, ... }:
+{ inputs, modulesName, pkgs, ... }:
 let
   keys = import ../secrets/keys;
 in
 {
   imports = [
-    inputs.home-manager.nixosModules.default
+    inputs.home-manager.${modulesName}.default
   ];
 
   users.users.admin = {

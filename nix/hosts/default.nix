@@ -1,4 +1,4 @@
-{ darwin, nixpkgs, nixpkgs-stable, ... } @ inputs:
+{ darwin, nixpkgs, nixpkgs-unstable, ... } @ inputs:
 let
   inherit (nixpkgs) lib;
 
@@ -36,14 +36,23 @@ let
             name = host;
             value = builder {
               inherit system;
+
               modules = [ ./${system}/${hostFile} ];
-              specialArgs = {
+              specialArgs = rec {
                 inherit inputs system;
 
                 isDarwin = lib.hasSuffix "darwin" system;
                 isLinux = lib.hasSuffix "linux" system;
 
-                pkgs-stable = import nixpkgs-stable { inherit system; };
+                modulesName =
+                  if isDarwin then "darwinModules"
+                  else if isLinux then "nixosModules"
+                  else "unknown";
+
+                unstable = import nixpkgs-unstable {
+                  inherit system;
+                  config.allowUnfree = true;
+                };
               };
             };
           }

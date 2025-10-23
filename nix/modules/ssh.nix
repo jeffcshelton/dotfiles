@@ -13,19 +13,19 @@ let
     );
 
   # Provide additional known hostnames for specific hosts.
-  extraHostNames = {
-    "mars" = [ "mars.shelton.one" ];
-  };
+  # extraHostNames = {
+  #   "mars" = [ "mars.shelton.one" ];
+  # };
 
   # Merge the system keys list with the extra hostnames list.
-  knownHosts = lib.recursiveUpdate
-    systemHosts
-    (lib.mapAttrs
-      (name: hostnames: {
-        extraHostNames = hostnames;
-      })
-      extraHostNames
-    );
+  # knownHosts = lib.recursiveUpdate
+  #   systemHosts
+  #   (lib.mapAttrs
+  #     (name: hostnames: {
+  #       extraHostNames = hostnames;
+  #     })
+  #     extraHostNames
+  #   );
 in
 {
   programs.ssh = {
@@ -34,6 +34,6 @@ in
         ProxyCommand ${pkgs.cloudflared}/bin/cloudflared access ssh --hostname %h
     '';
 
-    knownHosts = knownHosts;
+    knownHosts = systemHosts; # knownHosts;
   };
 }

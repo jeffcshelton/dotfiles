@@ -1,4 +1,4 @@
-{ config, inputs, lib, ... }:
+{ config, inputs, lib, modulesName, ... }:
 let
   secrets = lib.mapAttrs' (key: value:
     {
@@ -19,7 +19,7 @@ let
 in
 {
   imports = [
-    inputs.agenix.nixosModules.default
+    inputs.agenix.${modulesName}.default
   ];
 
   config = {

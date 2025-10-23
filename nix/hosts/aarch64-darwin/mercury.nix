@@ -8,12 +8,7 @@
     ../../users/jeff.nix
 
     inputs.agenix.darwinModules.default
-    inputs.home-manager.darwinModules.default
   ];
-
-  # Enable Homebrew support.
-  # Other modules rely on this to be enabled.
-  homebrew.enable = true;
 
   home-manager = {
     useGlobalPkgs = true;

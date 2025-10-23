@@ -1,4 +1,4 @@
-{ inputs, isDarwin, isLinux, lib, pkgs, ... }:
+{ inputs, isDarwin, isLinux, lib, modulesName, pkgs, ... }:
 let
   dotConfig = builtins.listToAttrs
   (
@@ -17,7 +17,7 @@ let
 in
 {
   imports = [
-    inputs.home-manager.nixosModules.default
+    inputs.home-manager.${modulesName}.default
   ];
 
   home-manager.users.jeff = {
@@ -52,7 +52,6 @@ in
 
       ssh = {
         enable = true;
-        enableDefaultConfig = false;
 
         matchBlocks."ice" = {
           host = "ice";
