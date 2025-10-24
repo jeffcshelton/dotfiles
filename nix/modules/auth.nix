@@ -1,7 +1,7 @@
-{ pkgs, ... }:
+{ unstable, ... }:
 {
-  environment.systemPackages = with pkgs; [
-    _1password-gui
+  environment.systemPackages = [
+    unstable._1password-gui
   ];
 
   programs = {
