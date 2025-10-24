@@ -1,6 +1,9 @@
 # RGB case lighting support.
 
-{ isLinux, lib, ... }:
+{ isLinux, lib, unstable, ... }:
 lib.optionalAttrs isLinux {
-  services.hardware.openrgb.enable = true;
+  services.hardware.openrgb = {
+    enable = true;
+    package = unstable.openrgb;
+  };
 }

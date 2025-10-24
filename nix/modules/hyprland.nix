@@ -71,9 +71,6 @@ lib.optionalAttrs isLinux {
       # Chained with "grim" to take screenshots of selected regions.
       slurp
 
-      # Greet daemon.
-      tuigreet
-
       # Top status bar.
       waybar
 
@@ -97,7 +94,7 @@ lib.optionalAttrs isLinux {
     enable = true;
     settings = {
       default_session = {
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd Hyprland";
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland";
         user = "greeter";
       };
     };

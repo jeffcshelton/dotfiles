@@ -5,8 +5,6 @@ lib.mkMerge [
   }
 
   (lib.optionalAttrs isLinux {
-    challengeResponseAuthentication = false;
-    passwordAuthentication = false;
-    usePAM = false;
+    services.openssh.settings.PasswordAuthentication = false;
   })
 ]
