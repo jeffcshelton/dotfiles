@@ -4,7 +4,7 @@
 # the Neovim config. These are kept separate from Nix and symlinked into
 # ~/.config using GNU Stow.
 
-{ isDarwin, isLinux, lib, pkgs, ... }:
+{ isDarwin, isLinux, lib, pkgs, unstable, ... }:
 lib.mkMerge [
   (lib.optionalAttrs isDarwin {
     # Ghostty is currently broken for Darwin targets on unstable.
@@ -14,8 +14,8 @@ lib.mkMerge [
 
   (lib.optionalAttrs isLinux {
     environment = {
-      systemPackages = with pkgs; [
-        ghostty
+      systemPackages = [
+        unstable.ghostty
       ];
 
       # Substitute GNOME Console for Ghostty if using GNOME.
