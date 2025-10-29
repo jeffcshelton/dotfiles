@@ -2,6 +2,5 @@
 lib.optionalAttrs isDarwin {
   environment.systemPackages = with pkgs; [
     slack
-    teams
   ];
 }

@@ -28,7 +28,7 @@
     ../modules/shell.nix
     ../modules/spotify.nix
     ../modules/ssh.nix
-    ../modules/teams.nix
+    ../modules/slack.nix
     ../modules/terminal.nix
     ../modules/typesetting.nix
     ../modules/video.nix

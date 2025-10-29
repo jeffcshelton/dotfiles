@@ -13,7 +13,6 @@ lib.optionalAttrs isDarwin {
       "/Applications/Nix Apps/Firefox.app"
       "/Applications/Nix Apps/Spotify.app"
       "/Applications/Nix Apps/Notion.app"
-      "/Applications/Nix Apps/Teams.app"
       "/Applications/Pixelmator Pro.app"
       "/System/Applications/System Settings.app"
       "/Applications/Ghostty.app"
