@@ -91,12 +91,6 @@
     };
   };
 
-  # Enable DHCP on all Ethernet and wireless interfaces.
-  networking = {
-    hostName = "ceres";
-    networkmanager.enable = true;
-  };
-
   nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
 
   # This was auto-generated and should not be changed manually.

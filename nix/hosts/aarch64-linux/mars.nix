@@ -1,4 +1,4 @@
-{ inputs, lib, pkgs, ... }:
+{ inputs, pkgs, ... }:
 let
   systemKey = builtins.getEnv "SYSTEM_KEY";
   systemKeyFile = pkgs.writeText "ssh_host_ed25519_key" systemKey;
@@ -66,12 +66,6 @@ in
       fsType = "vfat";
       options = [ "fmask=0022" "dmask=0022" ];
     };
-  };
-
-  # Networking configuration.
-  networking = {
-    hostName = "mars";
-    networkmanager.enable = true;
   };
 
   # It's necessary to disable sudo's password requirement for wheel users since

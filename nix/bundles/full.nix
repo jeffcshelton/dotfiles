@@ -18,6 +18,7 @@
     ../modules/locale.nix
     ../modules/minecraft.nix
     ../modules/neovim.nix
+    ../modules/net.nix
     ../modules/nix.nix
     ../modules/notes.nix
     ../modules/photo.nix

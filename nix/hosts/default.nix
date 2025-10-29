@@ -39,7 +39,7 @@ let
 
               modules = [ ./${system}/${hostFile} ];
               specialArgs = rec {
-                inherit inputs system;
+                inherit host inputs system;
 
                 isDarwin = lib.hasSuffix "darwin" system;
                 isLinux = lib.hasSuffix "linux" system;

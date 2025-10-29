@@ -67,11 +67,6 @@
     };
   };
 
-  networking = {
-    hostName = "venus";
-    networkmanager.enable = true;
-  };
-
   # An overlay that allows default kernel modules to be excluded if they were
   # not compiled with this kernel version.
   #

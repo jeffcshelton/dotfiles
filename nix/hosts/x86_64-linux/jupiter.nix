@@ -98,12 +98,6 @@
     useUserPackages = true;
   };
 
-  # Networking configuration.
-  networking = {
-    hostName = "jupiter";
-    networkmanager.enable = true;
-  };
-
   # Instructs services to use AMD GPU drivers for rendering.
   services.xserver.videoDrivers = [ "nvidia" ];
 
