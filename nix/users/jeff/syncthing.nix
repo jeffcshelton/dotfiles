@@ -23,25 +23,26 @@ in
 
     settings = {
       devices = {
+        "jupiter".id = builtins.readFile ../../secrets/syncthing/jupiter/device-id.txt;
         "mercury".id = builtins.readFile ../../secrets/syncthing/mercury/device-id.txt;
       };
 
       folders = {
         "Documents" = {
           path = "${config.home.homeDirectory}/Documents";
-          devices = [ "mercury" ];
+          devices = [ "jupiter" "mercury" ];
           id = "documents";
         };
 
         "Pictures" = {
           path = "${config.home.homeDirectory}/Pictures";
-          devices = [ "mercury" ];
+          devices = [ "jupiter" "mercury" ];
           id = "pictures";
         };
 
         "Videos" = {
           path = "${config.home.homeDirectory}/Videos";
-          devices = [ "mercury" ];
+          devices = [ "jupiter" "mercury" ];
           id = "videos";
         };
       };
