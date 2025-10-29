@@ -14,7 +14,6 @@ let
     (builtins.attrNames entries);
 in
 # Construct an object of the form { "<host>": { "<user": "<key>", ... }, ... }.
-# NOTE: The host directories must only contain ".pub" files.
 builtins.listToAttrs (map
   (host: {
     name = host;

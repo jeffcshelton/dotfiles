@@ -1,4 +1,4 @@
-{ inputs, isDarwin, isLinux, lib, modulesName, pkgs, ... }:
+{ host, inputs, isDarwin, isLinux, lib, modulesName, pkgs, ... }:
 let
   dotConfig = builtins.listToAttrs
   (
@@ -16,11 +16,18 @@ let
   keys = import ../secrets/keys;
 in
 {
+
   imports = [
     inputs.home-manager.${modulesName}.default
   ];
 
   home-manager.users.jeff = {
+    _module.args = { inherit host; };
+    imports = [
+      inputs.agenix.homeManagerModules.default
+      ./jeff/syncthing.nix
+    ];
+
     home = {
       username = "jeff";
       homeDirectory = home;

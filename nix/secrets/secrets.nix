@@ -2,6 +2,10 @@ let
   keys = import ./keys;
 in
 {
+  ####################
+  # SSH Private Keys #
+  ####################
+
   "keys/mars/admin.pem.age".publicKeys = with keys; [
     ceres.jeff
     ceres.system
@@ -45,6 +49,29 @@ in
     venus.admin
     venus.system
   ];
+
+  ##########################
+  # Syncthing Private Keys #
+  ##########################
+
+  "syncthing/ceres/key.pem.age".publicKeys = with keys; [
+    ceres.jeff
+    ceres.system
+  ];
+
+  "syncthing/mercury/key.pem.age".publicKeys = with keys; [
+    mercury.jeff
+    mercury.system
+  ];
+
+  "syncthing/jupiter/key.pem.age".publicKeys = with keys; [
+    jupiter.jeff
+    jupiter.system
+  ];
+
+  ##########################
+  # Cloudflare Tunnel Keys #
+  ##########################
 
   "tunnels/23637481-8e77-4e1d-825b-824831e929b1.json.age".publicKeys = [
     keys.mars.system
