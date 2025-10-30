@@ -1,5 +1,11 @@
-{ config, host, ... }:
+{ config, host, lib, ... }:
 let
+  readID = (host:
+    lib.removeSuffix
+      "\n"
+      (builtins.readFile ../../secrets/syncthing/${host}/device-id.txt)
+  );
+
   configDir = "${config.xdg.configHome}/syncthing";
 in
 {
@@ -23,8 +29,8 @@ in
 
     settings = {
       devices = {
-        "jupiter".id = builtins.readFile ../../secrets/syncthing/jupiter/device-id.txt;
-        "mercury".id = builtins.readFile ../../secrets/syncthing/mercury/device-id.txt;
+        "jupiter".id = readID "jupiter";
+        "mercury".id = readID "mercury";
       };
 
       folders = {
@@ -45,6 +51,12 @@ in
           devices = [ "jupiter" "mercury" ];
           id = "videos";
         };
+      };
+
+      options = {
+        localAnnounceEnabled = true;
+        relaysEnabled = true;
+        urAccepted = -1;
       };
     };
   };
