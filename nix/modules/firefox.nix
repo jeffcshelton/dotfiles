@@ -24,6 +24,17 @@ lib.mkMerge [
         };
       };
     };
+
+    # Open PDFs and all images with Firefox by default.
+    xdg.mime.defaultApplications = {
+      "application/pdf" = "firefox.desktop";
+      "image/bmp" = "firefox.desktop";
+      "image/gif" = "firefox.desktop";
+      "image/jpeg" = "firefox.desktop";
+      "image/png" = "firefox.desktop";
+      "image/svg+xml" = "firefox.desktop";
+      "image/webp" = "firefox.desktop";
+    };
   })
 
   # Firefox configuration for the aarch64 platform.
