@@ -6,7 +6,7 @@ lib.optionalAttrs isDarwin {
 
     # The apps displayed on the dock, in order from left to right.
     persistent-apps = [
-      "/System/Applications/Launchpad.app"
+      "/System/Applications/Apps.app"
       "/System/Applications/Calendar.app"
       "/System/Applications/Mail.app"
       "/System/Applications/Messages.app"
