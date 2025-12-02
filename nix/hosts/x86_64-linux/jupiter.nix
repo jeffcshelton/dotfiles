@@ -4,6 +4,9 @@
     # Bundle
     ../../bundles/full.nix
 
+    # Modules
+    ../../modules/kernel.nix
+
     # Users
     ../../users/jeff.nix
 
@@ -75,6 +78,7 @@
     # Enable microcode updates to the AMD CPU.
     cpu.amd.updateMicrocode = true;
     enableRedistributableFirmware = true;
+    firmware = [ pkgs.linux-firmware ];
 
     graphics = {
       enable = true;

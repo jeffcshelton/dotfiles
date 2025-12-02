@@ -1,6 +1,6 @@
 # Hyprland desktop environment configuration.
 
-{ inputs, isLinux, lib, pkgs, ... }:
+{ isLinux, lib, pkgs, ... }:
 lib.optionalAttrs isLinux {
   environment = {
     sessionVariables = {
@@ -46,7 +46,7 @@ lib.optionalAttrs isLinux {
       hyprpicker
 
       # Rose Pine themed cursor.
-      inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
+      rose-pine-hyprcursor
 
       # Enables sending notifications through notify-send.
       libnotify
@@ -94,7 +94,7 @@ lib.optionalAttrs isLinux {
     enable = true;
     settings = {
       default_session = {
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland";
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd Hyprland";
         user = "greeter";
       };
     };

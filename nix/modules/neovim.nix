@@ -9,9 +9,6 @@
     # Provides clangd, the C language server.
     clang-tools
 
-    # Enables AI code editing.
-    claude-code
-
     # Enables quick searching of files by path.
     fd
 

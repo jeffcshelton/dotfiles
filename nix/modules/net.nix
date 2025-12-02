@@ -1,10 +1,21 @@
-{ host, isLinux, lib, ... }:
+{ host, isLinux, lib, pkgs, ... }:
 lib.mkMerge [
   {
     networking.hostName = host;
   }
 
   (lib.optionalAttrs isLinux {
-    networking.networkmanager.enable = true;
+    environment.systemPackages = with pkgs; [
+      iw
+    ];
+
+    networking = {
+      networkmanager = {
+        enable = true;
+        wifi.backend = "iwd";
+      };
+
+      wireless.iwd.enable = true;
+    };
   })
 ]

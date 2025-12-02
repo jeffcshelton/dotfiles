@@ -44,14 +44,14 @@ in
 
         profiles.default = {
           search = {
-            default = "ddg";
+            default = "google";
             force = true;
-            privateDefault = "ddg";
+            privateDefault = "google";
           };
 
           settings = {
-            "browser.startup.homepage" = "https://www.perplexity.ai";
-            "browser.search.defaultenginename" = "DuckDuckGo";
+            "browser.startup.homepage" = "https://www.google.com";
+            "browser.search.defaultenginename" = "Google";
             "privacy.trackingprotection.enabled" = true;
           };
         };
@@ -59,6 +59,7 @@ in
 
       ssh = {
         enable = true;
+        enableDefaultConfig = false;
 
         matchBlocks."ice" = {
           host = "ice";
