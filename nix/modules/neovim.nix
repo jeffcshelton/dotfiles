@@ -42,6 +42,9 @@
     # Enables quick searching of text throughout a project.
     ripgrep
 
+    # Rust language server.
+    rust-analyzer
+
     # Typst language server.
     tinymist
 

@@ -7,9 +7,7 @@ return {
   },
   event = { "BufReadPre", "BufNewFile" },
   config = function()
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-    capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
-    vim.lsp.config.capabilities = capabilities
+    local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
     vim.api.nvim_create_autocmd("LspAttach", {
       desc = "LSP Actions",
@@ -39,6 +37,9 @@ return {
     }
 
     for _, server in ipairs(servers) do
+      vim.lsp.config(server, {
+        capabilities = capabilities,
+      })
       vim.lsp.enable(server)
     end
   end,
