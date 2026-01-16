@@ -5,6 +5,9 @@ let
       name = "tunnel-${key}";
       value = {
         file = ../../secrets/tunnels/${key}.json.age;
+        owner = "cloudflared";
+        group = "cloudflared";
+        mode = "0400";
       };
     }
   ) config.server.tunnels;
