@@ -17,5 +17,17 @@ lib.mkMerge [
 
       wireless.iwd.enable = true;
     };
+
+    # Enable mDNS local network hostname discovery.
+    services.avahi = {
+      enable = true;
+      nssmdns4 = true;
+      nssmdns6 = true;
+
+      publish = {
+        enable = true;
+        addresses = true;
+      };
+    };
   })
 ]

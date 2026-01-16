@@ -34,6 +34,6 @@ in
         ProxyCommand ${pkgs.cloudflared}/bin/cloudflared access ssh --hostname %h
     '';
 
-    knownHosts = systemHosts; # knownHosts;
+    knownHosts = systemHosts;
   };
 }

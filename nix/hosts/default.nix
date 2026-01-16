@@ -1,6 +1,15 @@
-{ darwin, nixpkgs, nixpkgs-unstable, ... } @ inputs:
+{
+  darwin,
+  flake-utils,
+  nixos-generators,
+  nixpkgs,
+  nixpkgs-unstable,
+  ...
+} @ inputs:
 let
   inherit (nixpkgs) lib;
+
+  mkFlasher = import ../derivations/flasher.nix;
 
   # Read the hosts directory to determine all the systems in use.
   systems = builtins.attrNames
@@ -19,87 +28,94 @@ let
     (system: lib.strings.hasSuffix "linux" system)
     systems;
 
-  constructHosts = (systems: builder:
-    let
-      hosts = builtins.map (system:
-        let
-          entries = builtins.readDir ./${system};
-          hostFiles = lib.filterAttrs
-            (name: type: lib.hasSuffix ".nix" name && type == "regular")
-            entries;
-        in
-        lib.mapAttrs' (hostFile: _:
-          let
-            host = lib.removeSuffix ".nix" hostFile;
-          in
-          {
-            name = host;
-            value = builder {
-              inherit system;
-
-              modules = [ ./${system}/${hostFile} ];
-              specialArgs = rec {
-                inherit host inputs system;
-
-                isDarwin = lib.hasSuffix "darwin" system;
-                isLinux = lib.hasSuffix "linux" system;
-
-                modulesName =
-                  if isDarwin then "darwinModules"
-                  else if isLinux then "nixosModules"
-                  else "unknown";
-
-                unstable = import nixpkgs-unstable {
-                  inherit system;
-                  config.allowUnfree = true;
-                };
-              };
-            };
-          }
-        ) hostFiles
-      ) systems;
-    in
-    (lib.foldl' (total: curr: total // curr) {} hosts)
+  inferHosts = (system:
+    lib.mapAttrsToList
+      (name: _type: lib.removeSuffix ".nix" name)
+      (lib.filterAttrs
+        (name: type: lib.hasSuffix ".nix" name && type == "regular")
+        (builtins.readDir ./${system})
+      )
   );
 
-  # Construct Darwin and NixOS configurations.
+  mkHost = (config: config.builder (
+    let
+      inherit (config) host system;
+    in
+    {
+      inherit system;
+      modules = [ ./${config.system}/${config.host}.nix ];
 
-  darwinConfigurations = constructHosts
-    darwinSystems
-    darwin.lib.darwinSystem;
+      specialArgs = rec {
+        inherit host inputs system;
 
-  nixosConfigurations = constructHosts
-    linuxSystems
-    nixpkgs.lib.nixosSystem;
+        isDarwin = lib.hasSuffix "darwin" config.system;
+        isLinux = lib.hasSuffix "linux" config.system;
 
-  # Automatically create image targets for the NixOS configurations.
+        modulesName =
+          if isDarwin then "darwinModules"
+          else if isLinux then "nixosModules"
+          else "unknown";
 
-  images = lib.mapAttrs
-    (host: config:
-      let
-        inherit (config) pkgs;
-        script = config.system.build.diskoImagesScript;
-      in
-      pkgs.stdenv.mkDerivation {
-        pname = "${host}-image";
-        dontUnpack = true;
-        src = null;
-        nativeBuildInputs = [ pkgs.bash ];
+        unstable = import nixpkgs-unstable {
+          inherit system;
+          config.allowUnfree = true;
+        };
+      };
+    } // (config.extra or {})
+  ));
 
-        buildPhase = ''
-          ${script} --build-memory 2048
-        '';
+  # Determines the actual hosts present per system provided, using the system
+  # directory's listing. Each Nix file is a unique host configuration.
+  mkHosts = (config:
+    lib.foldl'
+      (all: current: all // current)
+      {}
+      (builtins.map
+        (system:
+          lib.genAttrs
+            (inferHosts system)
+            (host: mkHost {
+              inherit host system;
+              inherit (config) builder extra;
+            })
+        )
+        config.systems
+      )
+  );
 
-        installPhase = ''
-          mv main.raw $out
-        '';
+  compressedImages = mkHosts {
+    builder = nixos-generators.nixosGenerate;
+    extra = { format = "sd-aarch64"; };
+    systems = [ "aarch64-linux" ];
+  };
 
-        # Skip the fixup phase because it attempts to scan the disk image for
-        # Nix store paths, which is unnecessary and takes a while.
-        fixupPhase = ":";
-      }
-    ) nixosConfigurations;
+  mkImages = pkgs:
+    lib.mapAttrs
+      (host: compressed:
+        pkgs.runCommand "${host}.img" {} ''
+          ${pkgs.zstd}/bin/zstd \
+            -d ${compressed}/sd-image/nixos-image-*.img.zst \
+            -o $out
+        ''
+      )
+      compressedImages;
 in
 {
-  inherit darwinConfigurations images nixosConfigurations;
+  darwinConfigurations = mkHosts {
+    builder = darwin.lib.darwinSystem;
+    systems = darwinSystems;
+  };
+
+  nixosConfigurations = mkHosts {
+    builder = nixpkgs.lib.nixosSystem;
+    systems = linuxSystems;
+  };
 }
+// flake-utils.lib.eachDefaultSystem (system:
+  let
+    pkgs = import nixpkgs { inherit system; };
+  in
+  {
+    packages.images = mkImages pkgs;
+  }
+)

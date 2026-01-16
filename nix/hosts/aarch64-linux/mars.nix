@@ -12,6 +12,7 @@ in
     ../../modules/kernel.nix
     ../../modules/locale.nix
     ../../modules/neovim.nix
+    ../../modules/net.nix
     ../../modules/nix.nix
     ../../modules/rust.nix
     ../../modules/shell.nix
@@ -29,7 +30,6 @@ in
 
     # Hardware modules
     inputs.agenix.nixosModules.default
-    inputs.disko.nixosModules.disko
     inputs.nixos-hardware.nixosModules.raspberry-pi-4
   ];
 
@@ -54,7 +54,7 @@ in
   # Disable consoles because there is no display.
   console.enable = false;
 
-  fileSystems = { # lib.mkDefault {
+  fileSystems = {
     "/" = {
       device = "/dev/disk/by-label/NIXOS_SD";
       fsType = "ext4";
@@ -75,7 +75,7 @@ in
   security.sudo.wheelNeedsPassword = false;
 
   # Cloudflare tunnel definition and rules.
-  server.tunnels."23637481-8e77-4e1d-825b-824831e929b1".ingress = {
+  server.tunnels."06684310-6ec1-40a5-ab96-3f31cfe4d185".ingress = {
     "mars.shelton.one" = "ssh://localhost:22";
     "portal-labs.cc" = "http://localhost:7201";
     "shelton.one" = "http://localhost:4390";

@@ -10,10 +10,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    disko = {
-      url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    flake-utils.url = "github:numtide/flake-utils";
 
     home-manager = {
       url = "github:nix-community/home-manager/release-25.11";
@@ -28,26 +25,27 @@
     shelton-one.url = "github:jeffcshelton/shelton.one";
   };
 
-  outputs = { nixos-generators, ... } @ inputs:
-    let
-      hosts = import ./hosts inputs;
-    in
-    hosts // {
-      images.mars = nixos-generators.nixosGenerate {
-        format = "sd-aarch64";
-        modules = [ ./hosts/aarch64-linux/mars.nix ];
-        system = "aarch64-linux";
-        specialArgs = {
-          inherit inputs;
-          system = "aarch64-linux";
-          isDarwin = false;
-          isLinux = true;
-          modulesName = "nixosModules";
-          unstable = import inputs.nixpkgs-unstable {
-            system = "aarch64-linux";
-            config.allowUnfree = true;
-          };
-        };
-      };
-    };
+  outputs = inputs: import ./hosts inputs;
+    # let
+    #   hosts = import ./hosts inputs;
+    # in
+    # hosts // {
+    #   images.mars = nixos-generators.nixosGenerate {
+    #     format = "sd-aarch64";
+    #     modules = [ ./hosts/aarch64-linux/mars.nix ];
+    #     system = "aarch64-linux";
+    #     specialArgs = {
+    #       inherit inputs;
+    #       system = "aarch64-linux";
+    #       host = "mars";
+    #       isDarwin = false;
+    #       isLinux = true;
+    #       modulesName = "nixosModules";
+    #       unstable = import inputs.nixpkgs-unstable {
+    #         system = "aarch64-linux";
+    #         config.allowUnfree = true;
+    #       };
+    #     };
+    #   };
+    # };
 }
