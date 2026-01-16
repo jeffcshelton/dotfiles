@@ -73,11 +73,7 @@ in
   # Cloudflare Tunnel Keys #
   ##########################
 
-  "tunnels/23637481-8e77-4e1d-825b-824831e929b1.json.age".publicKeys = [
+  "tunnels/06684310-6ec1-40a5-ab96-3f31cfe4d185.json.age".publicKeys = [
     keys.mars.system
-  ];
-
-  "tunnels/eef93350-83b3-47a9-8dfb-797166548789.json.age".publicKeys = [
-    keys.venus.system
   ];
 }

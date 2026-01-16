@@ -1,8 +1,4 @@
 { inputs, pkgs, ... }:
-let
-  systemKey = builtins.getEnv "SYSTEM_KEY";
-  systemKeyFile = pkgs.writeText "ssh_host_ed25519_key" systemKey;
-in
 {
   imports = [
     # General modules
@@ -81,12 +77,35 @@ in
     "shelton.one" = "http://localhost:4390";
   };
 
-  environment.etc = {
-    "ssh/ssh_host_ed25519_key" = {
-      mode = "0600";
-      source = systemKeyFile;
-    };
-  };
+  # Inject encrypted SSH keys into the image at build time.
+  # This only works on authorized machines that can decrypt the keys.
+  # sdImage.postBuildCommands = ''
+  #   # Set up loop device with partition scanning
+  #   loopdev=$(${pkgs.util-linux}/bin/losetup -f --show -P $img)
+  #
+  #   # Create temporary mount directory
+  #   mountdir=$(${pkgs.coreutils}/bin/mktemp -d)
+  #
+  #   # Mount the root partition (partition 2 on SD images)
+  #   ${pkgs.util-linux}/bin/mount ''${loopdev}p2 "$mountdir"
+  #
+  #   # Try to decrypt and inject SSH host keys (only works on authorized machines)
+  #   if ${pkgs.age}/bin/age -d \
+  #       ${../../secrets/keys/mars/system.pem.age} \
+  #       -o "$mountdir/etc/ssh/ssh_host_ed25519_key" \
+  #       2>/dev/null; then
+  #
+  #     chmod 600 "$mountdir/etc/ssh/ssh_host_ed25519_key"
+  #     echo "Successfully injected SSH host key into Mars image"
+  #   else
+  #     echo "WARNING: Could not decrypt SSH key - Mars will generate key at first boot"
+  #   fi
+  #
+  #   # Clean up
+  #   ${pkgs.util-linux}/bin/umount "$mountdir"
+  #   ${pkgs.util-linux}/bin/losetup -d $loopdev
+  #   rmdir "$mountdir"
+  # '';
 
   services = {
     "portal-labs.cc".port = 7201;

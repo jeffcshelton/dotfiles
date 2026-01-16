@@ -76,7 +76,8 @@ let
             (inferHosts system)
             (host: mkHost {
               inherit host system;
-              inherit (config) builder extra;
+              inherit (config) builder;
+              extra = config.extra or {};
             })
         )
         config.systems
