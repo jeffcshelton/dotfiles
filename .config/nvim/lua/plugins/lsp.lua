@@ -28,6 +28,7 @@ return {
       "lua_ls",
       "marksman",
       "nixd",
+      "omnisharp",
       "openscad_lsp",
       "pyright",
       "rust_analyzer",

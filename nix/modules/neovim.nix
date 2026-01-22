@@ -33,6 +33,9 @@
     # Nix language server.
     nixd
 
+    # OmniSharp (C#) language server.
+    omnisharp-roslyn
+
     # OpenSCAD language server.
     openscad-lsp
 
