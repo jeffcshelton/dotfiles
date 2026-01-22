@@ -18,34 +18,19 @@
     };
 
     nixos-hardware.url = "github:NixOS/nixos-hardware";
-    nixos-generators.url = "github:nix-community/nixos-generators";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    portal-labs-cc.url = "github:jeffcshelton/portal-labs.cc";
-    shelton-one.url = "github:jeffcshelton/shelton.one";
+
+    portal-labs-cc = {
+      url = "github:jeffcshelton/portal-labs.cc";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    shelton-one = {
+      url = "github:jeffcshelton/shelton.one";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs: import ./hosts inputs;
-    # let
-    #   hosts = import ./hosts inputs;
-    # in
-    # hosts // {
-    #   images.mars = nixos-generators.nixosGenerate {
-    #     format = "sd-aarch64";
-    #     modules = [ ./hosts/aarch64-linux/mars.nix ];
-    #     system = "aarch64-linux";
-    #     specialArgs = {
-    #       inherit inputs;
-    #       system = "aarch64-linux";
-    #       host = "mars";
-    #       isDarwin = false;
-    #       isLinux = true;
-    #       modulesName = "nixosModules";
-    #       unstable = import inputs.nixpkgs-unstable {
-    #         system = "aarch64-linux";
-    #         config.allowUnfree = true;
-    #       };
-    #     };
-    #   };
-    # };
 }

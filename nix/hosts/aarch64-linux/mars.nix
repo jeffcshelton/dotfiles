@@ -1,17 +1,13 @@
-{ inputs, pkgs, ... }:
+{ inputs, pkgs, modulesPath, ... }:
 {
   imports = [
     # General modules
     ../../modules/bluetooth.nix
     ../../modules/debug.nix
-    ../../modules/dev.nix
     ../../modules/kernel.nix
     ../../modules/locale.nix
-    ../../modules/neovim.nix
     ../../modules/net.nix
     ../../modules/nix.nix
-    ../../modules/rust.nix
-    ../../modules/shell.nix
     ../../modules/ssh.nix
 
     # Server modules
@@ -27,6 +23,8 @@
     # Hardware modules
     inputs.agenix.nixosModules.default
     inputs.nixos-hardware.nixosModules.raspberry-pi-4
+
+    "${modulesPath}/installer/sd-card/sd-image-aarch64.nix"
   ];
 
   boot = {
@@ -62,6 +60,11 @@
       fsType = "vfat";
       options = [ "fmask=0022" "dmask=0022" ];
     };
+  };
+
+  sdImage = {
+    compressImage = false;
+    firmwareSize = 512;
   };
 
   # It's necessary to disable sudo's password requirement for wheel users since

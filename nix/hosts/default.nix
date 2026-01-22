@@ -1,15 +1,13 @@
 {
   darwin,
   flake-utils,
-  nixos-generators,
   nixpkgs,
   nixpkgs-unstable,
+  self,
   ...
 } @ inputs:
 let
   inherit (nixpkgs) lib;
-
-  mkFlasher = import ../derivations/flasher.nix;
 
   # Read the hosts directory to determine all the systems in use.
   systems = builtins.attrNames
@@ -83,23 +81,6 @@ let
         config.systems
       )
   );
-
-  compressedImages = mkHosts {
-    builder = nixos-generators.nixosGenerate;
-    extra = { format = "sd-aarch64"; };
-    systems = [ "aarch64-linux" ];
-  };
-
-  mkImages = pkgs:
-    lib.mapAttrs
-      (host: compressed:
-        pkgs.runCommand "${host}.img" {} ''
-          ${pkgs.zstd}/bin/zstd \
-            -d ${compressed}/sd-image/nixos-image-*.img.zst \
-            -o $out
-        ''
-      )
-      compressedImages;
 in
 {
   darwinConfigurations = mkHosts {
@@ -112,11 +93,7 @@ in
     systems = linuxSystems;
   };
 }
-// flake-utils.lib.eachDefaultSystem (system:
-  let
-    pkgs = import nixpkgs { inherit system; };
-  in
-  {
-    packages.images = mkImages pkgs;
-  }
-)
+// flake-utils.lib.eachDefaultSystem (system: {
+  packages.images.mars =
+    self.nixosConfigurations.mars.config.system.build.sdImage;
+})

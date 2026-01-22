@@ -11,7 +11,7 @@ in
     description = "Server Administrator";
     home = "/home/admin";
     isNormalUser = true;
-    shell = pkgs.zsh;
+    shell = pkgs.bash;
 
     extraGroups = [
       "dialout"
