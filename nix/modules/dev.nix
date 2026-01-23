@@ -14,6 +14,7 @@
     file
     flex
     gcc
+    gh
     git
     gnumake
     gnupg
