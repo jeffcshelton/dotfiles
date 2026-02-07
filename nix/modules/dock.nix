@@ -15,7 +15,7 @@ lib.optionalAttrs isDarwin {
       "/Applications/Nix Apps/Notion.app"
       "/Applications/Pixelmator Pro.app"
       "/System/Applications/System Settings.app"
-      "/Applications/Ghostty.app"
+      "/Applications/Nix Apps/Ghostty.app"
     ];
 
     show-recents = false;
