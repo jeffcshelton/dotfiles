@@ -16,16 +16,17 @@ let
   keys = import ../secrets/keys;
 in
 {
+  _module.args = { inherit home; };
 
   imports = [
     inputs.home-manager.${modulesName}.default
+    ./jeff/syncthing.nix
   ];
 
   home-manager.users.jeff = {
     _module.args = { inherit host; };
     imports = [
       inputs.agenix.homeManagerModules.default
-      ./jeff/syncthing.nix
     ];
 
     home = {

@@ -6,6 +6,7 @@
 
     # Modules
     ../../modules/kernel.nix
+    ../../modules/discord.nix
 
     # Users
     ../../users/jeff.nix

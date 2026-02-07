@@ -18,6 +18,7 @@
     git
     gnumake
     gnupg
+    jupyter
     nodejs
     python3
     stow
