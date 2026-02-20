@@ -21,6 +21,11 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
+    nixvirt = {
+      url = "github:AshleyYakeley/NixVirt";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     portal-labs-cc = {
       url = "github:jeffcshelton/portal-labs.cc";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -28,6 +33,11 @@
 
     shelton-one = {
       url = "github:jeffcshelton/shelton.one";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    winapps = {
+      url = "github:winapps-org/winapps";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

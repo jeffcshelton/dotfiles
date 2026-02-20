@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<unattend xmlns="urn:schemas-microsoft-com:unattend">
+
+  <!-- ============================================================
+       windowsPE pass: locale, virtio storage drivers, disk layout,
+       image selection, and product key.
+       ============================================================ -->
+  <settings pass="windowsPE">
+
+    <component name="Microsoft-Windows-International-Core-WinPE"
+               processorArchitecture="amd64"
+               publicKeyToken="31bf3856ad364e35"
+               language="neutral"
+               versionScope="nonSxS"
+               xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State">
+      <SetupUILanguage>
+        <UILanguage>en-US</UILanguage>
+      </SetupUILanguage>
+      <InputLocale>en-US</InputLocale>
+      <UILanguage>en-US</UILanguage>
+      <SystemLocale>en-US</SystemLocale>
+      <UserLocale>en-US</UserLocale>
+    </component>
+
+    <component name="Microsoft-Windows-Setup"
+               processorArchitecture="amd64"
+               publicKeyToken="31bf3856ad364e35"
+               language="neutral"
+               versionScope="nonSxS"
+               xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State">
+
+      <!-- Inject the virtio-blk (viostor) driver so Setup can see the
+           virtio disk. The virtio-win ISO is the second CDROM (sdb),
+           typically assigned E: in WinPE; we also try F: in case the
+           order shifts. Non-existent paths are silently ignored. -->
+      <DriverPaths>
+        <PathAndCredentials wcm:action="add" wcm:keyValue="1">
+          <Path>E:\viostor\w11\amd64</Path>
+        </PathAndCredentials>
+        <PathAndCredentials wcm:action="add" wcm:keyValue="2">
+          <Path>F:\viostor\w11\amd64</Path>
+        </PathAndCredentials>
+        <PathAndCredentials wcm:action="add" wcm:keyValue="3">
+          <Path>G:\viostor\w11\amd64</Path>
+        </PathAndCredentials>
+      </DriverPaths>
+
+      <!-- GPT layout:
+           1: EFI System Partition (100 MiB, FAT32)
+           2: Microsoft Reserved   (16 MiB)
+           3: Windows              (rest of disk, NTFS → C:) -->
+      <DiskConfiguration>
+        <Disk wcm:action="add">
+          <DiskID>0</DiskID>
+          <WillWipeDisk>true</WillWipeDisk>
+          <CreatePartitions>
+            <CreatePartition wcm:action="add">
+              <Order>1</Order>
+              <Size>100</Size>
+              <Type>EFI</Type>
+            </CreatePartition>
+            <CreatePartition wcm:action="add">
+              <Order>2</Order>
+              <Size>16</Size>
+              <Type>MSR</Type>
+            </CreatePartition>
+            <CreatePartition wcm:action="add">
+              <Order>3</Order>
+              <Extend>true</Extend>
+              <Type>Primary</Type>
+            </CreatePartition>
+          </CreatePartitions>
+          <ModifyPartitions>
+            <ModifyPartition wcm:action="add">
+              <Order>1</Order>
+              <PartitionID>1</PartitionID>
+              <Label>System</Label>
+              <Format>FAT32</Format>
+            </ModifyPartition>
+            <ModifyPartition wcm:action="add">
+              <Order>2</Order>
+              <PartitionID>2</PartitionID>
+            </ModifyPartition>
+            <ModifyPartition wcm:action="add">
+              <Order>3</Order>
+              <PartitionID>3</PartitionID>
+              <Label>Windows</Label>
+              <Format>NTFS</Format>
+              <Letter>C</Letter>
+            </ModifyPartition>
+          </ModifyPartitions>
+        </Disk>
+      </DiskConfiguration>
+
+      <ImageInstall>
+        <OSImage>
+          <InstallTo>
+            <DiskID>0</DiskID>
+            <PartitionID>3</PartitionID>
+          </InstallTo>
+          <InstallToAvailablePartition>false</InstallToAvailablePartition>
+          <WillShowUI>Never</WillShowUI>
+        </OSImage>
+      </ImageInstall>
+
+      <!-- KMS client setup key for Windows 11 Pro (does not activate;
+           only used to select the edition and suppress the key prompt.) -->
+      <UserData>
+        <AcceptEula>true</AcceptEula>
+        <FullName>@USER@</FullName>
+        <Organization></Organization>
+        <ProductKey>
+          <WillShowUI>Never</WillShowUI>
+          <Key>W269N-WFGWX-YVC9B-4J6C9-T83GX</Key>
+        </ProductKey>
+      </UserData>
+
+    </component>
+  </settings>
+
+  <!-- ============================================================
+       specialize pass: hostname, locale, and copy postinstall.ps1
+       from the answer ISO to a known path on C: so that
+       FirstLogonCommands can reference it regardless of CD letter.
+       ============================================================ -->
+  <settings pass="specialize">
+
+    <component name="Microsoft-Windows-Shell-Setup"
+               processorArchitecture="amd64"
+               publicKeyToken="31bf3856ad364e35"
+               language="neutral"
+               versionScope="nonSxS"
+               xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State">
+      <ComputerName>Windows</ComputerName>
+      <TimeZone>UTC</TimeZone>
+    </component>
+
+    <component name="Microsoft-Windows-International-Core"
+               processorArchitecture="amd64"
+               publicKeyToken="31bf3856ad364e35"
+               language="neutral"
+               versionScope="nonSxS"
+               xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State">
+      <InputLocale>en-US</InputLocale>
+      <SystemLocale>en-US</SystemLocale>
+      <UILanguage>en-US</UILanguage>
+      <UserLocale>en-US</UserLocale>
+    </component>
+
+    <component name="Microsoft-Windows-Deployment"
+               processorArchitecture="amd64"
+               publicKeyToken="31bf3856ad364e35"
+               language="neutral"
+               versionScope="nonSxS"
+               xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State">
+      <RunSynchronous>
+        <!-- Install NetKVM before OOBE so Windows 11 sees a network adapter
+             and does not block on the "connect to a network" screen. -->
+        <RunSynchronousCommand wcm:action="add">
+          <Order>1</Order>
+          <Path>cmd /c "for %i in (D E F G H) do if exist %i:\NetKVM\w11\amd64\netkvm.inf pnputil /add-driver %i:\NetKVM\w11\amd64\netkvm.inf /install"</Path>
+        </RunSynchronousCommand>
+        <!-- Copy postinstall.ps1 from the answer ISO (whichever letter it
+             gets) to C:\Windows so FirstLogonCommands has a stable path. -->
+        <RunSynchronousCommand wcm:action="add">
+          <Order>2</Order>
+          <Path>cmd /c "for %i in (D E F G H) do if exist %i:\postinstall.ps1 copy /y %i:\postinstall.ps1 C:\Windows\postinstall.ps1"</Path>
+        </RunSynchronousCommand>
+      </RunSynchronous>
+    </component>
+
+  </settings>
+
+  <!-- ============================================================
+       oobeSystem pass: local account, skip OOBE, autologin,
+       and run postinstall.ps1 on first logon.
+       ============================================================ -->
+  <settings pass="oobeSystem">
+
+    <component name="Microsoft-Windows-Shell-Setup"
+               processorArchitecture="amd64"
+               publicKeyToken="31bf3856ad364e35"
+               language="neutral"
+               versionScope="nonSxS"
+               xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State">
+
+      <OOBE>
+        <HideEULAPage>true</HideEULAPage>
+        <HideLocalAccountScreen>true</HideLocalAccountScreen>
+        <HideOnlineAccountScreens>true</HideOnlineAccountScreens>
+        <HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE>
+        <NetworkLocation>Home</NetworkLocation>
+        <ProtectYourPC>3</ProtectYourPC>
+        <SkipMachineOOBE>true</SkipMachineOOBE>
+        <SkipUserOOBE>true</SkipUserOOBE>
+      </OOBE>
+
+      <UserAccounts>
+        <LocalAccounts>
+          <LocalAccount wcm:action="add">
+            <Password>
+              <Value>@PASSWORD@</Value>
+              <PlainText>true</PlainText>
+            </Password>
+            <Description></Description>
+            <DisplayName>@USER@</DisplayName>
+            <Group>Administrators</Group>
+            <Name>@USER@</Name>
+          </LocalAccount>
+        </LocalAccounts>
+      </UserAccounts>
+
+      <!-- Autologon is needed so FirstLogonCommands runs unattended.
+           Count of 3 covers the post-install reboot. -->
+      <AutoLogon>
+        <Password>
+          <Value>@PASSWORD@</Value>
+          <PlainText>true</PlainText>
+        </Password>
+        <Enabled>true</Enabled>
+        <LogonCount>3</LogonCount>
+        <Username>@USER@</Username>
+      </AutoLogon>
+
+      <FirstLogonCommands>
+        <SynchronousCommand wcm:action="add">
+          <Order>1</Order>
+          <CommandLine>powershell -NoProfile -ExecutionPolicy Bypass -File C:\Windows\postinstall.ps1</CommandLine>
+          <Description>Post-install setup (virtio tools, RDP, Office)</Description>
+          <RequiresUserInput>false</RequiresUserInput>
+        </SynchronousCommand>
+      </FirstLogonCommands>
+
+    </component>
+  </settings>
+
+</unattend>

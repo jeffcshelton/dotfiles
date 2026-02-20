@@ -87,9 +87,12 @@ in
       isNormalUser = true;
       extraGroups = [
         "audio"
+        "dialout"
         "docker"
         "i2c"
         "input"
+        "kvm"
+        "libvirtd"
         "lp"
         "networkmanager"
         "render"

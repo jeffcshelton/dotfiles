@@ -6,6 +6,7 @@
 
     # Modules
     ../../modules/kernel.nix
+    ../../modules/windows
 
     # Users
     ../../users/jeff.nix
@@ -13,6 +14,21 @@
     # External
     inputs.agenix.nixosModules.default
   ];
+
+  # Windows VM tuning for Jupiter (AMD Ryzen 9).
+  # Run `lscpu --extended` to verify core topology before adjusting these.
+  windows = {
+    vcpus = 4;
+    memoryMiB = 8192;
+    # Dedicate physical cores 8–11 to the VM; adjust after verifying topology.
+    vcpuPinning = [ "8" "9" "10" "11" ];
+    user = "Jeff";
+
+    iso = {
+      uuid   = "8a51f699-d207-44d6-a4bb-eb07d0276e00";
+      sha256 = "sha256-OXG1pzKfKobqDj1AW1RoxsFKeCuAKxed6GPMFtQjw6A=";
+    };
+  };
 
   boot = {
     extraModprobeConfig = ''
@@ -46,6 +62,18 @@
 
       # Support for the motherboard chip that provides temperature sensing.
       "nct6775"
+    ];
+
+    # 1G hugepages for the Windows VM (10 GiB reserved: 8 GiB VM + overhead).
+    # CPU isolation keeps VM vCPUs off the host scheduler for lower latency.
+    # Adjust core numbers after running `lscpu --extended` on Jupiter.
+    kernelParams = [
+      "default_hugepagesz=1G"
+      "hugepagesz=1G"
+      "hugepages=10"
+      "isolcpus=8,9,10,11"
+      "nohz_full=8,9,10,11"
+      "rcu_nocbs=8,9,10,11"
     ];
 
     # Substitute the LTS kernel with the newest release.
