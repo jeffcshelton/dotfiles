@@ -1,12 +1,14 @@
 { unstable, ... }:
 {
-  environment.systemPackages = [
-    unstable._1password-gui
-  ];
-
   programs = {
-    # Despite the strange names, these are the official 1Password packages.
-    _1password.enable = true;
-    _1password-gui.enable = true;
+    _1password = {
+      enable = true;
+      package = unstable._1password-cli;
+    };
+
+    _1password-gui = {
+      enable = true;
+      package = unstable._1password-gui;
+    };
   };
 }
