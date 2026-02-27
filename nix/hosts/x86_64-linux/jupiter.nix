@@ -77,7 +77,7 @@
     ];
 
     # Substitute the LTS kernel with the newest release.
-    kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = pkgs.linuxPackages_6_18;
 
     loader = {
       efi.canTouchEfiVariables = true;
