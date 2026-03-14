@@ -5,6 +5,7 @@
     tmux
 
     # Claude Code and Gemini are dependencies of the Tmux config.
+    unstable.codex
     unstable.claude-code
     unstable.gemini-cli
 

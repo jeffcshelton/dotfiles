@@ -34,6 +34,7 @@ in
       stateVersion = "25.05";
 
       file = dotConfig // {
+        ".codex/config.toml".source = ../../.codex/config.toml;
         ".zshrc".source = ../../.zshrc;
       };
     };
