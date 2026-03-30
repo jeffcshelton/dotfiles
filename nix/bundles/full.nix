@@ -23,6 +23,7 @@
     ../modules/notes.nix
     ../modules/photo.nix
     ../modules/printing.nix
+    ../modules/python.nix
     ../modules/rgb.nix
     ../modules/rust.nix
     ../modules/shell.nix
@@ -35,6 +36,7 @@
     ../modules/virtualization.nix
     ../modules/vpn.nix
     ../modules/web.nix
+    ../modules/wireshark.nix
 
     ../modules/server/ssh.nix
   ];

@@ -2,3 +2,9 @@ approval_policy = "on-request"
 sandbox_mode = "workspace-write"
 model = "gpt-5.4"
 model_verbosity = "low"
+
+[projects."/Users/jeff/Dev/dtdata"]
+trust_level = "trusted"
+
+[projects."/home/jeff/Dev/dtdata"]
+trust_level = "trusted"
