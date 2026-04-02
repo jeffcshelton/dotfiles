@@ -9,10 +9,18 @@ lib.mkMerge [
   })
 
   (lib.optionalAttrs isLinux {
+    security.polkit.enable = true;
+
+    services = {
+      gvfs.enable = true;
+      udisks2.enable = true;
+    };
+
     environment.systemPackages = with pkgs; [
       gnome-icon-theme
       gnome-themes-extra
       nautilus
+      udiskie
     ];
   })
 ]
