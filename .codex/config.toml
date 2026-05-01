@@ -13,5 +13,5 @@ trust_level = "trusted"
 [projects."/home/jeff/Dev/dtdata"]
 trust_level = "trusted"
 
-[project."/home/jeff/Dev/luna"]
+[projects."/home/jeff/Dev/luna"]
 trust_level = "trusted"
