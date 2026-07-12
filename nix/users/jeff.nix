@@ -16,7 +16,6 @@ let
   keys = import ../secrets/keys;
 in
 {
-
   imports = [
     inputs.home-manager.${modulesName}.default
   ];
@@ -34,38 +33,26 @@ in
       stateVersion = "25.05";
 
       file = dotConfig // {
-        ".codex/config.toml".source = ../../.codex/config.toml;
+        # ".codex/config.toml".source = ../../.codex/config.toml;
         ".zshrc".source = ../../.zshrc;
       };
     };
 
-    programs = {
-      firefox = {
-        enable = true;
+    programs.firefox = {
+      enable = true;
+      configPath = "${home}/.config/mozilla/firefox";
 
-        profiles.default = {
-          search = {
-            default = "google";
-            force = true;
-            privateDefault = "google";
-          };
-
-          settings = {
-            "browser.startup.homepage" = "https://www.google.com";
-            "browser.search.defaultenginename" = "Google";
-            "privacy.trackingprotection.enabled" = true;
-          };
+      profiles.default = {
+        search = {
+          default = "google";
+          force = true;
+          privateDefault = "google";
         };
-      };
 
-      ssh = {
-        enable = true;
-        enableDefaultConfig = false;
-
-        matchBlocks."ice" = {
-          host = "ice";
-          hostname = "login-ice.pace.gatech.edu";
-          user = "jshelton44";
+        settings = {
+          "browser.startup.homepage" = "https://www.google.com";
+          "browser.search.defaultenginename" = "Google";
+          "privacy.trackingprotection.enabled" = true;
         };
       };
     };
