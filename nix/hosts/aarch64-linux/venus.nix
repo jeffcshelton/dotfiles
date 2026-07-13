@@ -90,8 +90,11 @@
   security.sudo.wheelNeedsPassword = false;
 
   # Cloudflare tunnel definition and rules.
-  server.tunnels."eef93350-83b3-47a9-8dfb-797166548789".ingress = {
-    "venus.shelton.one" = "ssh://localhost:22";
+  server.cloudflare = {
+    enable = true;
+    tunnels."eef93350-83b3-47a9-8dfb-797166548789".ingress = {
+      "venus.shelton.one" = "ssh://localhost:22";
+    };
   };
 
   # The original Nix version installed on Venus.

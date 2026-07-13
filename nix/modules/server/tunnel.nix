@@ -1,5 +1,7 @@
 { config, inputs, lib, modulesName, ... }:
 let
+  cfg = config.server.cloudflare;
+
   secrets = lib.mapAttrs' (key: value:
     {
       name = "tunnel-${key}";
@@ -10,7 +12,7 @@ let
         mode = "0400";
       };
     }
-  ) config.server.tunnels;
+  ) cfg.tunnels;
 
   # Apply options from the host file.
   tunnels = lib.mapAttrs (key: value:
@@ -18,25 +20,28 @@ let
       credentialsFile = config.age.secrets."tunnel-${key}".path;
       default = "http_status:404";
     } // value
-  ) config.server.tunnels;
+  ) cfg.tunnels;
 in
 {
+  options.server.cloudflare = {
+    enable = lib.mkEnableOption "Cloudflare tunnels";
+
+    tunnels = lib.mkOption {
+      default = { };
+      description = "Cloudflare tunnels and their ingress configuration.";
+      type = lib.types.attrsOf (lib.types.attrs);
+    };
+  };
+
   imports = [
     inputs.agenix.${modulesName}.default
   ];
 
-  config = {
+  config = lib.mkIf cfg.enable {
     age = { inherit secrets; };
     services.cloudflared = {
       inherit tunnels;
       enable = true;
     };
-  };
-
-  # Define options for the host file to set to specify the tunnel.
-  options.server.tunnels = lib.mkOption {
-    default = {};
-    description = "Server Cloudflare tunnels configuration.";
-    type = lib.types.attrsOf (lib.types.attrs);
   };
 }

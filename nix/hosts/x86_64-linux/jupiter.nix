@@ -1,4 +1,4 @@
-{ config, inputs, pkgs, ... }:
+{ config, inputs, lib, pkgs, vmGuests, ... }:
 {
   imports = [
     # Bundle
@@ -132,6 +132,19 @@
 
   # Instructs services to use AMD GPU drivers for rendering.
   services.xserver.videoDrivers = [ "nvidia" ];
+
+  # Resolve local VM names to their QEMU loopback addresses.
+  networking.hosts = lib.mapAttrs'
+    (_host: guest: lib.nameValuePair guest.address [ guest.domain ])
+    vmGuests;
+
+  # Select the forwarded SSH port without requiring it on the command line.
+  programs.ssh.extraConfig = ''
+    Host *.vm.shelton.one
+      Port 2222
+      StrictHostKeyChecking no
+      UserKnownHostsFile /dev/null
+  '';
 
   swapDevices = [
     { device = "/dev/disk/by-uuid/203490f0-236f-496c-a686-1991051a8556"; }

@@ -14,7 +14,6 @@
     ../../modules/server/git.nix
     ../../modules/server/ssh.nix
     ../../modules/server/tunnel.nix
-    ../../modules/server/portal-labs-cc.nix
     ../../modules/server/shelton-one.nix
 
     # Users
@@ -74,46 +73,15 @@
   security.sudo.wheelNeedsPassword = false;
 
   # Cloudflare tunnel definition and rules.
-  server.tunnels."06684310-6ec1-40a5-ab96-3f31cfe4d185".ingress = {
-    "mars.shelton.one" = "ssh://localhost:22";
-    "portal-labs.cc" = "http://localhost:7201";
-    "shelton.one" = "http://localhost:4390";
+  server.cloudflare = {
+    enable = true;
+    tunnels."06684310-6ec1-40a5-ab96-3f31cfe4d185".ingress = {
+      "mars.shelton.one" = "ssh://localhost:22";
+      "shelton.one" = "http://localhost:4390";
+    };
   };
 
-  # Inject encrypted SSH keys into the image at build time.
-  # This only works on authorized machines that can decrypt the keys.
-  # sdImage.postBuildCommands = ''
-  #   # Set up loop device with partition scanning
-  #   loopdev=$(${pkgs.util-linux}/bin/losetup -f --show -P $img)
-  #
-  #   # Create temporary mount directory
-  #   mountdir=$(${pkgs.coreutils}/bin/mktemp -d)
-  #
-  #   # Mount the root partition (partition 2 on SD images)
-  #   ${pkgs.util-linux}/bin/mount ''${loopdev}p2 "$mountdir"
-  #
-  #   # Try to decrypt and inject SSH host keys (only works on authorized machines)
-  #   if ${pkgs.age}/bin/age -d \
-  #       ${../../secrets/keys/mars/system.pem.age} \
-  #       -o "$mountdir/etc/ssh/ssh_host_ed25519_key" \
-  #       2>/dev/null; then
-  #
-  #     chmod 600 "$mountdir/etc/ssh/ssh_host_ed25519_key"
-  #     echo "Successfully injected SSH host key into Mars image"
-  #   else
-  #     echo "WARNING: Could not decrypt SSH key - Mars will generate key at first boot"
-  #   fi
-  #
-  #   # Clean up
-  #   ${pkgs.util-linux}/bin/umount "$mountdir"
-  #   ${pkgs.util-linux}/bin/losetup -d $loopdev
-  #   rmdir "$mountdir"
-  # '';
-
-  services = {
-    "portal-labs.cc".port = 7201;
-    "shelton.one".port = 4390;
-  };
+  services."shelton.one".port = 4390;
 
   # The original Nix version installed on Mars.
   # Do not change this value unless the machine is wiped.

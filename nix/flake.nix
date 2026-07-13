@@ -31,11 +31,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    portal-labs-cc = {
-      url = "github:jeffcshelton/portal-labs.cc";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     shelton-one = {
       url = "github:jeffcshelton/shelton.one";
       inputs.nixpkgs.follows = "nixpkgs";
