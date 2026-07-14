@@ -41,7 +41,7 @@
 
       mkdir -p /mnt/image
       mount /dev/vda2 /mnt/image
-      hostname=$(tr -d '\r\n' < /mnt/image/etc/hostname)
+      hostname=$(tr -d '\r\n' < /mnt/status/hostname)
       case "$hostname" in
         ""|*[!a-z0-9-]*) exit 1 ;;
       esac
@@ -53,7 +53,7 @@
       derived=$temporary.pub
       expected=$temporary.expected
 
-      if test -f "$secret" && test -f "$public" && test ! -e "$key" \
+      if test -f "$secret" && test -f "$public" && mkdir -p /mnt/image/etc/ssh && test ! -e "$key" \
         && age -d -i /mnt/identity/ssh_host_ed25519_key -o "$temporary" "$secret" 2>/dev/null \
         && chmod 600 "$temporary" \
         && ssh-keygen -y -f "$temporary" | cut -d ' ' -f 1-2 > "$derived" \

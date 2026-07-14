@@ -7,8 +7,8 @@ let
       name = "tunnel-${key}";
       value = {
         file = ../../secrets/tunnels/${key}.json.age;
-        owner = "cloudflared";
-        group = "cloudflared";
+        # Cloudflared uses systemd DynamicUser, so systemd must read the
+        # root-owned source and supply it through LoadCredential.
         mode = "0400";
       };
     }

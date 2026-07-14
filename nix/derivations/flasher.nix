@@ -1,4 +1,4 @@
-{ pkgs, image, secrets, injectorIso ? null }:
+{ pkgs, image, host, secrets, injectorIso ? null }:
 pkgs.writeShellApplication {
   name = "flash-${image.name}";
   runtimeInputs = [ pkgs.age pkgs.coreutils pkgs.openssh pkgs.qemu pkgs.util-linux ]
@@ -20,6 +20,15 @@ pkgs.writeShellApplication {
       exec sudo -- "$0" "$@"
     fi
 
+    shopt -s nullglob
+    images=(${image}/sd-image/*.img)
+    if [ "''${#images[@]}" -ne 1 ]; then
+      echo "error: expected exactly one SD image in ${image}/sd-image" >&2
+      exit 1
+    fi
+    image="''${images[0]}"
+    hostname=${host}
+
     temporary=$(mktemp -d)
     overlay=$temporary/image.qcow2
     mountdir=$temporary/mount
@@ -36,7 +45,7 @@ pkgs.writeShellApplication {
     }
     trap cleanup EXIT INT TERM
 
-    qemu-img create -f qcow2 -F raw -b ${image} "$overlay" >/dev/null
+    qemu-img create -f qcow2 -F raw -b "$image" "$overlay" >/dev/null
 
     ${if pkgs.stdenv.isLinux then ''
       modprobe nbd max_part=16
@@ -55,12 +64,11 @@ pkgs.writeShellApplication {
       mkdir "$mountdir"
       mount "''${nbd}p2" "$mountdir"
       mounted=1
-      hostname=$(tr -d '\r\n' < "$mountdir/etc/hostname")
       case "$hostname" in ""|*[!a-z0-9-]*) echo "error: invalid image hostname" >&2; exit 1;; esac
       secret=${secrets}/$hostname/system.pem.age
       public=${secrets}/$hostname/system.pub
       key=$mountdir/etc/ssh/ssh_host_ed25519_key
-      if test -f "$secret" && test -f "$public" && test ! -e "$key" \
+      if test -f "$secret" && test -f "$public" && mkdir -p "$mountdir/etc/ssh" && test ! -e "$key" \
         && age -d -i /etc/ssh/ssh_host_ed25519_key -o "$key.inject-ssh" "$secret" 2>/dev/null \
         && chmod 600 "$key.inject-ssh" \
         && ssh-keygen -y -f "$key.inject-ssh" | cut -d ' ' -f 1-2 > "$key.inject-ssh.pub" \
@@ -80,6 +88,7 @@ pkgs.writeShellApplication {
     '' else ''
       status=$temporary/status
       mkdir "$status"
+      printf '%s\n' "$hostname" > "$status/hostname"
       qemu-system-x86_64 -nographic -m 768 -cdrom ${injectorIso} \
         -drive file="$overlay",format=qcow2,if=virtio \
         -virtfs local,path=/etc/ssh,mount_tag=identity,security_model=none,readonly=on \
@@ -92,8 +101,10 @@ pkgs.writeShellApplication {
       fi
     ''}
 
-    echo "Flashing ${image} with the injected SSH host key to $device..."
-    qemu-img convert -p -O raw "$overlay" "$device"
+    echo "Flashing $image with the injected SSH host key to $device..."
+    # writethrough reports progress only after each write is flushed, rather
+    # than reaching 100% while the host page cache is still draining.
+    qemu-img convert -p -t writethrough -O raw "$overlay" "$device"
     sync
   '';
 }

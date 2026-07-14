@@ -44,7 +44,7 @@
     };
   };
 
-  # Disable consoles because there is no display.
+  # Mars is normally headless; use UART only when physical boot diagnostics are needed.
   console.enable = false;
 
   fileSystems = {
@@ -65,6 +65,11 @@
     compressImage = false;
     firmwareSize = 512;
   };
+
+  # The nixos-hardware Pi module populates the firmware partition itself.
+  # Explicitly chainload U-Boot so the Pi firmware can reach extlinux on the
+  # ext4 root partition.
+  hardware.raspberry-pi.firmware.uboot.enable = true;
 
   # It's necessary to disable sudo's password requirement for wheel users since
   # the primary user does not have a password.

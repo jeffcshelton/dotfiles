@@ -163,6 +163,7 @@ in
       flash.mars = import ../derivations/flasher.nix {
         inherit pkgs;
         image = self.nixosConfigurations.mars.config.system.build.sdImage;
+        host = "mars";
         secrets = ../secrets/keys;
         injectorIso = sshInjectorAppliance.config.system.build.isoImage;
       };

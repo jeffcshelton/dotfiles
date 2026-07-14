@@ -1,4 +1,4 @@
-{ inputs, modulesName, pkgs, ... }:
+{ inputs, lib, modulesName, pkgs, ... }:
 let
   keys = import ../secrets/keys;
 in
@@ -27,4 +27,8 @@ in
       mercury.jeff
     ];
   };
+
+  # Permit the deployment administrator to import locally built closures over
+  # SSH, such as those sent by nixos-rebuild --target-host.
+  nix.settings.trusted-users = lib.mkAfter [ "admin" ];
 }
