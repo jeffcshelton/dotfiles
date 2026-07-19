@@ -30,6 +30,12 @@ in
 {
   programs.ssh = {
     extraConfig = ''
+      Match host shelton.one user git
+        HostKeyAlias ssh.git.shelton.one
+        ProxyCommand ${pkgs.cloudflared}/bin/cloudflared access ssh --hostname ssh.git.shelton.one
+
+      Match all
+
       Host mars.shelton.one
         ProxyCommand ${pkgs.cloudflared}/bin/cloudflared access ssh --hostname %h
     '';

@@ -11,7 +11,7 @@
     ../../modules/ssh.nix
 
     # Server modules
-    ../../modules/server/git.nix
+    ../../modules/server/gitea.nix
     ../../modules/server/ssh.nix
     ../../modules/server/tunnel.nix
     ../../modules/server/shelton-one.nix
@@ -81,6 +81,8 @@
   server.cloudflare = {
     enable = true;
     tunnels."06684310-6ec1-40a5-ab96-3f31cfe4d185".ingress = {
+      "git.shelton.one" = "http://localhost:3000";
+      "ssh.git.shelton.one" = "ssh://localhost:2223";
       "mars.shelton.one" = "ssh://localhost:22";
       "shelton.one" = "http://localhost:4390";
     };
