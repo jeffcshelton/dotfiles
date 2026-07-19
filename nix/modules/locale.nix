@@ -17,5 +17,5 @@ lib.optionalAttrs isLinux {
     };
   };
 
-  time.timeZone = "America/New_York";
+  time.timeZone = "America/Denver";
 }
