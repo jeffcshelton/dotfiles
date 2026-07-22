@@ -11,28 +11,13 @@ let
       (_: value: lib.hasAttr "system" value)
       keys
     );
-
-  # Provide additional known hostnames for specific hosts.
-  # extraHostNames = {
-  #   "mars" = [ "mars.shelton.one" ];
-  # };
-
-  # Merge the system keys list with the extra hostnames list.
-  # knownHosts = lib.recursiveUpdate
-  #   systemHosts
-  #   (lib.mapAttrs
-  #     (name: hostnames: {
-  #       extraHostNames = hostnames;
-  #     })
-  #     extraHostNames
-  #   );
 in
 {
   programs.ssh = {
     extraConfig = ''
       Match host shelton.one user git
-        HostKeyAlias ssh.git.shelton.one
-        ProxyCommand ${pkgs.cloudflared}/bin/cloudflared access ssh --hostname ssh.git.shelton.one
+        HostKeyAlias git-ssh.shelton.one
+        ProxyCommand ${pkgs.cloudflared}/bin/cloudflared access ssh --hostname git-ssh.shelton.one
 
       Match all
 

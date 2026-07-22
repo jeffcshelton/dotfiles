@@ -72,7 +72,7 @@ in
         START_SSH_SERVER = true;
         BUILTIN_SSH_SERVER_USER = "git";
         SSH_USER = "git";
-        # Clients route this advertised hostname through ssh.git.shelton.one.
+        # Clients route this advertised hostname through git-ssh.shelton.one.
         SSH_DOMAIN = "shelton.one";
         SSH_PORT = 22;
         SSH_LISTEN_HOST = "127.0.0.1";
