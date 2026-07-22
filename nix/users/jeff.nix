@@ -1,18 +1,7 @@
 { host, inputs, isDarwin, isLinux, lib, modulesName, pkgs, ... }:
 let
-  dotConfig = builtins.listToAttrs
-  (
-    map (name: {
-      name = ".config/${name}";
-      value = {
-        source = ../../.config/${name};
-        recursive = true;
-      };
-    })
-    (builtins.attrNames (builtins.readDir ../../.config))
-  );
-
   home = if isDarwin then "/Users/jeff" else "/home/jeff";
+  dotfiles = "${home}/dotfiles";
   keys = import ../secrets/keys;
 in
 {
@@ -20,42 +9,53 @@ in
     inputs.home-manager.${modulesName}.default
   ];
 
-  home-manager.users.jeff = {
-    _module.args = { inherit host; };
-    imports = [
-      inputs.agenix.homeManagerModules.default
-      ./jeff/syncthing.nix
-    ];
+  home-manager.users.jeff = { config, ... }:
+    let
+      inherit (config.lib.file) mkOutOfStoreSymlink;
 
-    home = {
-      username = "jeff";
-      homeDirectory = home;
-      stateVersion = "25.05";
+      dotConfig = builtins.listToAttrs (
+        map (name: {
+          name = ".config/${name}";
+          value.source = mkOutOfStoreSymlink "${dotfiles}/.config/${name}";
+        })
+        (builtins.attrNames (builtins.readDir ../../.config))
+      );
+    in
+    {
+      _module.args = { inherit host; };
+      imports = [
+        inputs.agenix.homeManagerModules.default
+        ./jeff/syncthing.nix
+      ];
 
-      file = dotConfig // {
-        # ".codex/config.toml".source = ../../.codex/config.toml;
-        ".zshrc".source = ../../.zshrc;
-      };
-    };
+      home = {
+        username = "jeff";
+        homeDirectory = home;
+        stateVersion = "25.05";
 
-    programs.firefox = {
-      enable = true;
-      configPath = "${home}/.config/mozilla/firefox";
-
-      profiles.default = {
-        search = {
-          default = "google";
-          force = true;
-          privateDefault = "google";
-        };
-
-        settings = {
-          "browser.startup.homepage" = "https://www.google.com";
-          "browser.search.defaultenginename" = "Google";
-          "privacy.trackingprotection.enabled" = true;
+        file = dotConfig // {
+          ".zshrc".source = mkOutOfStoreSymlink "${dotfiles}/.zshrc";
         };
       };
-    };
+
+      programs.firefox = {
+        enable = true;
+        configPath = "${home}/.config/mozilla/firefox";
+
+        profiles.default = {
+          search = {
+            default = "google";
+            force = true;
+            privateDefault = "google";
+          };
+
+          settings = {
+            "browser.startup.homepage" = "https://www.google.com";
+            "browser.search.defaultenginename" = "Google";
+            "privacy.trackingprotection.enabled" = true;
+          };
+        };
+      };
   };
 
   users.users.jeff = lib.mkMerge [

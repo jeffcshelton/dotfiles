@@ -2,5 +2,7 @@ confirm-close-surface = false
 cursor-color = white
 cursor-style = bar
 font-family = "CaskaydiaMono Nerd Font"
+keybind = alt+arrow_left=unbind
+keybind = alt+arrow_right=unbind
 shell-integration = zsh
 theme = Rose Pine Moon

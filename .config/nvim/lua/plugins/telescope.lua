@@ -1,6 +1,6 @@
 return {
   "nvim-telescope/telescope.nvim",
-  branch = "0.1.x",
+  branch = "master",
   dependencies = { "nvim-lua/plenary.nvim" },
   config = function()
     require("telescope").setup({
@@ -16,7 +16,12 @@ return {
           "--follow",
           "--hidden",
         }
-      }
+      },
+      pickers = {
+        find_files = {
+          hidden = true,
+        },
+      },
     })
   end,
 }
