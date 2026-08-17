@@ -7,7 +7,10 @@
 { isDarwin, isLinux, lib, pkgs, ... }:
 lib.mkMerge [
   (lib.optionalAttrs isDarwin {
-    environment.systemPackages = [ pkgs.ghostty-bin ];
+    environment = {
+      systemPackages = [ pkgs.ghostty-bin ];
+      variables.AERO_TERMINAL = "com.mitchellh.ghostty";
+    };
   })
 
   (lib.optionalAttrs isLinux {

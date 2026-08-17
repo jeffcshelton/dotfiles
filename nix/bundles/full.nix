@@ -14,7 +14,6 @@
     ../modules/fonts.nix
     ../modules/fpga.nix
     ../modules/homebrew.nix
-    ../modules/hyprland.nix
     ../modules/locale.nix
     ../modules/minecraft.nix
     ../modules/neovim.nix
@@ -31,6 +30,7 @@
     ../modules/ssh.nix
     ../modules/slack.nix
     ../modules/terminal.nix
+    ../modules/tiling.nix
     ../modules/typesetting.nix
     ../modules/video.nix
     ../modules/virtualization.nix

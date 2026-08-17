@@ -17,13 +17,13 @@
     ../../modules/calendar.nix
     ../../modules/firefox.nix
     ../../modules/gnome.nix
-    ../../modules/hyprland.nix
     ../../modules/kernel.nix
     ../../modules/locale.nix
     ../../modules/obsidian.nix
     ../../modules/office.nix
     ../../modules/printing.nix
     ../../modules/terminal.nix
+    ../../modules/tiling.nix
     ../../modules/web.nix
 
     # Server modules

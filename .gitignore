@@ -1,5 +1,8 @@
 .DS_Store
 
+# Ignore Karabiner generated backups.
+.config/karabiner/automatic_backups/
+
 # Ignore Tmux plugins except for TPM.
 .config/tmux/plugins/
 !.config/tmux/plugins/tpm/

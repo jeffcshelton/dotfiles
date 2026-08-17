@@ -4,5 +4,7 @@ cursor-style = bar
 font-family = "CaskaydiaMono Nerd Font"
 keybind = alt+arrow_left=unbind
 keybind = alt+arrow_right=unbind
+keybind = ctrl+shift+c=copy_to_clipboard
+keybind = ctrl+shift+v=paste_from_clipboard
 shell-integration = zsh
 theme = Rose Pine Moon

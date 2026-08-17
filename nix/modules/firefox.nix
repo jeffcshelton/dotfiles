@@ -3,9 +3,10 @@
 { isDarwin, isLinux, lib, pkgs, system, ... }:
 lib.mkMerge [
   (lib.optionalAttrs isDarwin {
-    environment.systemPackages = with pkgs; [
-      firefox
-    ];
+    environment = {
+      systemPackages = [ pkgs.firefox ];
+      variables.AERO_BROWSER = "org.nixos.firefox";
+    };
   })
 
   (lib.optionalAttrs isLinux {
