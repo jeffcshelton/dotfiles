@@ -1,9 +1,9 @@
 -- Jupiter monitor 1.5x scaling.
 hl.monitor({
-  output = "HDMI-A-1",
+  output = "HDMI-A-2",
   mode = "preferred",
   position = "auto",
-  scale = 1.5,
+  scale = 1.25,
 })
 
 -- Ceres display 2x scaling.

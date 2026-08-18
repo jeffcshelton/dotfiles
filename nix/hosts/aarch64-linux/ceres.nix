@@ -19,7 +19,7 @@
     ../../modules/gnome.nix
     ../../modules/kernel.nix
     ../../modules/locale.nix
-    ../../modules/obsidian.nix
+    ../../modules/notes.nix
     ../../modules/office.nix
     ../../modules/printing.nix
     ../../modules/terminal.nix

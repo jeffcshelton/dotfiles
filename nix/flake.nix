@@ -4,7 +4,6 @@
   inputs = {
     agenix.url = "github:ryantm/agenix";
     asahi.url = "github:nix-community/nixos-apple-silicon";
-    codex.url = "github:sadjow/codex-cli-nix";
 
     darwin = {
       url = "github:nix-darwin/nix-darwin/nix-darwin-26.05";

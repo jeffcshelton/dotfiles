@@ -20,6 +20,7 @@
     ../modules/net.nix
     ../modules/nix.nix
     ../modules/notes.nix
+    ../modules/opencode.nix
     ../modules/photo.nix
     ../modules/printing.nix
     ../modules/python.nix
