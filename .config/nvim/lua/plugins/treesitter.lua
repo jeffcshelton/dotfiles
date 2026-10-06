@@ -8,6 +8,7 @@ local parsers = {
   "rust",
   "typescript",
   "typst",
+  "wgsl",
 }
 
 return {

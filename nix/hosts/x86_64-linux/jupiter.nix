@@ -1,4 +1,4 @@
-{ config, inputs, lib, pkgs, vmGuests, ... }:
+{ config, inputs, lib, pkgs, unstable, vmGuests, ... }:
 {
   imports = [
     # Bundle
@@ -6,7 +6,7 @@
 
     # Modules
     ../../modules/kernel.nix
-    ../../modules/windows
+    # ../../modules/windows
 
     # Users
     ../../users/jeff.nix
@@ -17,18 +17,18 @@
 
   # Windows VM tuning for Jupiter (AMD Ryzen 9).
   # Run `lscpu --extended` to verify core topology before adjusting these.
-  windows = {
-    vcpus = 4;
-    memoryMiB = 8192;
-    # Dedicate physical cores 8–11 to the VM; adjust after verifying topology.
-    vcpuPinning = [ "8" "9" "10" "11" ];
-    user = "Jeff";
-
-    iso = {
-      uuid   = "8a51f699-d207-44d6-a4bb-eb07d0276e00";
-      sha256 = "sha256-OXG1pzKfKobqDj1AW1RoxsFKeCuAKxed6GPMFtQjw6A=";
-    };
-  };
+  # windows = {
+  #   vcpus = 4;
+  #   memoryMiB = 8192;
+  #   # Dedicate physical cores 8–11 to the VM; adjust after verifying topology.
+  #   vcpuPinning = [ "8" "9" "10" "11" ];
+  #   user = "Jeff";
+  #
+  #   iso = {
+  #     uuid   = "8a51f699-d207-44d6-a4bb-eb07d0276e00";
+  #     sha256 = "sha256-OXG1pzKfKobqDj1AW1RoxsFKeCuAKxed6GPMFtQjw6A=";
+  #   };
+  # };
 
   boot = {
     extraModprobeConfig = ''
@@ -77,7 +77,7 @@
     ];
 
     # Substitute the LTS kernel with the newest release.
-    kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = unstable.linuxPackages_latest;
 
     loader = {
       efi.canTouchEfiVariables = true;
@@ -120,7 +120,7 @@
       modesetting.enable = true;
       nvidiaSettings = true;
       open = true;
-      package = config.boot.kernelPackages.nvidiaPackages.production;
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
     };
   };
 

@@ -17,6 +17,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    llm-agents.url = "github:numtide/llm-agents.nix";
+
     nixos-hardware = {
       url = "github:NixOS/nixos-hardware";
       inputs.nixpkgs.follows = "nixpkgs";

@@ -1,6 +1,7 @@
 { ... }:
 {
   imports = [
+    ../modules/agents.nix
     ../modules/audio.nix
     ../modules/auth.nix
     ../modules/cad.nix
@@ -20,7 +21,6 @@
     ../modules/net.nix
     ../modules/nix.nix
     ../modules/notes.nix
-    ../modules/opencode.nix
     ../modules/photo.nix
     ../modules/printing.nix
     ../modules/python.nix

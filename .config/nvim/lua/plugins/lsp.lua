@@ -34,8 +34,10 @@ return {
       "pyright",
       "rust_analyzer",
       "sourcekit",
+      "tailwindcss",
       "tinymist",
       "ts_ls",
+      "wgsl_analyzer",
     }
 
     -- Configure Java-specific settings.
@@ -66,6 +68,14 @@ return {
       if server == "jdtls" then
         config.settings = java_settings
         config.init_options = { settings = java_settings }
+      elseif server == "rust-analyzer" then
+        config.settings = {
+          ["rust-analyzer"] = {
+            cargo = {
+              allFeatures = true,
+            },
+          },
+        }
       end
 
       vim.lsp.config(server, config)

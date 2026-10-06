@@ -48,6 +48,9 @@
     # Rust language server.
     rust-analyzer
 
+    # Tailwind language server.
+    tailwindcss-language-server
+
     # Typst language server.
     tinymist
 
@@ -56,5 +59,8 @@
 
     # TypeScript language server.
     typescript-language-server
+
+    # WGSL language server.
+    wgsl-analyzer
   ];
 }
