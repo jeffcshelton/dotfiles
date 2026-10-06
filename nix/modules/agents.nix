@@ -1,9 +1,10 @@
 { inputs, pkgs, ... }:
+let
+  llm-agents = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system};
+in
 {
-  environment.systemPackages = with pkgs; [
-    llm-agents.claude-code
-    llm-agents.codex
+  environment.systemPackages = with llm-agents; [
+    claude-code
+    codex
   ];
-
-  nixpkgs.overlays = [ inputs.llm-agents.overlays.shared-nixpkgs ];
 }

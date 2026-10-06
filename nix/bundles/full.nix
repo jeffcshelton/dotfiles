@@ -15,6 +15,7 @@
     ../modules/fonts.nix
     ../modules/fpga.nix
     ../modules/homebrew.nix
+    ../modules/keymap.nix
     ../modules/locale.nix
     ../modules/minecraft.nix
     ../modules/neovim.nix
