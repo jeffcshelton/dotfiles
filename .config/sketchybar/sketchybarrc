@@ -1,0 +1,187 @@
+#!/bin/bash
+# SketchyBar, styled after Waybar on Jupiter.
+#
+# Like Waybar, the pills are 30px tall and sit 10px below the top of the
+# screen. On Mercury's built-in display they take the place of the menu bar on
+# either side of the notch, and the centered window title is hidden since the
+# notch would cover it.
+
+CONFIG_DIR="${CONFIG_DIR:-$HOME/.config/sketchybar}"
+PLUGIN_DIR="$CONFIG_DIR/plugins"
+FONT="CaskaydiaMono Nerd Font"
+
+source "$CONFIG_DIR/colors.sh"
+source "$CONFIG_DIR/icons.sh"
+
+# Fired by AeroSpace callbacks (see aerospace.toml).
+sketchybar --add event aerospace_workspace_change
+sketchybar --add event aerospace_focus_change
+
+# Draw above normal windows, like Waybar's top layer. This also stops the bar
+# from shifting itself down whenever macOS reports the menu bar as visible.
+sketchybar --bar \
+  height=30 \
+  y_offset=10 \
+  position=top \
+  color=$TRANSPARENT \
+  padding_left=20 \
+  padding_right=20 \
+  sticky=on \
+  topmost=window \
+  display=all
+
+sketchybar --default \
+  updates=when_shown \
+  icon.font="$FONT:Regular:14.0" \
+  label.font="$FONT:Regular:14.0" \
+  icon.color=$TEXT \
+  label.color=$TEXT \
+  icon.padding_left=10 \
+  icon.padding_right=6 \
+  label.padding_left=0 \
+  label.padding_right=10 \
+  padding_left=0 \
+  padding_right=0
+
+# Shared style for the rounded "pill" behind each group of modules.
+pill=(
+  background.color=$PILL
+  background.border_color=$HIGHLIGHT_LOW
+  background.border_width=2
+  background.corner_radius=8
+  background.height=30
+)
+
+#############
+### LEFT ###
+#############
+
+sketchybar --add item clock left \
+  --set clock \
+    icon.drawing=off \
+    label.color=$GOLD \
+    label.padding_left=10 \
+    update_freq=10 \
+    script="$PLUGIN_DIR/clock.sh" \
+    "${pill[@]}"
+
+sketchybar --add item gap.clock left --set gap.clock width=10
+
+# AeroSpace workspaces 1-10. The spaces controller hides empty workspaces that
+# aren't on screen, like Hyprland does, and highlights the visible ones.
+for space in 1 2 3 4 5 6 7 8 9 10; do
+  sketchybar --add item "space.$space" left \
+    --set "space.$space" \
+      icon="$space" \
+      icon.color=$HIGHLIGHT_MED \
+      icon.padding_left=10 \
+      icon.padding_right=10 \
+      label.drawing=off \
+      background.color=$TRANSPARENT \
+      background.corner_radius=8 \
+      background.height=24 \
+      click_script="aerospace workspace $space"
+done
+
+sketchybar --add bracket spaces '/space\..*/' \
+  --set spaces "${pill[@]}"
+
+sketchybar --add item spaces.controller left \
+  --set spaces.controller \
+    drawing=off \
+    updates=on \
+    script="$PLUGIN_DIR/spaces.sh" \
+  --subscribe spaces.controller aerospace_workspace_change aerospace_focus_change front_app_switched display_change system_woke
+
+##############
+### CENTER ###
+##############
+
+# The displays controller only enables the title on displays without a notch.
+sketchybar --add item title center \
+  --set title \
+    drawing=off \
+    updates=off \
+    icon.drawing=off \
+    label.padding_left=10 \
+    label.max_chars=40 \
+    update_freq=2 \
+    script="$PLUGIN_DIR/title.sh" \
+    "${pill[@]}" \
+  --subscribe title aerospace_workspace_change aerospace_focus_change front_app_switched
+
+sketchybar --add item displays.controller center \
+  --set displays.controller \
+    drawing=off \
+    updates=on \
+    script="$PLUGIN_DIR/displays.sh" \
+  --subscribe displays.controller display_change system_woke
+
+##############
+### RIGHT ###
+##############
+
+# Right-side items are laid out from the right edge inward.
+sketchybar --add item battery right \
+  --set battery \
+    icon.color=$LOVE \
+    label.color=$LOVE \
+    update_freq=60 \
+    script="$PLUGIN_DIR/battery.sh" \
+    "${pill[@]}" \
+  --subscribe battery power_source_change system_woke
+
+sketchybar --add item gap.battery right --set gap.battery width=10
+
+sketchybar --add item bluetooth right \
+  --set bluetooth \
+    icon.color=$PINE \
+    label.color=$PINE \
+    update_freq=30 \
+    script="$PLUGIN_DIR/bluetooth.sh" \
+    click_script="open 'x-apple.systempreferences:com.apple.BluetoothSettings'" \
+  --subscribe bluetooth system_woke
+
+sketchybar --add item volume right \
+  --set volume \
+    icon.color=$IRIS \
+    label.color=$IRIS \
+    script="$PLUGIN_DIR/volume.sh" \
+  --subscribe volume volume_change mouse.scrolled
+
+sketchybar --add bracket audio volume bluetooth \
+  --set audio "${pill[@]}"
+
+sketchybar --add item gap.audio right --set gap.audio width=10
+
+sketchybar --add item network right \
+  --set network \
+    icon.color=$LOVE \
+    label.drawing=off \
+    icon.padding_right=10 \
+    script="$PLUGIN_DIR/network.sh" \
+    click_script="open 'x-apple.systempreferences:com.apple.wifi-settings-extension'" \
+  --subscribe network wifi_change system_woke
+
+sketchybar --add item cpu right \
+  --set cpu \
+    icon="$ICON_CPU" \
+    icon.color=$GOLD \
+    label.color=$GOLD \
+    update_freq=2 \
+    script="$PLUGIN_DIR/cpu.sh"
+
+sketchybar --add item memory right \
+  --set memory \
+    icon="$ICON_MEMORY" \
+    icon.color=$PINE \
+    label.color=$PINE \
+    update_freq=2 \
+    script="$PLUGIN_DIR/memory.sh"
+
+sketchybar --add bracket stats memory cpu network \
+  --set stats "${pill[@]}"
+
+sketchybar --update
+
+echo "sketchybar configuration loaded"

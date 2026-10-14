@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ lib, ... }:
 let
   keys = import ../secrets/keys;
 
@@ -13,18 +13,5 @@ let
     );
 in
 {
-  programs.ssh = {
-    extraConfig = ''
-      Match host shelton.one user git
-        HostKeyAlias git-ssh.shelton.one
-        ProxyCommand ${pkgs.cloudflared}/bin/cloudflared access ssh --hostname git-ssh.shelton.one
-
-      Match all
-
-      Host mars.shelton.one
-        ProxyCommand ${pkgs.cloudflared}/bin/cloudflared access ssh --hostname %h
-    '';
-
-    knownHosts = systemHosts;
-  };
+  programs.ssh.knownHosts = systemHosts;
 }

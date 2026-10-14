@@ -9,6 +9,7 @@
     ../../modules/rust.nix
     ../../modules/shell.nix
     ../../modules/ssh.nix
+    ../../modules/tailscale.nix
 
     # NixOS modules
     ../../modules/audio.nix
@@ -20,7 +21,6 @@
     ../../modules/kernel.nix
     ../../modules/locale.nix
     ../../modules/notes.nix
-    ../../modules/office.nix
     ../../modules/printing.nix
     ../../modules/terminal.nix
     ../../modules/tiling.nix

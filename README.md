@@ -45,11 +45,11 @@ while on the go.
 
 ### Testing Linux hosts locally
 
-Every NixOS/Linux configuration also produces an ephemeral QEMU VM. Run Mars
+Every NixOS/Linux configuration also produces an ephemeral QEMU VM. Run Apollo
 from the `nix` directory with:
 
 ```sh
-nix run .#vm.mars
+nix run .#vm.apollo
 ```
 
 After applying Jupiter's configuration, each guest has a local-only
@@ -57,21 +57,21 @@ After applying Jupiter's configuration, each guest has a local-only
 their port numbers; SSH alone is forwarded through port 2222 and selected
 automatically by Jupiter's SSH configuration.
 
-The guest web server is available at `http://mars.vm.shelton.one:4390`. SSH uses
-the same local name and automatically selects its forwarded port, so Mars is
-available with `ssh admin@mars.vm.shelton.one`. The VM root is backed by memory,
+The guest web server is available at `http://apollo.vm.shelton.one:4390`. SSH uses
+the same local name and automatically selects its forwarded port, so Apollo is
+available with `ssh admin@apollo.vm.shelton.one`. The VM root is backed by memory,
 so all guest state disappears when it stops.
 
 While the VM is running, activate local configuration changes without restarting
 it with:
 
 ```sh
-nixos-rebuild test --flake .#mars-vm \
-  --target-host admin@mars.vm.shelton.one --sudo
+nixos-rebuild test --flake .#apollo-vm \
+  --target-host admin@apollo.vm.shelton.one --sudo
 ```
 
 Using `test` avoids installing a boot entry that cannot survive an ephemeral
-VM boot. Stop and rerun `nix run .#vm.mars` to test boot-time changes.
+VM boot. Stop and rerun `nix run .#vm.apollo` to test boot-time changes.
 
 ### Flashing deployment images
 

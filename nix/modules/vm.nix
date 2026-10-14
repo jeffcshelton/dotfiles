@@ -13,8 +13,9 @@ in
     ./server/tunnel.nix
   ];
 
-  # Production tunnels and their credentials must not run in local VMs.
+  # Production tunnels and tailnet identities must not run in local VMs.
   server.cloudflare.enable = lib.mkForce false;
+  services.tailscale.enable = lib.mkForce false;
 
   # Replace hardware-specific kernels and storage activation only in the VM.
   boot = {

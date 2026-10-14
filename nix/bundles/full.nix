@@ -31,6 +31,7 @@
     ../modules/spotify.nix
     ../modules/ssh.nix
     ../modules/slack.nix
+    ../modules/tailscale.nix
     ../modules/terminal.nix
     ../modules/tiling.nix
     ../modules/typesetting.nix

@@ -1,8 +1,11 @@
 { isDarwin, lib, ... }:
 lib.optionalAttrs isDarwin {
   system.defaults.dock = {
+    # The Dock can't be removed outright, so it auto-hides behind a delay long
+    # enough that it never appears. The apps below are kept in case it is
+    # brought back.
     autohide = true;
-    autohide-delay = 0.0;
+    autohide-delay = 1000.0;
 
     # The apps displayed on the dock, in order from left to right.
     persistent-apps = [

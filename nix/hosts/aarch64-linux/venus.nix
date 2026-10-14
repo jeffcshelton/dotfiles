@@ -11,10 +11,10 @@
     ../../modules/rust.nix
     ../../modules/shell.nix
     ../../modules/ssh.nix
+    ../../modules/tailscale.nix
 
     # Server modules
     ../../modules/server/ssh.nix
-    ../../modules/server/tunnel.nix
 
     # Users
     ../../users/admin.nix
@@ -33,6 +33,10 @@
       "spidev"
     ];
 
+    # Use the latest mainline kernel, which is cached, over the downstream RPi
+    # kernel, so drivers are developed against current upstream.
+    kernelPackages = pkgs.linuxPackages_latest;
+
     loader.generic-extlinux-compatible = {
       configurationLimit = 1;
       enable = true;
@@ -48,10 +52,7 @@
     raspberrypi-eeprom
   ];
 
-  hardware.raspberry-pi."4" = {
-    apply-overlays-dtmerge.enable = true;
-    fkms-3d.enable = true;
-  };
+  hardware.raspberry-pi."4".apply-overlays-dtmerge.enable = true;
 
   fileSystems = lib.mkDefault {
     "/" = {
@@ -67,35 +68,11 @@
     };
   };
 
-  # An overlay that allows default kernel modules to be excluded if they were
-  # not compiled with this kernel version.
-  #
-  # This is necessary for image generation, as nixpkgs included a standard set
-  # of kernel modules when bundling into an image, but some are not included or
-  # necessary for the Raspberry Pi 4B (specifically sun4i-drm). This overlay is
-  # a temporary workaround until that issue can be fixed.
-  #
-  # See: https://github.com/NixOS/nixpkgs/issues/154163
-  nixpkgs.overlays = [
-    (final: super: {
-      makeModulesClosure = modules:
-        super.makeModulesClosure (modules // { allowMissing = true; });
-    })
-  ];
-
   # It's necessary to disable sudo's password requirement for wheel users since
   # the primary user does not have a password.
   #
   # Without this, sudo will still prompt for a password but none will work.
   security.sudo.wheelNeedsPassword = false;
-
-  # Cloudflare tunnel definition and rules.
-  server.cloudflare = {
-    enable = true;
-    tunnels."eef93350-83b3-47a9-8dfb-797166548789".ingress = {
-      "venus.shelton.one" = "ssh://localhost:22";
-    };
-  };
 
   # The original Nix version installed on Venus.
   # Do not change this value unless the machine is wiped.

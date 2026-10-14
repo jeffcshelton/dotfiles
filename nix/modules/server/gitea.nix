@@ -53,7 +53,16 @@ let
     '') managedSshKeys;
 in
 {
+  imports = [
+    ../tailscale.nix
+  ];
+
   environment.systemPackages = [ cfg.package ];
+
+  # Gitea's SSH server is reachable only over the tailnet.
+  networking.firewall.interfaces.${config.services.tailscale.interfaceName}.allowedTCPPorts = [
+    cfg.settings.server.SSH_LISTEN_PORT
+  ];
 
   services.gitea = {
     enable = true;
@@ -72,10 +81,10 @@ in
         START_SSH_SERVER = true;
         BUILTIN_SSH_SERVER_USER = "git";
         SSH_USER = "git";
-        # Clients route this advertised hostname through git-ssh.shelton.one.
-        SSH_DOMAIN = "shelton.one";
-        SSH_PORT = 22;
-        SSH_LISTEN_HOST = "127.0.0.1";
+        # Clients reach this hostname through Tailscale MagicDNS.
+        SSH_DOMAIN = config.networking.hostName;
+        SSH_PORT = 2223;
+        SSH_LISTEN_HOST = "0.0.0.0";
         SSH_LISTEN_PORT = 2223;
       };
 

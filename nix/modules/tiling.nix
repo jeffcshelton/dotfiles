@@ -1,11 +1,64 @@
-# Hyprland desktop environment configuration.
+# Tiling desktop environment configuration: Hyprland on Linux, and AeroSpace
+# with SketchyBar and JankyBorders styled after it on macOS.
+#
+# The AeroSpace, SketchyBar, and JankyBorders configs live in ~/.config and are
+# read from there, since none of them are given config paths.
 
-{ isDarwin, isLinux, lib, pkgs, unstable, ... }:
+{ config, isDarwin, isLinux, lib, pkgs, unstable, ... }:
 lib.mkMerge [
   (lib.optionalAttrs isDarwin {
+    # Top status bar, in place of the macOS menu bar.
+    services.sketchybar = {
+      enable = true;
+      extraPackages = [ pkgs.jq ];
+    };
+
     environment.systemPackages = [
+      pkgs.jankyborders
+
+      # Tiling window manager. Starts itself at login (see aerospace.toml).
       unstable.aerospace
     ];
+
+    # Window borders. The nix-darwin module always passes options on the
+    # command line, which would bypass ~/.config/borders/bordersrc, so the
+    # agent is defined here instead.
+    launchd.user.agents.jankyborders = {
+      path = [ pkgs.jankyborders config.environment.systemPath ];
+      serviceConfig = {
+        ProgramArguments = [ "${pkgs.jankyborders}/bin/borders" ];
+        KeepAlive = true;
+        RunAtLoad = true;
+      };
+    };
+
+    system.defaults = {
+      NSGlobalDomain = {
+        # Hide the menu bar so SketchyBar can take its place.
+        _HIHideMenuBar = true;
+
+        # Skip the window open/close animations.
+        NSAutomaticWindowAnimationsEnabled = false;
+      };
+
+      # Hide desktop icons, as on Hyprland.
+      finder.CreateDesktop = false;
+
+      # Group windows by app in Mission Control, since AeroSpace parks hidden
+      # windows in a corner of the screen where they'd otherwise be tiny.
+      dock.expose-group-apps = true;
+
+      # AeroSpace recommends turning off "Displays have separate Spaces".
+      spaces.spans-displays = true;
+
+      WindowManager = {
+        # Clicking the wallpaper shouldn't sweep every window aside.
+        EnableStandardClickToShowDesktop = false;
+
+        # Stage Manager conflicts with tiling.
+        GloballyEnabled = false;
+      };
+    };
   })
 
   (lib.optionalAttrs isLinux {

@@ -7,13 +7,47 @@ default-root-container-orientation = "auto"
 enable-normalization-flatten-containers = true
 enable-normalization-opposite-orientation-for-nested-containers = true
 focus-follows-mouse.enabled = true
-on-focus-changed = ["move-mouse window-lazy-center"]
+on-focus-changed = [
+  "move-mouse window-lazy-center",
+  "exec-and-forget sketchybar --trigger aerospace_focus_change",
+  "exec-and-forget ~/.config/aerospace/dwindle.sh",
+]
 on-focused-monitor-changed = ["move-mouse monitor-lazy-center"]
 persistent-workspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
 start-at-login = true
 
+# Forget the windows dwindle.sh has seen, since window IDs don't survive restarts.
+after-startup-command = [
+  "exec-and-forget rm -f \"${TMPDIR:-/tmp}/aerospace-dwindle-seen\"",
+]
+
+# Keep the SketchyBar workspaces in sync.
+exec-on-workspace-change = [
+  "/bin/bash",
+  "-c",
+  "sketchybar --trigger aerospace_workspace_change",
+]
+
 [exec]
 inherit-env-vars = true
+
+# AeroSpace starts as a login item with a minimal PATH, so add the Nix profile
+# to reach sketchybar and other installed tools.
+[exec.env-vars]
+PATH = "/run/current-system/sw/bin:${PATH}"
+
+# Match Hyprland on Jupiter: 5px on each side of a window (10px between
+# windows) and 20px from the screen edges and SketchyBar's pills, which end
+# 40px from the top. Windows therefore start 60px down. macOS already keeps
+# windows out of the 32px notch row on the built-in display, so less is needed
+# there.
+[gaps]
+inner.horizontal = 10
+inner.vertical = 10
+outer.bottom = 20
+outer.left = 20
+outer.right = 20
+outer.top = [{ monitor."built-in" = 28 }, 60]
 
 [key-mapping]
 preset = "qwerty"

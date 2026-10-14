@@ -1,0 +1,17 @@
+# Nerd Font glyphs shared by the bar and its plugins, matching Waybar on Jupiter.
+
+ICON_BATTERY_LOW="󱊡"
+ICON_BATTERY_MED="󱊢"
+ICON_BATTERY_HIGH="󱊣"
+ICON_BATTERY_CHARGING="󰂄"
+ICON_BLUETOOTH=""
+ICON_BLUETOOTH_OFF="󰂲"
+ICON_CPU=""
+ICON_ETHERNET="󰈀"
+ICON_MEMORY="󰍛"
+ICON_VOLUME_LOW=""
+ICON_VOLUME_MED=""
+ICON_VOLUME_HIGH=""
+ICON_VOLUME_MUTED="󰝟"
+ICON_WIFI="󰖩"
+ICON_WIFI_OFF="󰖪"

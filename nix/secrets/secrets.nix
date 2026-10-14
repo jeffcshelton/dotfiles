@@ -6,6 +6,28 @@ in
   # SSH Private Keys #
   ####################
 
+  "keys/apollo/admin.pem.age".publicKeys = with keys; [
+    apollo.admin
+    apollo.system
+    ceres.jeff
+    ceres.system
+    jupiter.jeff
+    jupiter.system
+    mercury.jeff
+    mercury.system
+  ];
+
+  "keys/apollo/system.pem.age".publicKeys = with keys; [
+    apollo.admin
+    apollo.system
+    ceres.jeff
+    ceres.system
+    jupiter.jeff
+    jupiter.system
+    mercury.jeff
+    mercury.system
+  ];
+
   "keys/mars/admin.pem.age".publicKeys = with keys; [
     ceres.jeff
     ceres.system
@@ -74,6 +96,6 @@ in
   ##########################
 
   "tunnels/06684310-6ec1-40a5-ab96-3f31cfe4d185.json.age".publicKeys = [
-    keys.mars.system
+    keys.apollo.system
   ];
 }

@@ -9,12 +9,10 @@
     ../../modules/net.nix
     ../../modules/nix.nix
     ../../modules/ssh.nix
+    ../../modules/tailscale.nix
 
     # Server modules
-    ../../modules/server/gitea.nix
     ../../modules/server/ssh.nix
-    ../../modules/server/tunnel.nix
-    ../../modules/server/shelton-one.nix
 
     # Users
     ../../users/admin.nix
@@ -36,7 +34,7 @@
       "spidev"
     ];
 
-    kernelPackages = pkgs.linuxPackages_6_6;
+    kernelPackages = pkgs.linuxPackages;
 
     loader = {
       timeout = 0;
@@ -76,19 +74,6 @@
   #
   # Without this, sudo will still prompt for a password but none will work.
   security.sudo.wheelNeedsPassword = false;
-
-  # Cloudflare tunnel definition and rules.
-  server.cloudflare = {
-    enable = true;
-    tunnels."06684310-6ec1-40a5-ab96-3f31cfe4d185".ingress = {
-      "git.shelton.one" = "http://localhost:3000";
-      "git-ssh.shelton.one" = "ssh://localhost:2223";
-      "mars.shelton.one" = "ssh://localhost:22";
-      "shelton.one" = "http://localhost:4390";
-    };
-  };
-
-  services."shelton.one".port = 4390;
 
   # The original Nix version installed on Mars.
   # Do not change this value unless the machine is wiped.
