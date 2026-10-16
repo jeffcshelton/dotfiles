@@ -1,0 +1,12 @@
+# hypr-rdp server settings (see nix/modules/rdp.nix).
+
+bind = "0.0.0.0:3389"
+
+# Sign in with the desktop user's Linux password.
+auth_mode = "pam"
+
+fps = 60
+
+# By default, a headless output sized to the client is created. Uncomment to
+# mirror the physical monitor instead.
+# output = "HDMI-A-2"

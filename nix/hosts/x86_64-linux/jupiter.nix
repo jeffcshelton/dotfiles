@@ -6,6 +6,7 @@
 
     # Modules
     ../../modules/kernel.nix
+    ../../modules/rdp.nix
     # ../../modules/windows
 
     # Users

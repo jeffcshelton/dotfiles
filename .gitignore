@@ -1,5 +1,10 @@
 .DS_Store
 
+# Ignore hypr-rdp's auto-generated TLS certificate and private key.
+.config/hypr-rdp/*.pem
+.config/hypr-rdp/.*.pem.tmp
+.config/hypr-rdp/.tls.lock
+
 # Ignore Karabiner generated backups.
 .config/karabiner/automatic_backups/
 

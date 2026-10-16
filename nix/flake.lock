@@ -217,6 +217,26 @@
         "type": "github"
       }
     },
+    "hypr-rdp": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1789090901,
+        "narHash": "sha256-hbdMACztrfoFWUkaMeTlukkSY4EtTlqPTfT4CLZ/RWs=",
+        "owner": "MuNeNICK",
+        "repo": "hypr-rdp",
+        "rev": "9573ae1636a9a4fc8b608fc7969fe7397491a858",
+        "type": "github"
+      },
+      "original": {
+        "owner": "MuNeNICK",
+        "repo": "hypr-rdp",
+        "type": "github"
+      }
+    },
     "llm-agents": {
       "inputs": {
         "bun2nix": "bun2nix",
@@ -381,6 +401,7 @@
         "darwin": "darwin",
         "flake-utils": "flake-utils",
         "home-manager": "home-manager",
+        "hypr-rdp": "hypr-rdp",
         "llm-agents": "llm-agents",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_4",

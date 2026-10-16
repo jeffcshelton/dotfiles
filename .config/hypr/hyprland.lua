@@ -24,6 +24,9 @@ hl.on("hyprland.start", function()
   hl.exec_cmd("hyprpaper")
   hl.exec_cmd("udiskie")
 
+  -- RDP server, defined only on hosts that import nix/modules/rdp.nix.
+  hl.exec_cmd("systemctl --user start hypr-rdp.service")
+
   -- Generate Waybar config and then start it.
   hl.exec_cmd("make -C ~/.config/waybar")
   hl.exec_cmd("waybar")
