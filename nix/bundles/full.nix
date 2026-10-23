@@ -4,6 +4,7 @@
     ../modules/agents.nix
     ../modules/audio.nix
     ../modules/auth.nix
+    ../modules/cache.nix
     ../modules/cad.nix
     ../modules/controlcenter.nix
     ../modules/debug.nix
@@ -31,7 +32,6 @@
     ../modules/spotify.nix
     ../modules/ssh.nix
     ../modules/slack.nix
-    ../modules/tailscale.nix
     ../modules/terminal.nix
     ../modules/tiling.nix
     ../modules/typesetting.nix
@@ -39,6 +39,7 @@
     ../modules/virtualization.nix
     ../modules/vpn.nix
     ../modules/web.nix
+    ../modules/wireguard.nix
     ../modules/wireshark.nix
 
     ../modules/server/ssh.nix

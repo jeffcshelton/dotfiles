@@ -139,6 +139,12 @@ let
     system = "x86_64-linux";
     modules = [ ../derivations/ssh-injector-appliance.nix ];
   };
+
+  # Booted on a headless x86_64 host so nixos-anywhere can install it remotely.
+  installer = nixpkgs.lib.nixosSystem {
+    system = "x86_64-linux";
+    modules = [ ../derivations/installer-iso.nix ];
+  };
 in
 {
   darwinConfigurations = mkHosts {
@@ -157,8 +163,17 @@ in
   in
   {
     packages = {
-      images.mars =
-        self.nixosConfigurations.mars.config.system.build.sdImage;
+      images = {
+        installer = installer.config.system.build.isoImage;
+        mars = self.nixosConfigurations.mars.config.system.build.sdImage;
+      };
+
+      install.apollo = import ../derivations/installer.nix {
+        inherit pkgs;
+        flake = self;
+        host = "apollo";
+        secrets = ../secrets/keys;
+      };
 
       flash.mars = import ../derivations/flasher.nix {
         inherit pkgs;

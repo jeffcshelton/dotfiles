@@ -2,6 +2,7 @@
 {
   imports = [
     # General modules
+    ../../modules/cache.nix
     ../../modules/dev.nix
     ../../modules/fonts.nix
     ../../modules/neovim.nix
@@ -9,7 +10,7 @@
     ../../modules/rust.nix
     ../../modules/shell.nix
     ../../modules/ssh.nix
-    ../../modules/tailscale.nix
+    ../../modules/wireguard.nix
 
     # NixOS modules
     ../../modules/audio.nix

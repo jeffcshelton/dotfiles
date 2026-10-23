@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ inputs, pkgs, ... }:
 {
   imports = [
     # General modules
@@ -7,9 +7,10 @@
     ../../modules/net.nix
     ../../modules/nix.nix
     ../../modules/ssh.nix
-    ../../modules/tailscale.nix
+    ../../modules/wireguard.nix
 
     # Server modules
+    ../../modules/server/cache.nix
     ../../modules/server/gitea.nix
     ../../modules/server/ssh.nix
     ../../modules/server/tunnel.nix
@@ -20,7 +21,7 @@
 
     # Hardware modules
     inputs.agenix.nixosModules.default
-    inputs.nixos-hardware.nixosModules.apple-t2
+    inputs.disko.nixosModules.disko
   ];
 
   boot = {
@@ -49,26 +50,57 @@
     };
   };
 
-  # Partitions are labeled during installation rather than referenced by UUID.
-  fileSystems = {
-    "/" = {
-      device = "/dev/disk/by-label/nixos";
-      fsType = "ext4";
-    };
+  # The whole internal disk is partitioned by nixos-anywhere during installation,
+  # and the resulting file systems are mounted from this same layout.
+  disko.devices.disk.main = {
+    device = "/dev/nvme0n1";
+    type = "disk";
 
-    "/boot" = {
-      device = "/dev/disk/by-label/BOOT";
-      fsType = "vfat";
-      options = [ "fmask=0077" "dmask=0077" ];
+    content = {
+      type = "gpt";
+
+      partitions = {
+        boot = {
+          size = "512M";
+          type = "EF00";
+
+          content = {
+            type = "filesystem";
+            format = "vfat";
+            extraArgs = [ "-n" "BOOT" ];
+            mountpoint = "/boot";
+            mountOptions = [ "fmask=0077" "dmask=0077" ];
+          };
+        };
+
+        root = {
+          size = "100%";
+
+          content = {
+            type = "filesystem";
+            format = "ext4";
+            extraArgs = [ "-L" "nixos" ];
+            mountpoint = "/";
+          };
+        };
+      };
     };
   };
 
   hardware = {
-    # Wi-Fi and Bluetooth firmware is extracted from Apple's macOS recovery image.
-    apple-t2.firmware.enable = true;
-
     cpu.intel.updateMicrocode = true;
     enableRedistributableFirmware = true;
+
+    # Wi-Fi and Bluetooth firmware is extracted from Apple's macOS recovery
+    # image. Only the firmware is taken from the nixos-hardware T2 module: its
+    # patched kernel serves the internal keyboard, trackpad, audio, and fans,
+    # none of which a headless server needs, and is not binary-cached. The
+    # stock kernel already supports the Wi-Fi chip and NVMe drive.
+    firmware = [
+      (pkgs.callPackage "${inputs.nixos-hardware}/apple/t2/pkgs/brcm-firmware" {
+        version = "sonoma";
+      })
+    ];
   };
 
   # It's necessary to disable sudo's password requirement for wheel users since
@@ -77,7 +109,8 @@
   # Without this, sudo will still prompt for a password but none will work.
   security.sudo.wheelNeedsPassword = false;
 
-  # Cloudflare tunnel for public HTTP. SSH is reachable only over Tailscale.
+  # Cloudflare tunnel for public HTTP. The router forwards only WireGuard, so
+  # SSH is reachable from the home LAN and over the VPN, never publicly.
   server.cloudflare = {
     enable = true;
     tunnels."06684310-6ec1-40a5-ab96-3f31cfe4d185".ingress = {

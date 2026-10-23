@@ -54,13 +54,13 @@ let
 in
 {
   imports = [
-    ../tailscale.nix
+    ../wireguard.nix
   ];
 
   environment.systemPackages = [ cfg.package ];
 
-  # Gitea's SSH server is reachable only over the tailnet.
-  networking.firewall.interfaces.${config.services.tailscale.interfaceName}.allowedTCPPorts = [
+  # Gitea's SSH server is reachable only over the VPN.
+  networking.firewall.interfaces.wg0.allowedTCPPorts = [
     cfg.settings.server.SSH_LISTEN_PORT
   ];
 
@@ -81,7 +81,7 @@ in
         START_SSH_SERVER = true;
         BUILTIN_SSH_SERVER_USER = "git";
         SSH_USER = "git";
-        # Clients reach this hostname through Tailscale MagicDNS.
+        # Clients resolve this hostname to its VPN address through SSH config.
         SSH_DOMAIN = config.networking.hostName;
         SSH_PORT = 2223;
         SSH_LISTEN_HOST = "0.0.0.0";

@@ -95,7 +95,115 @@ in
   # Cloudflare Tunnel Keys #
   ##########################
 
-  "tunnels/06684310-6ec1-40a5-ab96-3f31cfe4d185.json.age".publicKeys = [
-    keys.apollo.system
+  # Personal keys are included so the credentials can be edited and rekeyed
+  # from a workstation.
+  "tunnels/06684310-6ec1-40a5-ab96-3f31cfe4d185.json.age".publicKeys = with keys; [
+    apollo.system
+    ceres.jeff
+    jupiter.jeff
+    mercury.jeff
+  ];
+
+  # API token scoped to DNS edits on shelton.one, used to keep the VPN
+  # endpoint's record pointed at the current home IP.
+  "cloudflare/dns-token.age".publicKeys = with keys; [
+    apollo.system
+    ceres.jeff
+    jupiter.jeff
+    mercury.jeff
+  ];
+
+  #############################
+  # Binary Cache Signing Keys #
+  #############################
+
+  # Apollo signs everything it serves; every other machine signs its own
+  # builds so Apollo accepts them as uploads.
+  "cache/apollo.key.age".publicKeys = with keys; [
+    apollo.system
+    ceres.jeff
+    jupiter.jeff
+    mercury.jeff
+  ];
+
+  "cache/ceres.key.age".publicKeys = with keys; [
+    ceres.jeff
+    ceres.system
+    jupiter.jeff
+    mercury.jeff
+  ];
+
+  "cache/jupiter.key.age".publicKeys = with keys; [
+    ceres.jeff
+    jupiter.jeff
+    jupiter.system
+    mercury.jeff
+  ];
+
+  "cache/mars.key.age".publicKeys = with keys; [
+    ceres.jeff
+    jupiter.jeff
+    mars.system
+    mercury.jeff
+  ];
+
+  "cache/mercury.key.age".publicKeys = with keys; [
+    ceres.jeff
+    jupiter.jeff
+    mercury.jeff
+    mercury.system
+  ];
+
+  "cache/venus.key.age".publicKeys = with keys; [
+    ceres.jeff
+    jupiter.jeff
+    mercury.jeff
+    venus.system
+  ];
+
+  ##########################
+  # WireGuard Private Keys #
+  ##########################
+
+  "wireguard/apollo.key.age".publicKeys = with keys; [
+    apollo.system
+    ceres.jeff
+    jupiter.jeff
+    mercury.jeff
+  ];
+
+  "wireguard/ceres.key.age".publicKeys = with keys; [
+    ceres.jeff
+    ceres.system
+    jupiter.jeff
+    mercury.jeff
+  ];
+
+  "wireguard/jupiter.key.age".publicKeys = with keys; [
+    ceres.jeff
+    jupiter.jeff
+    jupiter.system
+    mercury.jeff
+  ];
+
+  "wireguard/mars.key.age".publicKeys = with keys; [
+    ceres.jeff
+    jupiter.jeff
+    mars.system
+    mercury.jeff
+  ];
+
+  "wireguard/mercury.key.age".publicKeys = with keys; [
+    ceres.jeff
+    jupiter.jeff
+    mercury.jeff
+    mercury.system
+  ];
+
+  "wireguard/venus.key.age".publicKeys = with keys; [
+    ceres.jeff
+    jupiter.jeff
+    mercury.jeff
+    venus.system
   ];
 }

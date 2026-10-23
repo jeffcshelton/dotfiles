@@ -2,6 +2,7 @@
 {
   imports = [
     # General modules
+    ../../modules/cache.nix
     ../../modules/debug.nix
     ../../modules/dev.nix
     ../../modules/kernel.nix
@@ -11,7 +12,7 @@
     ../../modules/rust.nix
     ../../modules/shell.nix
     ../../modules/ssh.nix
-    ../../modules/tailscale.nix
+    ../../modules/wireguard.nix
 
     # Server modules
     ../../modules/server/ssh.nix

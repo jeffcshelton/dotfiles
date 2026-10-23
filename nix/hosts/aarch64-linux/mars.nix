@@ -3,13 +3,14 @@
   imports = [
     # General modules
     ../../modules/bluetooth.nix
+    ../../modules/cache.nix
     ../../modules/debug.nix
     ../../modules/kernel.nix
     ../../modules/locale.nix
     ../../modules/net.nix
     ../../modules/nix.nix
     ../../modules/ssh.nix
-    ../../modules/tailscale.nix
+    ../../modules/wireguard.nix
 
     # Server modules
     ../../modules/server/ssh.nix

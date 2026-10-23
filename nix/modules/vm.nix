@@ -13,9 +13,11 @@ in
     ./server/tunnel.nix
   ];
 
-  # Production tunnels and tailnet identities must not run in local VMs.
+  # Production tunnels, VPN identities, and DNS records must not be claimed by
+  # local VMs.
+  networking.wireguard.enable = lib.mkForce false;
   server.cloudflare.enable = lib.mkForce false;
-  services.tailscale.enable = lib.mkForce false;
+  services.cloudflare-dyndns.enable = lib.mkForce false;
 
   # Replace hardware-specific kernels and storage activation only in the VM.
   boot = {
