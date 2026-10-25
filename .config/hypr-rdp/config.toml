@@ -7,6 +7,6 @@ auth_mode = "pam"
 
 fps = 60
 
-# By default, a headless output sized to the client is created. Uncomment to
-# mirror the physical monitor instead.
-# output = "HDMI-A-2"
+# Mirror the physical monitor. Without this, a headless output sized to the
+# client is created, and Hyprland gives it a workspace of its own.
+output = "HDMI-A-1"

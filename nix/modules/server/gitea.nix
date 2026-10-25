@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, inputs, lib, modulesName, pkgs, ... }:
 let
   cfg = config.services.gitea;
   gitea = lib.getExe cfg.package;
@@ -55,7 +55,13 @@ in
 {
   imports = [
     ../wireguard.nix
+    inputs.agenix.${modulesName}.default
   ];
+
+  age.secrets.gitea-admin-password = {
+    file = ../../secrets/gitea/jeff/password.age;
+    owner = cfg.user;
+  };
 
   environment.systemPackages = [ cfg.package ];
 
@@ -94,9 +100,9 @@ in
   };
 
   # Create the initial administrator only when it is absent from Gitea's
-  # database, then reconcile the explicitly managed client SSH keys. Existing
-  # credentials and forced-password-change state are never reconciled, so
-  # rebuilds cannot reset an account that has been initialized.
+  # database, with the password from the encrypted secret, then reconcile the
+  # explicitly managed client SSH keys. Existing credentials are never
+  # reconciled, so rebuilds cannot reset a password changed in Gitea.
   systemd.services.gitea-admin-setup = {
     description = "Create the initial Gitea administrator and SSH keys";
     after = [ "gitea.service" ];
@@ -121,17 +127,19 @@ in
           | ${lib.getExe pkgs.gnugrep} -Eq '^[[:space:]]*[0-9]+[[:space:]]+jeff[[:space:]]'; then
           echo "Gitea administrator jeff already exists; leaving it unchanged."
         else
+          # Gitea only accepts the password as an argument, so it is briefly
+          # visible to local users; Apollo has no others.
           ${giteaAdmin} admin user create \
             --admin \
             --username jeff \
             --email jeff@shelton.one \
-            --random-password \
-            --must-change-password
+            --password "$(< ${config.age.secrets.gitea-admin-password.path})" \
+            --must-change-password=false
         fi
 
-        # Gitea blocks jeff's API tokens until the initial password has been
-        # changed. Use a short-lived local administrator solely to attach the
-        # managed keys without changing jeff's password state.
+        # Jeff's API tokens are blocked while a password change is pending.
+        # Use a short-lived local administrator solely to attach the managed
+        # keys without depending on jeff's password state.
         bootstrap_user="nixos-gitea-admin-setup"
         if ${giteaAdmin} admin user list \
           | ${lib.getExe pkgs.gnugrep} -Eq "^[[:space:]]*[0-9]+[[:space:]]+$bootstrap_user[[:space:]]"; then

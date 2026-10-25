@@ -113,6 +113,16 @@ in
     mercury.jeff
   ];
 
+  #########
+  # Gitea #
+  #########
+
+  # Password given to the Gitea administrator jeff when the account is first
+  # created, so a fresh install always starts with the same login.
+  "gitea/jeff/password.age".publicKeys = with keys; [
+    apollo.system
+  ];
+
   #############################
   # Binary Cache Signing Keys #
   #############################

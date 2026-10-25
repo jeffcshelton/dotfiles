@@ -34,8 +34,11 @@ pkgs.writeShellApplication {
     chmod 644 "$key.pub"
 
     # Build locally when this machine can, and on the installer otherwise.
+    #
+    # The flake lives in a subdirectory of its store path, which Nix would read
+    # as the bare store path without the explicit path: scheme.
     nixos-anywhere \
-      --flake ${flake}#${host} \
+      --flake path:${flake}#${host} \
       --target-host "$target" \
       --build-on auto \
       --extra-files "$extra" \
