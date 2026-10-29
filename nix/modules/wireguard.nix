@@ -4,7 +4,8 @@
 # and it forwards traffic between peers. Only the VPN subnet is routed through
 # the tunnel, so all other traffic leaves through the local network.
 #
-# Each peer is reachable over SSH by its bare hostname, e.g. `ssh apollo`.
+# Each peer that accepts SSH is reachable by its bare hostname, e.g.
+# `ssh apollo`.
 
 { config, host, inputs, isDarwin, isLinux, lib, modulesName, ... }:
 let
@@ -13,8 +14,8 @@ let
   port = 51820;
   subnet = "10.100.0.0/24";
 
-  # Every machine on the VPN, its tunnel address, and the user to SSH in as
-  # when it differs from the local username.
+  # Every machine on the VPN, its tunnel address, the user to SSH in as when it
+  # differs from the local username, and whether it runs an SSH server at all.
   peers = {
     apollo = { address = "10.100.0.1"; };
     jupiter = { address = "10.100.0.2"; };
@@ -22,7 +23,11 @@ let
     ceres = { address = "10.100.0.4"; };
     mars = { address = "10.100.0.5"; user = "admin"; };
     venus = { address = "10.100.0.6"; user = "admin"; };
+    neptune = { address = "10.100.0.7"; ssh = false; };
   };
+
+  # Peers that accept SSH. Others, such as phones, only join the tunnel.
+  sshPeers = lib.filterAttrs (_name: peer: peer.ssh or true) peers;
 
   publicKey = name: lib.removeSuffix "\n"
     (builtins.readFile ../secrets/wireguard/${name}.pub);
@@ -53,14 +58,14 @@ in
       # after resolving the aliases below.
       programs.ssh.knownHosts = lib.mapAttrs
         (_name: peer: { extraHostNames = [ peer.address ]; })
-        peers;
+        sshPeers;
 
       programs.ssh.extraConfig = lib.concatStrings (lib.mapAttrsToList
         (name: peer: ''
           Host ${name}
             HostName ${peer.address}
         '' + lib.optionalString (peer ? user) "  User ${peer.user}\n")
-        peers) + ''
+        sshPeers) + ''
 
         # Git over SSH to git@shelton.one reaches the hub's Gitea SSH server
         # (modules/server/gitea.nix), since Cloudflare only proxies its HTTP.
