@@ -17,6 +17,17 @@ in
     mercury.system
   ];
 
+  "keys/apollo/jeff.pem.age".publicKeys = with keys; [
+    apollo.jeff
+    apollo.system
+    ceres.jeff
+    ceres.system
+    jupiter.jeff
+    jupiter.system
+    mercury.jeff
+    mercury.system
+  ];
+
   "keys/apollo/system.pem.age".publicKeys = with keys; [
     apollo.admin
     apollo.system

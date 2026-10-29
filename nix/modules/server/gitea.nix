@@ -6,6 +6,10 @@ let
   hostKeys = import ../../secrets/keys;
   managedSshKeys = [
     {
+      title = "apollo";
+      key = hostKeys.apollo.jeff;
+    }
+    {
       title = "jupiter";
       key = hostKeys.jupiter.jeff;
     }
@@ -87,9 +91,10 @@ in
         START_SSH_SERVER = true;
         BUILTIN_SSH_SERVER_USER = "git";
         SSH_USER = "git";
-        # Clients resolve this hostname to its VPN address through SSH config.
-        SSH_DOMAIN = config.networking.hostName;
-        SSH_PORT = 2223;
+        # Clone URLs read git@shelton.one:<owner>/<repo>.git. VPN clients route
+        # that to the listener below through SSH config (modules/wireguard.nix).
+        SSH_DOMAIN = "shelton.one";
+        SSH_PORT = 22;
         SSH_LISTEN_HOST = "0.0.0.0";
         SSH_LISTEN_PORT = 2223;
       };

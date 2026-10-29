@@ -16,7 +16,7 @@ let
   # Every machine on the VPN, its tunnel address, and the user to SSH in as
   # when it differs from the local username.
   peers = {
-    apollo = { address = "10.100.0.1"; user = "admin"; };
+    apollo = { address = "10.100.0.1"; };
     jupiter = { address = "10.100.0.2"; };
     mercury = { address = "10.100.0.3"; };
     ceres = { address = "10.100.0.4"; };
@@ -60,7 +60,14 @@ in
           Host ${name}
             HostName ${peer.address}
         '' + lib.optionalString (peer ? user) "  User ${peer.user}\n")
-        peers);
+        peers) + ''
+
+        # Git over SSH to git@shelton.one reaches the hub's Gitea SSH server
+        # (modules/server/gitea.nix), since Cloudflare only proxies its HTTP.
+        Match host shelton.one user git
+          HostName ${peers.${hub}.address}
+          Port 2223
+      '';
     }
 
     (lib.optionalAttrs (isLinux && host == hub) {

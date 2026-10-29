@@ -2,10 +2,14 @@
 {
   imports = [
     # General modules
+    ../../modules/agents.nix
     ../../modules/debug.nix
+    ../../modules/dev.nix
     ../../modules/locale.nix
+    ../../modules/neovim.nix
     ../../modules/net.nix
     ../../modules/nix.nix
+    ../../modules/shell.nix
     ../../modules/ssh.nix
     ../../modules/wireguard.nix
 
@@ -18,6 +22,7 @@
 
     # Users
     ../../users/admin.nix
+    ../../users/jeff.nix
 
     # Hardware modules
     inputs.agenix.nixosModules.default
@@ -120,6 +125,13 @@
   };
 
   services."shelton.one".port = 4390;
+
+  # Apollo is headless, so jeff is a shell account without desktop apps.
+  jeff.desktop = false;
+
+  # Jeff's dotfiles are cloned from the local Gitea on first activation, which
+  # only works once Gitea has registered jeff's key.
+  systemd.services.home-manager-jeff.after = [ "gitea-admin-setup.service" ];
 
   # The display has been removed, so the lid sensor must never suspend Apollo.
   services.logind.settings.Login.HandleLidSwitch = "ignore";
