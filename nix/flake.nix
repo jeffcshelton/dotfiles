@@ -42,6 +42,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    persona = {
+      url = "git+https://git.shelton.one/jeff/persona.git";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.llm-agents.follows = "llm-agents";
+    };
+
     shelton-one = {
       url = "github:jeffcshelton/shelton.one";
       inputs.nixpkgs.follows = "nixpkgs";

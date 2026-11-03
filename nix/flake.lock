@@ -71,6 +71,27 @@
         "type": "github"
       }
     },
+    "cntxt": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "rust-overlay": "rust-overlay"
+      },
+      "locked": {
+        "lastModified": 1793593682,
+        "narHash": "sha256-p8cicbhB4EXvSrOejqWsDaYirhgyKItpOJ+VL0cWsTg=",
+        "ref": "refs/heads/main",
+        "rev": "daf385c0beed117f1d9d4540979ab6281723a97c",
+        "revCount": 4,
+        "type": "git",
+        "url": "https://git.shelton.one/jeff/cntxt.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.shelton.one/jeff/cntxt.git"
+      }
+    },
     "darwin": {
       "inputs": {
         "nixpkgs": [
@@ -418,6 +439,7 @@
       "inputs": {
         "agenix": "agenix",
         "asahi": "asahi",
+        "cntxt": "cntxt",
         "darwin": "darwin",
         "disko": "disko",
         "flake-utils": "flake-utils",
@@ -430,6 +452,27 @@
         "nixvirt": "nixvirt",
         "shelton-one": "shelton-one",
         "winapps": "winapps"
+      }
+    },
+    "rust-overlay": {
+      "inputs": {
+        "nixpkgs": [
+          "cntxt",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1793523538,
+        "narHash": "sha256-vHPjEGxtV+StSLW9DJpa3c3gt0UD0s1q4nC98AZ0N0c=",
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "rev": "c85ccd343087c57da6021cafa1647142ad03e32e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "type": "github"
       }
     },
     "shelton-one": {

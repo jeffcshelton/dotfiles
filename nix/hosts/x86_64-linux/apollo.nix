@@ -1,4 +1,4 @@
-{ inputs, pkgs, ... }:
+{ config, inputs, pkgs, ... }:
 {
   imports = [
     # General modules
@@ -15,6 +15,7 @@
 
     # Server modules
     ../../modules/server/cache.nix
+    ../../modules/server/dns.nix
     ../../modules/server/gitea.nix
     ../../modules/server/ssh.nix
     ../../modules/server/tunnel.nix
@@ -26,6 +27,7 @@
 
     # Hardware modules
     inputs.agenix.nixosModules.default
+    inputs.persona.nixosModules.default
     inputs.disko.nixosModules.disko
   ];
 
@@ -108,35 +110,94 @@
     ];
   };
 
+  # Apollo is headless, so jeff is a shell account without desktop apps.
+  jeff.desktop = false;
+
   # It's necessary to disable sudo's password requirement for wheel users since
   # the primary user does not have a password.
   #
   # Without this, sudo will still prompt for a password but none will work.
-  security.sudo.wheelNeedsPassword = false;
+  security = {
+    acme = {
+      acceptTerms = true;
+      certs."matrix.shelton.one" = {
+        dnsProvider = "cloudflare";
+        credentialFiles.CF_DNS_API_TOKEN_FILE = config.age.secrets.cloudflare-dns-token.path;
+      };
+      defaults.email = "jeff@shelton.one";
+    };
+
+    sudo.wheelNeedsPassword = false;
+  };
 
   # Cloudflare tunnel for public HTTP. The router forwards only WireGuard, so
   # SSH is reachable from the home LAN and over the VPN, never publicly.
-  server.cloudflare = {
-    enable = true;
-    tunnels."06684310-6ec1-40a5-ab96-3f31cfe4d185".ingress = {
-      "git.shelton.one" = "http://localhost:3000";
-      "shelton.one" = "http://localhost:4390";
+  server = {
+    cloudflare = {
+      enable = true;
+      tunnels."06684310-6ec1-40a5-ab96-3f31cfe4d185".ingress = {
+        "git.shelton.one" = "http://localhost:3000";
+        "shelton.one" = "http://localhost:4390";
+      };
+    };
+
+    # Apollo owns the shelton.one zone: see modules/server/dns.nix.
+    dns = {
+      enable = true;
+
+      # Matrix, calls and the personas (services.persona below), reachable
+      # over the VPN only.
+      records = [
+        { name = "matrix.shelton.one"; type = "A"; content = config.vpn.address; }
+      ];
     };
   };
 
-  services."shelton.one".port = 4390;
+  # Initial Matrix passwords. Read one with:
+  #   age -d -i ~/.ssh/id_ed25519 secrets/matrix/jeff-password.age
+  age.secrets = {
+    matrix-jeff-password.file = ../../secrets/matrix/jeff-password.age;
+    matrix-caller-password.file = ../../secrets/matrix/caller-password.age;
+  };
 
-  # Apollo is headless, so jeff is a shell account without desktop apps.
-  jeff.desktop = false;
+  services = {
+    # A private Matrix server and the personas on it. Sign a persona in to
+    # its subscription once with `sudo persona login <name>`.
+    persona = {
+      enable = true;
+      address = "10.100.0.1";
+      domain = "matrix.shelton.one";
 
-  # Jeff's dotfiles are cloned from the local Gitea on first activation, which
-  # only works once Gitea has registered jeff's key.
-  systemd.services.home-manager-jeff.after = [ "gitea-admin-setup.service" ];
+      # Created on first activation with these passwords; never modified after.
+      users = {
+        jeff.passwordFile = config.age.secrets.matrix-jeff-password.path;
+        caller.passwordFile = config.age.secrets.matrix-caller-password.path;
+      };
 
-  # The display has been removed, so the lid sensor must never suspend Apollo.
-  services.logind.settings.Login.HandleLidSwitch = "ignore";
+      owner = "jeff";
+      personas = {
+        # Uses the ChatGPT plan, through Sign in with ChatGPT.
+        sam.model = "openai/gpt-6.1-sol";
+        # Uses the Claude plan, through Claude Code.
+        dario.model = "claude-code/claude-opus-5-5";
+      };
+
+      # For openrouter/... models: create the key with
+      # `agenix -e openrouter/key.age` (from secrets/), then uncomment.
+      # openrouterKeyFile = config.age.secrets.openrouter-key.path;
+    };
+
+    # The display has been removed, so the lid sensor must never suspend Apollo.
+    logind.settings.Login.HandleLidSwitch = "ignore";
+
+    "shelton.one".port = 4390;
+  };
 
   # The original Nix version installed on Apollo.
   # Do not change this value unless the machine is wiped.
   system.stateVersion = "26.05";
+
+  # Jeff's dotfiles are cloned from the local Gitea on first activation, which
+  # only works once Gitea has registered jeff's key.
+  systemd.services.home-manager-jeff.after = [ "gitea-admin-setup.service" ];
 }

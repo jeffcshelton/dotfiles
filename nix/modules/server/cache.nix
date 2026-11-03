@@ -18,7 +18,13 @@ in
   imports = [
     ../nix.nix
     ../wireguard.nix
+    ./dns.nix
     inputs.agenix.${modulesName}.default
+  ];
+
+  # A public record with a VPN address, so only VPN clients can reach it.
+  server.dns.records = [
+    { name = "cache.shelton.one"; type = "A"; content = config.vpn.address; }
   ];
 
   age.secrets.cache-signing-key.file = ../../secrets/cache/apollo.key.age;

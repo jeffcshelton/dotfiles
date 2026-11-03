@@ -134,6 +134,35 @@ in
     apollo.system
   ];
 
+  ##########
+  # Matrix #
+  ##########
+
+  # Passwords given to the Matrix accounts on Apollo when they are first
+  # created (services.persona.users). Workstations can read them to sign
+  # in to Element X as jeff and to run `persona caller login`.
+  "matrix/jeff-password.age".publicKeys = with keys; [
+    apollo.system
+    ceres.jeff
+    jupiter.jeff
+    mercury.jeff
+  ];
+
+  "matrix/caller-password.age".publicKeys = with keys; [
+    apollo.system
+    ceres.jeff
+    jupiter.jeff
+    mercury.jeff
+  ];
+
+  # OpenRouter API key, for personas on openrouter/... models.
+  "openrouter/key.age".publicKeys = with keys; [
+    apollo.system
+    ceres.jeff
+    jupiter.jeff
+    mercury.jeff
+  ];
+
   #############################
   # Binary Cache Signing Keys #
   #############################

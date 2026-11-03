@@ -10,6 +10,7 @@ let
 in
 {
   imports = [
+    ./server/dns.nix
     ./server/tunnel.nix
   ];
 
@@ -17,6 +18,7 @@ in
   # local VMs.
   networking.wireguard.enable = lib.mkForce false;
   server.cloudflare.enable = lib.mkForce false;
+  server.dns.enable = lib.mkForce false;
   services.cloudflare-dyndns.enable = lib.mkForce false;
 
   # Replace hardware-specific kernels and storage activation only in the VM.

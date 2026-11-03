@@ -122,6 +122,24 @@ machine is reachable by its bare hostname, e.g. `ssh apollo`. Apollo keeps the
 DNS record pointed at the home IP, which requires the router to forward UDP
 port 51820 to Apollo.
 
+### DNS
+
+Every record in the `shelton.one` zone is declared in Nix
+([modules/server/dns.nix](./nix/modules/server/dns.nix)), and Apollo makes
+Cloudflare match on boot and on every rebuild that changes a record. Records
+that aren't declared are deleted. Modules declare the names they serve, and
+each Cloudflare tunnel hostname gets its record automatically.
+
+| Name | Points at | Reachable |
+| --- | --- | --- |
+| `shelton.one`, `git.shelton.one` | Apollo's Cloudflare tunnel | publicly, through Cloudflare |
+| `cache.shelton.one`, `matrix.shelton.one` | `10.100.0.1` | over the VPN only |
+| `vpn.shelton.one` | the home IP, kept current by dyndns | publicly (WireGuard) |
+
+The zone also holds the iCloud Mail records for `@shelton.one` addresses.
+Preview a change before deploying it with the commands at the top of
+`dns.nix`.
+
 ### Binary cache
 
 Apollo serves its Nix store as a binary cache at `http://cache.shelton.one`,

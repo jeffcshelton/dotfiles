@@ -50,6 +50,15 @@ in
     inputs.agenix.${modulesName}.default
   ];
 
+  # Lets other modules point at this machine over the VPN, e.g. in private DNS
+  # records (modules/server/dns.nix).
+  options.vpn.address = lib.mkOption {
+    type = lib.types.str;
+    readOnly = true;
+    default = address;
+    description = "This machine's address on the VPN.";
+  };
+
   config = lib.mkMerge [
     {
       age.secrets.wireguard.file = ../secrets/wireguard/${host}.key.age;
