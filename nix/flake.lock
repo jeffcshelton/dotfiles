@@ -71,27 +71,6 @@
         "type": "github"
       }
     },
-    "cntxt": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "rust-overlay": "rust-overlay"
-      },
-      "locked": {
-        "lastModified": 1793593682,
-        "narHash": "sha256-p8cicbhB4EXvSrOejqWsDaYirhgyKItpOJ+VL0cWsTg=",
-        "ref": "refs/heads/main",
-        "rev": "daf385c0beed117f1d9d4540979ab6281723a97c",
-        "revCount": 4,
-        "type": "git",
-        "url": "https://git.shelton.one/jeff/cntxt.git"
-      },
-      "original": {
-        "type": "git",
-        "url": "https://git.shelton.one/jeff/cntxt.git"
-      }
-    },
     "darwin": {
       "inputs": {
         "nixpkgs": [
@@ -435,11 +414,34 @@
         "type": "github"
       }
     },
+    "persona": {
+      "inputs": {
+        "llm-agents": [
+          "llm-agents"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "rust-overlay": "rust-overlay"
+      },
+      "locked": {
+        "lastModified": 1793686428,
+        "narHash": "sha256-lCgODuZMJkZkoCnyUpHFd0jj2hSXh4hCvwzhlmoJMl0=",
+        "ref": "refs/heads/main",
+        "rev": "f787b78c99f5f679e0730ec9d83f5e4cb546e508",
+        "revCount": 6,
+        "type": "git",
+        "url": "https://git.shelton.one/jeff/persona.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.shelton.one/jeff/persona.git"
+      }
+    },
     "root": {
       "inputs": {
         "agenix": "agenix",
         "asahi": "asahi",
-        "cntxt": "cntxt",
         "darwin": "darwin",
         "disko": "disko",
         "flake-utils": "flake-utils",
@@ -450,6 +452,7 @@
         "nixpkgs": "nixpkgs_4",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "nixvirt": "nixvirt",
+        "persona": "persona",
         "shelton-one": "shelton-one",
         "winapps": "winapps"
       }
@@ -457,7 +460,7 @@
     "rust-overlay": {
       "inputs": {
         "nixpkgs": [
-          "cntxt",
+          "persona",
           "nixpkgs"
         ]
       },

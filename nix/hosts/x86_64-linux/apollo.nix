@@ -175,11 +175,18 @@
       };
 
       owner = "jeff";
+      # Each answers calls in its DM, in its own voice (see the voice option).
       personas = {
         # Uses the ChatGPT plan, through Sign in with ChatGPT.
-        sam.model = "openai/gpt-6.1-sol";
+        sam = {
+          model = "openai/gpt-6.1-sol";
+          voice = "am_michael";
+        };
         # Uses the Claude plan, through Claude Code.
-        dario.model = "claude-code/claude-opus-5-5";
+        dario = {
+          model = "claude-code/claude-opus-5-5";
+          voice = "bm_george";
+        };
       };
 
       # For openrouter/... models: create the key with
