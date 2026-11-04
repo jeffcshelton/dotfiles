@@ -179,13 +179,13 @@
       personas = {
         # Uses the ChatGPT plan, through Sign in with ChatGPT.
         sam = {
-          model = "openai/gpt-6.1-sol";
-          voice = "am_michael";
+          model = "openai/gpt-6-luna";
+          voice = "jean";
         };
         # Uses the Claude plan, through Claude Code.
         dario = {
           model = "claude-code/claude-opus-5-5";
-          voice = "bm_george";
+          voice = "marius";
         };
       };
 
