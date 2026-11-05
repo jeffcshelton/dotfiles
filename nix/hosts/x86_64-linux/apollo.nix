@@ -177,9 +177,11 @@
       owner = "jeff";
       # Each answers calls in its DM, in its own voice (see the voice option).
       personas = {
-        # Uses the ChatGPT plan, through Sign in with ChatGPT.
+        # Gemma 4 on Jupiter, for speed; while Jupiter is off, GPT-6 Luna on
+        # the ChatGPT plan, through Sign in with ChatGPT.
         sam = {
-          model = "openai/gpt-6-luna";
+          model = "jupiter/gemma-4-26b-a4b";
+          fallbackModel = "openai/gpt-6-luna";
           voice = "jean";
         };
         # Uses the Claude plan, through Claude Code.
@@ -187,6 +189,27 @@
           model = "claude-code/claude-opus-5-5";
           voice = "marius";
         };
+      };
+
+      # The local model on Jupiter (modules/local-llm.nix). Gemma 4 reasons
+      # unless its chat template is told not to, which Pi does for "off".
+      pi.models.jupiter = {
+        baseUrl = "http://10.100.0.2:8080/v1";
+        api = "openai-completions";
+        apiKey = "none";
+        models = [{
+          id = "gemma-4-26b-a4b";
+          reasoning = true;
+          contextWindow = 16384;
+          maxTokens = 4096;
+          compat = {
+            thinkingFormat = "chat-template";
+            chatTemplateKwargs.enable_thinking."$var" = "thinking.enabled";
+            maxTokensField = "max_tokens";
+            supportsDeveloperRole = false;
+            supportsStore = false;
+          };
+        }];
       };
 
       # For openrouter/... models: create the key with
