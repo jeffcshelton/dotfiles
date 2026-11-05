@@ -176,6 +176,9 @@
 
       owner = "jeff";
       # Each answers calls in its DM, in its own voice (see the voice option).
+      # Each also works as its own Linux user in /home/<name>, searches the
+      # web through SearXNG, and starts sub-agents on the subscription
+      # models it is signed in to (see agentModels).
       personas = {
         # Gemma 4 on Jupiter, for speed; while Jupiter is off, GPT-6 Luna on
         # the ChatGPT plan, through Sign in with ChatGPT.

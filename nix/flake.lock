@@ -425,11 +425,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1793857690,
-        "narHash": "sha256-h2PsTmog/gGLSAQm0fav7CtGE27ghn5WSrIMjgtR+u4=",
+        "lastModified": 1793863501,
+        "narHash": "sha256-G/ODvDSrYOgGAOTroPKBjOEEbshxUDZx/6OtmZWfyOw=",
         "ref": "refs/heads/main",
-        "rev": "e7d55c863f206f81b762e8cd0f084bc2d3ecffb7",
-        "revCount": 11,
+        "rev": "b6ce5dc5b8028f88892b86e38ebddb440abacd15",
+        "revCount": 15,
         "type": "git",
         "url": "https://git.shelton.one/jeff/persona.git"
       },
