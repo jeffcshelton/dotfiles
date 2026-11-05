@@ -182,7 +182,7 @@
         sam = {
           model = "jupiter/gemma-4-26b-a4b";
           fallbackModel = "openai/gpt-6-luna";
-          voice = "jean";
+          voice = "sam"; # a recording in persona's voices/
         };
         # Uses the Claude plan, through Claude Code.
         dario = {
