@@ -5,6 +5,12 @@
     agenix.url = "github:ryantm/agenix";
     asahi.url = "github:nix-community/nixos-apple-silicon";
 
+    # Private: fetching it needs an SSH key that Gitea accepts.
+    atm = {
+      url = "git+ssh://git@shelton.one/jeff/atm.git";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     darwin = {
       url = "github:nix-darwin/nix-darwin/nix-darwin-26.05";
       inputs.nixpkgs.follows = "nixpkgs";

@@ -14,6 +14,7 @@
     ../../modules/wireguard.nix
 
     # Server modules
+    ../../modules/server/atm.nix
     ../../modules/server/cache.nix
     ../../modules/server/dns.nix
     ../../modules/server/gitea.nix
@@ -136,6 +137,8 @@
     cloudflare = {
       enable = true;
       tunnels."06684310-6ec1-40a5-ab96-3f31cfe4d185".ingress = {
+        # Public until ATM has logins: anyone can read and edit its data.
+        "atm.shelton.one" = "http://localhost:4391";
         "git.shelton.one" = "http://localhost:3000";
         "shelton.one" = "http://localhost:4390";
       };
@@ -161,6 +164,9 @@
   };
 
   services = {
+    # Gitea has ATM's default port, 3000.
+    atm.port = 4391;
+
     # A private Matrix server and the personas on it. Sign a persona in to
     # its subscription once with `sudo persona login <name>`.
     persona = {

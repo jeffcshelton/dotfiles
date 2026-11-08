@@ -37,6 +37,26 @@
         "type": "github"
       }
     },
+    "atm": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794177614,
+        "narHash": "sha256-CrJry62p5tmMcDsuRMu4K3Z8WgmiOqUkAwYyvgLXiqA=",
+        "ref": "refs/heads/main",
+        "rev": "2d876abe86b15ab3bf30ae9903f6a1cd96b81ddd",
+        "revCount": 8,
+        "type": "git",
+        "url": "ssh://git@shelton.one/jeff/atm.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@shelton.one/jeff/atm.git"
+      }
+    },
     "bun2nix": {
       "inputs": {
         "flake-parts": [
@@ -442,6 +462,7 @@
       "inputs": {
         "agenix": "agenix",
         "asahi": "asahi",
+        "atm": "atm",
         "darwin": "darwin",
         "disko": "disko",
         "flake-utils": "flake-utils",

@@ -55,6 +55,47 @@ let
         echo "Added the $managed_title SSH key to the Gitea user jeff."
       fi
     '') managedSshKeys;
+
+  # Read-only deploy keys, so root on this host can fetch private repositories
+  # used as flake inputs (`sudo nixos-rebuild` evaluates as root).
+  managedDeployKeys = [
+    {
+      repo = "jeff/atm";
+      title = "apollo-root";
+      key = hostKeys.apollo.system;
+    }
+  ];
+  ensureDeployKeys = lib.concatMapStringsSep "\n" ({ repo, title, key }:
+    let
+      payload = builtins.toJSON {
+        inherit key title;
+        read_only = true;
+      };
+    in
+    ''
+      managed_repo=${lib.escapeShellArg repo}
+      managed_key=${lib.escapeShellArg key}
+
+      if ! deploy_keys="$(${lib.getExe pkgs.curl} --fail --silent \
+        --header "Authorization: token $token" \
+        "$api_url/repos/$managed_repo/keys?limit=50")"; then
+        echo "Gitea repository $managed_repo is missing; its deploy key is added once it exists."
+      elif printf '%s' "$deploy_keys" \
+        | ${lib.getExe pkgs.jq} -e --arg key "$managed_key" \
+          'any(.[]; ((.key | split(" ") | .[0:2]) == ($key | split(" ") | .[0:2])))' \
+          >/dev/null; then
+        echo "Gitea deploy key for $managed_repo already exists; leaving it unchanged."
+      else
+        ${lib.getExe pkgs.curl} --fail-with-body --silent --show-error \
+          --request POST \
+          --header "Authorization: token $token" \
+          --header "Content-Type: application/json" \
+          --data ${lib.escapeShellArg payload} \
+          "$api_url/repos/$managed_repo/keys" \
+          >/dev/null
+        echo "Added this host's deploy key to $managed_repo."
+      fi
+    '') managedDeployKeys;
 in
 {
   imports = [
@@ -68,6 +109,16 @@ in
   };
 
   environment.systemPackages = [ cfg.package ];
+
+  # Root offers the host key, which managedDeployKeys registers. `originalhost`
+  # matches before modules/wireguard.nix rewrites the address. Gitea generates
+  # its SSH host key on first start, so root trusts it on first use; the
+  # connection never leaves this machine.
+  programs.ssh.extraConfig = ''
+    Match originalhost shelton.one user git localuser root
+      IdentityFile /etc/ssh/ssh_host_ed25519_key
+      StrictHostKeyChecking accept-new
+  '';
 
   # Gitea's SSH server is reachable only over the VPN.
   networking.firewall.interfaces.wg0.allowedTCPPorts = [
@@ -171,7 +222,7 @@ in
         token="$(${giteaAdmin} admin user generate-access-token \
           --username "$bootstrap_user" \
           --token-name "$token_name" \
-          --scopes write:admin,write:user \
+          --scopes write:admin,write:repository,write:user \
           --raw)"
         api_url="http://127.0.0.1:3000/api/v1"
 
@@ -184,6 +235,8 @@ in
           "$api_url/users/jeff/keys?limit=50")"
 
         ${ensureSshKeys}
+
+        ${ensureDeployKeys}
 
         cleanup_bootstrap
         bootstrap_user=""
