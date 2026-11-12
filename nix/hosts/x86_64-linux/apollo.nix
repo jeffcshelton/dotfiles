@@ -44,6 +44,12 @@
 
     kernelModules = [ "kvm-intel" ];
 
+    # Apollo's RAM has a weak bit (bit 53, in a few pages) that flips under
+    # memtester. The kernel tests every free page at boot with all 17 of its
+    # patterns and reserves those that fail, so nothing is stored in them.
+    # Its findings are in `journalctl -k -b | grep -i memtest`.
+    kernelParams = [ "memtest=17" ];
+
     loader = {
       # Apple's firmware boots the fallback EFI/BOOT/BOOTX64.EFI path, and
       # writing NVRAM boot entries through the T2 is unreliable.
