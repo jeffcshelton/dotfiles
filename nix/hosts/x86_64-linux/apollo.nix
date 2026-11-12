@@ -44,11 +44,12 @@
 
     kernelModules = [ "kvm-intel" ];
 
-    # Apollo's RAM has a weak bit (bit 53, in a few pages) that flips under
-    # memtester. The kernel tests every free page at boot with all 17 of its
-    # patterns and reserves those that fail, so nothing is stored in them.
-    # Its findings are in `journalctl -k -b | grep -i memtest`.
-    kernelParams = [ "memtest=17" ];
+    # Apollo's RAM has weak cells that now and then flip bit 51 or 53 in the
+    # physical pages 0x24f92a000 to 0x24f92ffff (found with memtester and a
+    # pagemap test, Nov 2026), which corrupted file reads through the page
+    # cache. The 1 MB around them is reserved, so Linux never uses it. The
+    # kernel's own boot test (memtest=) runs too briefly to catch them.
+    kernelParams = [ "memmap=1M$0x24f900000" ];
 
     loader = {
       # Apple's firmware boots the fallback EFI/BOOT/BOOTX64.EFI path, and
