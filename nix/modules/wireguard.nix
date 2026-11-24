@@ -7,7 +7,7 @@
 # Each peer that accepts SSH is reachable by its bare hostname, e.g.
 # `ssh apollo`.
 
-{ config, host, inputs, isDarwin, isLinux, lib, modulesName, ... }:
+{ config, host, inputs, isDarwin, isLinux, lib, modulesName, pkgs, ... }:
 let
   hub = "apollo";
   endpoint = "vpn.shelton.one";
@@ -42,6 +42,17 @@ let
 
     # Keep the NAT mapping open so the hub can always reach roaming peers.
     persistentKeepalive = 25;
+  };
+
+  # wg-quick resolves the endpoint only once, so the tunnel breaks when the
+  # home IP changes or the address came from another network, such as a NAT64
+  # address resolved on IPv6-only Wi-Fi. Setting it again re-resolves it.
+  reresolve = pkgs.writeShellApplication {
+    name = "wireguard-reresolve";
+    runtimeInputs = [ pkgs.wireguard-tools ];
+    text = ''
+      wg set wg0 peer ${hubPeer.publicKey} endpoint ${hubPeer.endpoint}
+    '';
   };
 in
 {
@@ -131,6 +142,28 @@ in
         inherit privateKeyFile;
         address = [ "${address}/32" ];
         peers = [ hubPeer ];
+
+        # launchd starts wg-quick alongside agenix at boot, so the key may not
+        # be decrypted yet. A failed start is never retried, so wait for it.
+        preUp = ''
+          for _ in $(seq 60); do
+            [ -e ${privateKeyFile} ] && exit 0
+            sleep 1
+          done
+          echo "${privateKeyFile} was never decrypted" >&2
+          exit 1
+        '';
+      };
+
+      # Darwin has no equivalent of dynamicEndpointRefreshSeconds. macOS
+      # rewrites resolv.conf whenever the network changes, so re-resolve then
+      # as well as on the same interval as the Linux peers.
+      launchd.daemons.wireguard-reresolve.serviceConfig = {
+        ProgramArguments = [ (lib.getExe reresolve) ];
+        WatchPaths = [ "/var/run/resolv.conf" ];
+        StartInterval = 300;
+        StandardErrorPath = "/var/log/wireguard-reresolve.log";
+        StandardOutPath = "/var/log/wireguard-reresolve.log";
       };
     })
   ];
